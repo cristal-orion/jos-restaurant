@@ -1,0 +1,518 @@
+---
+import Base from '../layouts/Base.astro';
+import LogoJose from '../components/LogoJose.astro';
+---
+
+<Base
+  title="Villa Guerra & Josè | Eventi e Prestigio"
+  description="Tenuta Villa Guerra: dimora storica del '700 nel Miglio d'Oro per matrimoni, eventi business e celebrazioni private."
+  bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
+>
+  <!-- TopAppBar -->
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-50"
+  >
+    <a
+      href="/"
+      class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+      aria-label="Villa Guerra & Josè — home"
+    >
+      <span
+        class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+        >Villa Guerra &amp;</span
+      >
+      <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href="/jose">Ristorante</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-primary border-b-2 border-antique-gold pb-1"
+        href="/tenuta"
+        aria-current="page">Eventi</a
+      >
+      {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
+      {/* <a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
+    </nav>
+    <div class="flex items-center gap-6">
+      <a
+        href="#contatti"
+        class="hidden sm:inline-block bg-antique-gold text-silk-white px-6 py-2 uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors duration-300 ease-out active:scale-95"
+      >
+        Prenota Ora
+      </a>
+      <button
+        id="menu-toggle"
+        class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+        aria-label="Apri menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        >menu</button
+      >
+    </div>
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href="/jose">Ristorante</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20"
+        href="/tenuta"
+        aria-current="page">Eventi</a
+      >
+      {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
+      {/* <a class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20" href="/cantina">Cantina</a> */}
+      <a
+        href="#contatti"
+        class="mt-4 bg-antique-gold text-silk-white px-6 py-3 text-center uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors"
+        >Prenota Ora</a
+      >
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- Hero -->
+    <section
+      class="relative h-[92vh] min-h-[600px] flex items-end overflow-hidden"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          alt="Facciata settecentesca della Tenuta Villa Guerra"
+          class="w-full h-full object-cover scale-105"
+          src="/images/villa-grand.jpg"
+          fetchpriority="high"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-tr from-black/75 via-black/35 to-transparent"
+        >
+        </div>
+      </div>
+      <div
+        class="relative z-10 w-full px-margin-mobile md:px-margin-desktop pb-20 md:pb-28"
+      >
+        <div class="max-w-container-max mx-auto">
+          <p
+            class="font-label-sm text-label-sm text-antique-gold tracking-[0.3em] uppercase mb-6"
+          >
+            Dimora del ’700 · Miglio d’Oro
+          </p>
+          <h1
+            class="font-headline-display text-[2.25rem] sm:text-5xl md:text-headline-display text-silk-white text-shadow-elegant max-w-3xl leading-[1.05] break-words"
+          >
+            Il prestigio di una dimora del&nbsp;’700 per i tuoi momenti
+            indimenticabili
+          </h1>
+          <p
+            class="mt-8 font-body-lg text-body-lg text-silk-white/80 max-w-xl"
+          >
+            Sale affrescate e giardini sul Golfo di Napoli per matrimoni, eventi
+            business e celebrazioni private.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row gap-4">
+            <a
+              class="inline-flex items-center justify-center whitespace-nowrap bg-antique-gold text-silk-white px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-silk-white hover:text-antique-gold transition-colors duration-300 ease-out"
+              href="#sale"
+            >
+              Scopri le Sale
+            </a>
+            <a
+              class="inline-flex items-center justify-center whitespace-nowrap border border-silk-white text-silk-white px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-silk-white/10 transition-colors duration-300 ease-out"
+              href="#contatti"
+            >
+              Inizia a Progettare
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Le Sale -->
+    <section
+      class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-low overflow-hidden"
+      id="sale"
+    >
+      <div class="max-w-container-max mx-auto">
+        <div class="flex flex-col lg:flex-row gap-20 items-center">
+          <div class="w-full lg:w-1/2 relative">
+            <div
+              class="villa-outline absolute -top-8 -left-8 w-64 h-64 z-0 hidden lg:block"
+            >
+            </div>
+            <img
+              alt="Sala interna elegante della Tenuta Villa Guerra"
+              class="relative z-10 w-full aspect-[4/5] object-cover shadow-2xl"
+              src="/images/tenuta-sala.jpg"
+            />
+          </div>
+          <div class="w-full lg:w-1/2">
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-8">
+              Echi di Storia e Raffinatezza
+            </h2>
+            <p
+              class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-xl"
+            >
+              Le nostre sale affrescate conservano l'anima aristocratica della
+              Napoli del XVIII secolo. Ogni dettaglio, dai lampadari in cristallo
+              ai marmi pregiati, è stato restaurato per accogliere eventi che
+              richiedono un'atmosfera di rara bellezza.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+              <div>
+                <h4 class="font-headline-md text-headline-md text-antique-gold mb-2">
+                  Sala del Trono
+                </h4>
+                <p class="text-on-surface-variant">
+                  Affreschi originali e una vista mozzafiato sul Golfo di Napoli.
+                </p>
+              </div>
+              <div>
+                <h4 class="font-headline-md text-headline-md text-antique-gold mb-2">
+                  I Giardini Pensili
+                </h4>
+                <p class="text-on-surface-variant">
+                  Uno spazio esterno immerso nel verde tra pini secolari e
+                  profumo di mare.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Eventi -->
+    <section class="py-24 md:py-28 px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+      <div class="max-w-container-max mx-auto">
+        <div class="max-w-2xl mb-14">
+          <h2 class="font-headline-lg text-4xl sm:text-headline-lg text-primary leading-tight break-words">
+            Un palcoscenico per ogni emozione
+          </h2>
+          <p class="mt-4 font-body-lg text-body-lg text-on-surface-variant">
+            Tre modi di vivere la Tenuta, ognuno con il suo ritmo e la sua
+            scenografia.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-gutter">
+          <!-- Wedding — feature grande -->
+          <article
+            class="group relative lg:col-span-7 lg:row-span-2 overflow-hidden villa-outline min-h-[460px]"
+          >
+            <img
+              alt="Tavoli allestiti nei giardini della Tenuta per un matrimonio"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+              src="/images/tenuta-wedding.jpg"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
+            >
+            </div>
+            <div class="relative h-full flex flex-col justify-end p-8 md:p-10">
+              <h3 class="font-headline-display text-headline-lg text-silk-white">
+                Wedding
+              </h3>
+              <p class="mt-3 max-w-md font-body-md text-body-md text-silk-white/85">
+                Trasformiamo il «sì» più importante in una favola senza tempo,
+                curata in ogni minimo dettaglio scenografico.
+              </p>
+              <a
+                class="mt-6 inline-flex items-center gap-2 text-antique-gold font-label-sm text-label-sm uppercase tracking-widest hover:text-silk-white transition-colors duration-300 ease-out"
+                href="#contatti"
+              >
+                Richiedi un sopralluogo
+                <span
+                  class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </article>
+
+          <!-- Business — card orizzontale -->
+          <article
+            class="group lg:col-span-5 flex flex-col sm:flex-row overflow-hidden villa-outline bg-clotted-cream"
+          >
+            <div class="sm:w-2/5 aspect-[4/3] sm:aspect-auto overflow-hidden">
+              <img
+                alt="Sala allestita per un evento aziendale alla Tenuta Villa Guerra"
+                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                src="/images/tenuta-business.jpg"
+              />
+            </div>
+            <div class="flex-1 p-7 flex flex-col justify-center">
+              <h3 class="font-headline-md text-headline-md text-primary">Business</h3>
+              <p class="mt-2 font-body-md text-body-md text-on-surface-variant">
+                Convegni, gala dinner e lanci di prodotto in una cornice che
+                comunica autorevolezza.
+              </p>
+              <a
+                class="mt-4 inline-flex items-center gap-2 text-antique-gold font-label-sm text-label-sm uppercase tracking-widest hover:text-primary transition-colors duration-300 ease-out"
+                href="#contatti"
+              >
+                Organizza
+                <span
+                  class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </article>
+
+          <!-- Private — card orizzontale -->
+          <article
+            class="group lg:col-span-5 flex flex-col sm:flex-row overflow-hidden villa-outline bg-clotted-cream"
+          >
+            <div class="sm:w-2/5 aspect-[4/3] sm:aspect-auto overflow-hidden">
+              <img
+                alt="Il parco della Tenuta Villa Guerra per celebrazioni private"
+                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                src="/images/tenuta-private.jpg"
+              />
+            </div>
+            <div class="flex-1 p-7 flex flex-col justify-center">
+              <h3 class="font-headline-md text-headline-md text-primary">Private</h3>
+              <p class="mt-2 font-body-md text-body-md text-on-surface-variant">
+                Anniversari, compleanni ed eventi privati dove l’esclusività
+                incontra il calore di una casa nobiliare.
+              </p>
+              <a
+                class="mt-4 inline-flex items-center gap-2 text-antique-gold font-label-sm text-label-sm uppercase tracking-widest hover:text-primary transition-colors duration-300 ease-out"
+                href="#contatti"
+              >
+                Prenota
+                <span
+                  class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA / Form -->
+    <section class="py-24 px-margin-mobile md:px-margin-desktop bg-clotted-cream relative" id="contatti">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="font-headline-lg text-headline-lg text-primary mb-4">
+          Progetta il tuo evento
+        </h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+          Lasciaci i tuoi riferimenti e la tua idea. La nostra Event Manager ti
+          contatterà per trasformarla in realtà.
+        </p>
+        <form class="space-y-10 text-left">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div>
+              <label
+                for="evt-nome"
+                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                >Nome e Cognome</label
+              >
+              <input
+                id="evt-nome"
+                name="nome"
+                type="text"
+                autocomplete="name"
+                required
+                placeholder="Mario Rossi"
+                class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+              />
+            </div>
+            <div>
+              <label
+                for="evt-email"
+                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                >Email</label
+              >
+              <input
+                id="evt-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="nome@esempio.it"
+                class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div>
+              <label
+                for="evt-tipo"
+                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                >Tipo di evento</label
+              >
+              <select
+                id="evt-tipo"
+                name="tipo"
+                required
+                class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 font-body-md"
+              >
+                <option value="">Seleziona…</option>
+                <option value="wedding">Wedding</option>
+                <option value="business">Business</option>
+                <option value="privato">Privato</option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="evt-data"
+                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                >Data prevista</label
+              >
+              <input
+                id="evt-data"
+                name="data"
+                type="date"
+                class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 font-body-md"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              for="evt-messaggio"
+              class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+              >La tua visione</label
+            >
+            <textarea
+              id="evt-messaggio"
+              name="messaggio"
+              rows="4"
+              placeholder="Raccontaci la tua idea per l’evento…"
+              class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+            ></textarea>
+          </div>
+          <div class="text-center">
+            <button
+              class="bg-primary text-silk-white px-16 py-5 uppercase font-label-sm text-label-sm tracking-[0.2em] hover:bg-antique-gold transition-colors shadow-lg active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              type="submit"
+            >
+              Invia Richiesta
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="w-full py-12 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-gutter max-w-container-max mx-auto bg-surface-container-highest border-t border-outline-variant/30"
+  >
+    <div class="space-y-6">
+      <div class="font-headline-md text-headline-md text-primary">Villa Guerra</div>
+      <p class="text-on-surface-variant text-body-md">
+        Via G. Semmola, 28<br />Ercolano (NA) - Italia
+      </p>
+    </div>
+    <div class="space-y-6">
+      <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary">
+        Esplora
+      </h4>
+      <ul class="space-y-3">
+        <li>
+          <a
+            class="text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity font-label-sm text-label-sm"
+            href="#contatti">Progetta un evento</a
+          >
+        </li>
+        <li>
+          <a
+            class="text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity font-label-sm text-label-sm"
+            href="/jose">Ristorante Josè</a
+          >
+        </li>
+        {/* "La Cantina" nascosta dal footer finché la pagina /cantina resta non pubblica. */}
+        <li>
+          <a
+            class="text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity font-label-sm text-label-sm"
+            href="/jose#contatti">Prenota un tavolo</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="space-y-6 flex flex-col justify-between">
+      <div>
+        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          Josè Restaurant
+        </h4>
+        <p class="text-on-surface-variant text-body-md italic mt-2">
+          «Il Vesuvio tra le mani»
+        </p>
+      </div>
+      <p class="text-on-surface-variant opacity-70 font-label-sm text-label-sm">
+        © 2024 Tenuta Villa Guerra &amp; Josè Restaurant. Napoli.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal morbido delle sezioni allo scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      // Con "riduci movimento" le sezioni restano subito visibili, senza dissolvenza
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('opacity-100', 'translate-y-0');
+              entry.target.classList.remove('opacity-0', 'translate-y-10');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll('section').forEach((section) => {
+        section.classList.add(
+          'transition-all',
+          'duration-1000',
+          'opacity-0',
+          'translate-y-10'
+        );
+        observer.observe(section);
+      });
+    });
+
+    // Smooth scroll per le ancore interne
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (this: HTMLAnchorElement, e) {
+        const id = this.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+    });
+
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+  </script>
+</Base>

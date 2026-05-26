@@ -1,0 +1,29 @@
+# build output
+dist/
+# dependencies
+node_modules/
+# generated types
+.astro/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment
+.env
+.env.production
+
+# macOS / editor
+.DS_Store
+.vscode/
+.claude/
+
+# lockfile: il Dockerfile fa "npm install" fresco (regola Coolify)
+package-lock.json
+
+# materiale sorgente pesante (non serve a build/deploy)
+/_sorgenti/
+/5 stelle/
+/Josérestaurant-*/

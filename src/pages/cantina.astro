@@ -1,0 +1,342 @@
+---
+import Base from '../layouts/Base.astro';
+import LogoJose from '../components/LogoJose.astro';
+---
+
+<Base
+  title="La Cantina | Villa Guerra & Josè"
+  description="La Cantina di Villa Guerra & Josè: vini vulcanici del Vesuvio, dal Lacryma Christi alla Catalanesca, nati nella pietra lavica del Miglio d'Oro."
+  bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
+>
+  <!-- Header -->
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-50"
+  >
+    <a
+      href="/"
+      class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+      aria-label="Villa Guerra & Josè — home"
+    >
+      <span
+        class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+        >Villa Guerra &amp;</span
+      >
+      <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href="/jose">Ristorante</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href="/tenuta">Eventi</a
+      >
+      {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
+      {/* <a class="text-label-sm font-label-sm text-primary border-b-2 border-antique-gold pb-1" href="/cantina" aria-current="page">Cantina</a> */}
+    </nav>
+    <div class="flex items-center gap-6">
+      <a
+        href="/jose#contatti"
+        class="hidden sm:inline-block bg-antique-gold text-silk-white px-6 py-2 uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors duration-300 ease-out"
+        >Prenota Ora</a
+      >
+      <button
+        id="menu-toggle"
+        class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+        aria-label="Apri menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        >menu</button
+      >
+    </div>
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href="/jose">Ristorante</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href="/tenuta">Eventi</a
+      >
+      {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
+      {/* <a class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20" href="/cantina" aria-current="page">Cantina</a> */}
+      <a
+        href="/jose#contatti"
+        class="mt-4 bg-antique-gold text-silk-white px-6 py-3 text-center uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors"
+        >Prenota Ora</a
+      >
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="relative h-[88vh] min-h-[560px] flex items-end overflow-hidden">
+      <figure class="img-slot absolute inset-0 z-0 m-0">
+        <img
+          src="/images/cantina-vigneto.jpg"
+          alt="Vigneto terrazzato sulle pendici del Vesuvio al tramonto: filari di vite bassa su terreno di pietra lavica nera, il cono del vulcano sullo sfondo e il Golfo di Napoli in lontananza, luce dorata radente, atmosfera calda e cinematografica."
+          onerror="this.remove()"
+        />
+        <figcaption class="img-slot__hint">
+          Foto da generare → cantina-vigneto.jpg<br />vigneto vulcanico sul Vesuvio al tramonto
+        </figcaption>
+      </figure>
+      <div
+        class="absolute inset-0 bg-gradient-to-tr from-black/75 via-black/35 to-transparent z-[1]"
+      >
+      </div>
+      <div
+        class="relative z-[2] w-full px-margin-mobile md:px-margin-desktop pb-20 md:pb-28"
+      >
+        <div class="max-w-container-max mx-auto">
+          <p
+            class="font-label-sm text-label-sm text-antique-gold tracking-[0.3em] uppercase mb-6"
+          >
+            La Cantina · Vini del Vulcano
+          </p>
+          <h1
+            class="font-headline-display text-[2.25rem] sm:text-5xl md:text-headline-display text-silk-white text-shadow-elegant max-w-3xl leading-[1.05] break-words"
+          >
+            Il Vesuvio, messo in bottiglia
+          </h1>
+          <p class="mt-8 font-body-lg text-body-lg text-silk-white/80 max-w-xl">
+            Vini nati nella pietra lavica e nella cenere, dove il vulcano detta
+            il carattere e il mare ne addolcisce il respiro.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto / intro -->
+    <section class="py-24 md:py-28 px-margin-mobile md:px-margin-desktop bg-surface">
+      <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        <h2
+          class="lg:col-span-5 font-headline-lg text-headline-lg text-primary leading-tight"
+        >
+          Una terra eroica, un calice alla volta
+        </h2>
+        <div class="lg:col-span-7 space-y-6 font-body-lg text-body-lg text-on-surface-variant">
+          <p>
+            Alle pendici del Vesuvio la vite affonda le radici in un suolo che
+            non somiglia a nessun altro: pietra lavica, lapilli, cenere
+            minerale. È una viticoltura difficile e testarda, fatta di filari
+            bassi e di mani che conoscono ogni terrazzamento.
+          </p>
+          <p>
+            La nostra cantina custodisce le etichette di questo territorio:
+            poche bottiglie, scelte una a una, che portano nel bicchiere la
+            sapidità del vulcano e la luce del Golfo. Non cerchiamo i nomi
+            altisonanti, ma i vini che hanno qualcosa da raccontare — quelli che
+            sanno di dove vengono.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- I vini (righe alternate) -->
+    <section class="pb-8 md:pb-12 px-margin-mobile md:px-margin-desktop bg-surface">
+      <div class="max-w-container-max mx-auto space-y-20 md:space-y-28">
+        <!-- Vino 1: Lacryma Christi Bianco -->
+        <article class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <figure class="img-slot aspect-[4/3] villa-outline m-0 order-1">
+            <img
+              src="/images/cantina-bianco.jpg"
+              alt="Still life elegante: bottiglia di Lacryma Christi del Vesuvio bianco e calice di vino dal colore paglierino su un tavolo di legno rustico, gocce di condensa sul vetro, sfondo scuro di cantina con luce soffusa laterale."
+              onerror="this.remove()"
+            />
+            <figcaption class="img-slot__hint">
+              Foto da generare → cantina-bianco.jpg<br />bottiglia + calice di bianco, luce di cantina
+            </figcaption>
+          </figure>
+          <div class="order-2">
+            <p class="font-label-sm text-label-sm text-terracotta tracking-widest uppercase mb-3">
+              Bianco · Caprettone &amp; Coda di Volpe
+            </p>
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">
+              Lacryma Christi del Vesuvio Bianco
+            </h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Paglierino e luminoso, profuma di ginestra e di mela cotogna, con
+              quel finale salino che solo il suolo vulcanico sa dare. Fresco e
+              dritto, è il modo più immediato per assaggiare il Vesuvio.
+            </p>
+          </div>
+        </article>
+
+        <!-- Vino 2: Lacryma Christi Rosso (immagine a destra) -->
+        <article class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div class="order-2 lg:order-1">
+            <p class="font-label-sm text-label-sm text-terracotta tracking-widest uppercase mb-3">
+              Rosso · Piedirosso &amp; Aglianico
+            </p>
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">
+              Lacryma Christi del Vesuvio Rosso
+            </h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Rubino con riflessi granato, intreccia frutti rossi maturi e una
+              nota di pietra calda. Tannino gentile, beva schietta: nasce per la
+              tavola, accanto a un ragù lento o a una grigliata di terra.
+            </p>
+          </div>
+          <figure class="img-slot aspect-[4/3] villa-outline m-0 order-1 lg:order-2">
+            <img
+              src="/images/cantina-rosso.jpg"
+              alt="Macro raffinata di un calice di vino rosso rubino controluce con riflessi granato; sullo sfondo sfocato botti di rovere in penombra, luce calda da candela, atmosfera intima di cantina."
+              onerror="this.remove()"
+            />
+            <figcaption class="img-slot__hint">
+              Foto da generare → cantina-rosso.jpg<br />calice di rosso controluce, botti sullo sfondo
+            </figcaption>
+          </figure>
+        </article>
+
+        <!-- Vino 3: Catalanesca -->
+        <article class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <figure class="img-slot aspect-[4/3] villa-outline m-0 order-1">
+            <img
+              src="/images/cantina-catalanesca.jpg"
+              alt="Grappolo d'uva bianca Catalanesca appena raccolto, posato in una cassetta di legno con foglie di vite; terreno vulcanico scuro sullo sfondo, luce naturale del mattino, dettaglio nitido degli acini dorati."
+              onerror="this.remove()"
+            />
+            <figcaption class="img-slot__hint">
+              Foto da generare → cantina-catalanesca.jpg<br />grappolo di Catalanesca appena vendemmiato
+            </figcaption>
+          </figure>
+          <div class="order-2">
+            <p class="font-label-sm text-label-sm text-terracotta tracking-widest uppercase mb-3">
+              Rarità · Catalanesca del Monte Somma
+            </p>
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">
+              Catalanesca
+            </h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Un'uva antica, arrivata secoli fa e rimasta abbarbicata solo qui,
+              sul versante del Somma. Ne nasce un bianco insolito, di frutta
+              bianca e fiori, leggermente avvolgente: una piccola storia
+              vesuviana che pochi conoscono.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- La cantina (sezione scura) -->
+    <section class="py-24 md:py-28 px-margin-mobile md:px-margin-desktop bg-lava-stone overflow-hidden">
+      <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div>
+          <p class="font-label-sm text-label-sm text-antique-gold tracking-widest uppercase mb-4">
+            Sotto la Villa
+          </p>
+          <h2 class="font-headline-lg text-headline-lg text-silk-white mb-6 leading-tight">
+            Volte di tufo, silenzio e tempo
+          </h2>
+          <p class="font-body-lg text-body-lg text-surface-variant max-w-xl">
+            La cantina storica riposa nelle fondamenta settecentesche della
+            dimora: volte in tufo, aria fresca e costante, e file di bottiglie
+            che attendono il loro momento. È qui che accompagniamo i nostri
+            ospiti in degustazioni guidate, calice dopo calice, lungo il
+            racconto del vulcano.
+          </p>
+        </div>
+        <figure class="img-slot img-slot--dark aspect-[5/4] m-0">
+          <img
+            src="/images/cantina-cellar.jpg"
+            alt="Interno di un'antica cantina settecentesca sotto la villa: volte in tufo, file di bottiglie impolverate e botti di rovere allineate, illuminazione fioca e dorata, atmosfera suggestiva e storica."
+            onerror="this.remove()"
+          />
+          <figcaption class="img-slot__hint">
+            Foto da generare → cantina-cellar.jpg<br />cantina storica in tufo, botti e bottiglie
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 px-margin-mobile md:px-margin-desktop bg-clotted-cream">
+      <div class="max-w-container-max mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+        <div class="max-w-xl">
+          <h2 class="font-headline-lg text-headline-lg text-primary leading-tight mb-4">
+            Assaggia il vulcano
+          </h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">
+            Prenota una degustazione guidata in cantina o scopri la carta dei
+            vini al ristorante.
+          </p>
+        </div>
+        <a
+          href="/jose#contatti"
+          class="inline-flex items-center justify-center whitespace-nowrap bg-antique-gold text-silk-white px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors duration-300 ease-out"
+        >
+          Prenota una degustazione
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="w-full py-12 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-gutter max-w-container-max mx-auto bg-surface-container-highest border-t border-outline-variant/30"
+  >
+    <div class="space-y-4">
+      <a href="/" class="font-headline-md text-headline-md text-primary"
+        >Villa Guerra &amp; Josè</a
+      >
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        Due anime, un'unica terra. Il Vesuvio tra le mani.
+      </p>
+    </div>
+    <div class="flex flex-col gap-3">
+      <h4 class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-1">
+        Esplora
+      </h4>
+      <a
+        class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-colors"
+        href="/jose">Josè Restaurant</a
+      >
+      <a
+        class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-colors"
+        href="/tenuta">Eventi Villa Guerra</a
+      >
+      {/* "La Cantina" nascosta dal footer finché la pagina /cantina resta non pubblica. */}
+    </div>
+    <div class="space-y-2">
+      <h4 class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-1">
+        Contatti
+      </h4>
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        Via Villa Guerra, 7<br />80059 Torre del Greco (NA)<br />T. +39 081 123
+        4567
+      </p>
+      <p class="text-label-sm font-label-sm text-on-surface-variant opacity-70 pt-2">
+        © 2024 Tenuta Villa Guerra &amp; Josè Restaurant. Napoli.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+  </script>
+</Base>
