@@ -145,11 +145,116 @@ import LogoJose from '../components/LogoJose.astro';
               class="villa-outline absolute -top-8 -left-8 w-64 h-64 z-0 hidden lg:block"
             >
             </div>
-            <img
-              alt="Sala interna elegante della Tenuta Villa Guerra"
-              class="relative z-10 w-full aspect-[4/5] object-cover shadow-2xl"
-              src="/images/tenuta-sala.jpg"
-            />
+            <!-- Carosello degli spazi della Tenuta -->
+            <div class="relative z-10 shadow-2xl">
+              <div class="aspect-[4/5] overflow-hidden bg-surface-container-high">
+                <div
+                  id="sale-carousel"
+                  class="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
+                  aria-roledescription="carosello"
+                  aria-label="Gli spazi della Tenuta Villa Guerra"
+                  tabindex="0"
+                >
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-facciata.jpg"
+                      alt="Facciata settecentesca della Tenuta Villa Guerra immersa nel giardino"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">La facciata del ’700</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-sala-verde.jpg"
+                      alt="Elegante sala da pranzo della Tenuta con tavolo imperiale e lampadari in cristallo"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">La sala da pranzo</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-salone.jpg"
+                      alt="Salone per eventi della Tenuta con soffitto a volta e bancone allestito"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">Il salone per gli eventi</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-portico.jpg"
+                      alt="Porticato a volta della Tenuta Villa Guerra"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">I porticati</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-terrazza.jpg"
+                      alt="Terrazza esterna coperta della Tenuta con tavoli rotondi affacciata sul giardino"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">La terrazza</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-giardino.jpg"
+                      alt="Vialetto nel giardino della Tenuta Villa Guerra tra il verde e il pergolato"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">I giardini</figcaption>
+                  </figure>
+                  <figure class="relative m-0 snap-center shrink-0 w-full h-full">
+                    <img
+                      class="w-full h-full object-cover"
+                      src="/images/tenuta-ricevimento.jpg"
+                      alt="Tavolo del ricevimento allestito all'aperto nel giardino della Tenuta"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <figcaption class="absolute bottom-4 left-4 z-10 font-label-sm text-label-sm uppercase tracking-widest text-silk-white">Allestimenti su misura</figcaption>
+                  </figure>
+                </div>
+                <!-- controlli carosello -->
+                <div class="absolute bottom-4 right-4 z-10 flex items-center gap-3">
+                  <div
+                    class="sale-dots flex items-center gap-1.5"
+                    role="tablist"
+                    aria-label="Vai allo spazio"
+                  >
+                  </div>
+                  <div class="flex gap-2">
+                    <button
+                      type="button"
+                      data-carousel="prev"
+                      aria-label="Spazio precedente"
+                      class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-antique-gold hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                    >
+                      <span class="material-symbols-outlined text-[20px] leading-none">chevron_left</span>
+                    </button>
+                    <button
+                      type="button"
+                      data-carousel="next"
+                      aria-label="Spazio successivo"
+                      class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-antique-gold hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                    >
+                      <span class="material-symbols-outlined text-[20px] leading-none">chevron_right</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="w-full lg:w-1/2">
             <h2 class="font-headline-lg text-headline-lg text-primary mb-8">
@@ -513,6 +618,106 @@ import LogoJose from '../components/LogoJose.astro';
       mobileMenu.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => setMenu(false));
       });
+    }
+
+    // Carosello degli spazi (sezione "Le Sale")
+    const carousel = document.getElementById('sale-carousel');
+    const dotsWrap = document.querySelector<HTMLElement>('.sale-dots');
+    const stage = carousel?.parentElement ?? null;
+    if (carousel && dotsWrap && stage) {
+      const slides = Array.from(carousel.children) as HTMLElement[];
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const dots: HTMLButtonElement[] = [];
+      let index = 0;
+      let timer: number | undefined;
+
+      const render = () => {
+        dots.forEach((d, i) => {
+          const active = i === index;
+          d.style.width = active ? '18px' : '6px';
+          d.classList.toggle('bg-silk-white', active);
+          d.classList.toggle('bg-silk-white/50', !active);
+          d.setAttribute('aria-selected', String(active));
+        });
+      };
+
+      const go = (i: number, user = false) => {
+        index = (i + slides.length) % slides.length;
+        carousel.scrollTo({ left: slides[index].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+        render();
+        if (user) restart();
+      };
+
+      const stop = () => {
+        if (timer) {
+          clearInterval(timer);
+          timer = undefined;
+        }
+      };
+      const start = () => {
+        if (reduce) return;
+        stop();
+        timer = window.setInterval(() => go(index + 1), 5000);
+      };
+      const restart = () => {
+        stop();
+        start();
+      };
+
+      // puntini
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-label', `Spazio ${i + 1} di ${slides.length}`);
+        b.className =
+          'h-1.5 rounded-full bg-silk-white/50 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white';
+        b.style.width = '6px';
+        b.addEventListener('click', () => go(i, true));
+        dotsWrap.appendChild(b);
+        dots.push(b);
+      });
+
+      // sincronizza i puntini con lo swipe/scroll manuale
+      let raf: number | undefined;
+      carousel.addEventListener('scroll', () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const i = Math.round(carousel.scrollLeft / carousel.clientWidth);
+          if (i !== index) {
+            index = i;
+            render();
+          }
+        });
+      });
+
+      // frecce
+      stage.querySelectorAll<HTMLButtonElement>('[data-carousel]').forEach((btn) => {
+        btn.addEventListener('click', () =>
+          go(index + (btn.dataset.carousel === 'next' ? 1 : -1), true)
+        );
+      });
+
+      // tastiera (track focalizzabile)
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          go(index + 1, true);
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          go(index - 1, true);
+        }
+      });
+
+      // autoplay: in pausa su hover/focus/touch e a scheda nascosta; off con riduci-movimento
+      ['mouseenter', 'focusin', 'touchstart'].forEach((ev) =>
+        stage.addEventListener(ev, stop, { passive: true })
+      );
+      ['mouseleave', 'focusout'].forEach((ev) => stage.addEventListener(ev, start));
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+      render();
+      start();
     }
   </script>
 </Base>

@@ -82,9 +82,9 @@ import LogoJose from '../components/LogoJose.astro';
     <section class="relative h-[90vh] overflow-hidden">
       <div class="absolute inset-0">
         <img
-          alt="Lo staff di Josè Restaurant porta in tavola le pizze"
+          alt="Piatto gourmet di Josè Restaurant servito nella sala elegante della Villa"
           class="w-full h-full object-cover"
-          src="/images/jose-hero.jpg"
+          src="/images/jose-hero-gourmet.jpg"
         />
         <div
           class="absolute inset-0 bg-gradient-to-t from-lava-stone/80 via-transparent to-transparent"
@@ -161,13 +161,31 @@ import LogoJose from '../components/LogoJose.astro';
               id="proposta-carousel"
               class="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
               aria-roledescription="carosello"
-              aria-label="I piatti di Josè Restaurant"
+              aria-label="I piatti di cucina di Josè Restaurant"
               tabindex="0"
             >
               <img
                 class="snap-center shrink-0 w-full h-full object-cover"
-                src="/images/jose-pizza.jpg"
-                alt="Pizza gourmet dal forno a legna di Josè Restaurant"
+                src="/images/jose-piatto-3.jpg"
+                alt="Piatto gourmet di mare di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-scampi.jpg"
+                alt="Scampi con verdure grigliate, piatto gourmet di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-pasta-mare.jpg"
+                alt="Pasta con frutti di mare di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-spaghetti.jpg"
+                alt="Spaghetti della carta di Josè Restaurant"
                 loading="lazy"
               />
               <img
@@ -178,8 +196,8 @@ import LogoJose from '../components/LogoJose.astro';
               />
               <img
                 class="snap-center shrink-0 w-full h-full object-cover"
-                src="/images/jose-piatto-3.jpg"
-                alt="Piatto gourmet di mare di Josè Restaurant"
+                src="/images/jose-secondo.jpg"
+                alt="Secondo di carne con riduzione, piatto gourmet di Josè Restaurant"
                 loading="lazy"
               />
               <img
@@ -228,6 +246,126 @@ import LogoJose from '../components/LogoJose.astro';
               >«Il sapore non mente mai.»</span
             >
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pizzeria -->
+    <section
+      id="pizzeria"
+      class="py-24 bg-surface-container px-margin-mobile md:px-margin-desktop scroll-mt-20"
+    >
+      <div
+        class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center"
+      >
+        <!-- Carosello pizze -->
+        <div class="relative order-2 lg:order-1">
+          <div class="aspect-[4/5] bg-lava-stone overflow-hidden">
+            <div
+              id="pizzeria-carousel"
+              class="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
+              aria-roledescription="carosello"
+              aria-label="Le pizze di Josè"
+              tabindex="0"
+            >
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-pizza-margherita.jpg"
+                alt="Pizza margherita con basilico e pomodorini dal forno a legna di Josè"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-pizza-fiori.jpg"
+                alt="Pizza con fiori di zucca e crema di pesto di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-pizza-salmone.jpg"
+                alt="Pizza con salmone, insalata e pomodorini di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-pizza.jpg"
+                alt="Pizza gourmet dal forno a legna di Josè Restaurant"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-forno-fiamme.jpg"
+                alt="Pizze in cottura nel forno a legna acceso di Josè"
+                loading="lazy"
+              />
+              <img
+                class="snap-center shrink-0 w-full h-full object-cover"
+                src="/images/jose-forno-servizio.jpg"
+                alt="Gli chef di Josè servono le pizze appena sfornate"
+                loading="lazy"
+              />
+            </div>
+            <!-- controlli carosello -->
+            <div class="absolute bottom-4 right-4 z-10 flex items-center gap-3">
+              <div
+                class="pizzeria-dots flex items-center gap-1.5"
+                role="tablist"
+                aria-label="Vai alla pizza"
+              >
+              </div>
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  data-carousel="prev"
+                  aria-label="Pizza precedente"
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_left</span>
+                </button>
+                <button
+                  type="button"
+                  data-carousel="next"
+                  aria-label="Pizza successiva"
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Testo pizzeria -->
+        <div class="space-y-8 order-1 lg:order-2">
+          <span
+            class="text-label-sm font-label-sm text-terracotta tracking-widest uppercase"
+            >Pizzeria · Casual · Aprile – Settembre</span
+          >
+          <div
+            class="font-headline-lg text-3xl sm:text-4xl md:text-headline-lg text-on-surface leading-tight break-words"
+          >
+            La Pizza in Giardino
+          </div>
+          <div class="font-body-lg text-body-lg text-on-surface-variant space-y-6">
+            <p>
+              Accanto alla cucina, una proposta più informale: pizze gourmet con
+              farine selezionate, lievitazioni lente e ingredienti del
+              territorio, cotte nel forno a legna.
+            </p>
+            <p>
+              Le serviamo nell'atmosfera rilassata dei giardini della Villa, da
+              aprile a settembre, quando il Vesuvio si gode all'aperto.
+            </p>
+          </div>
+          <a
+            href="#contatti"
+            class="group inline-flex items-center gap-3 text-primary font-bold"
+          >
+            <span class="font-label-sm text-label-sm uppercase">Prenota un tavolo</span>
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >east</span
+            >
+          </a>
         </div>
       </div>
     </section>
@@ -420,25 +558,6 @@ import LogoJose from '../components/LogoJose.astro';
                 Misto di pesce alla griglia con verdurine al salto
               </li>
             </ul>
-          </div>
-
-          <!-- La Pizza in Giardino (offerta casual) -->
-          <div
-            class="bg-vesuvius-green text-silk-white p-8 md:p-10 flex flex-col justify-center"
-          >
-            <p
-              class="font-label-sm text-label-sm text-clotted-cream tracking-widest uppercase mb-4"
-            >
-              Casual · Aprile – Settembre
-            </p>
-            <h3 class="font-headline-md text-headline-md mb-4">
-              La Pizza in Giardino
-            </h3>
-            <p class="font-body-md text-body-md text-silk-white/80">
-              Una selezione di pizze gourmet con farine selezionate e
-              ingredienti del territorio, servite nell'atmosfera informale dei
-              giardini della Villa.
-            </p>
           </div>
         </div>
       </div>
@@ -677,11 +796,14 @@ import LogoJose from '../components/LogoJose.astro';
       });
     }
 
-    // Carosello dei piatti (sezione manifesto)
-    const carousel = document.getElementById('proposta-carousel');
-    const dotsWrap = document.querySelector<HTMLElement>('.proposta-dots');
-    const stage = carousel?.parentElement ?? null;
-    if (carousel && dotsWrap && stage) {
+    // Caroselli (manifesto cucina + pizzeria): stessa logica, due istanze
+    function initCarousel(
+      carousel: HTMLElement | null,
+      dotsWrap: HTMLElement | null,
+      itemLabel: string
+    ) {
+      const stage = carousel?.parentElement ?? null;
+      if (!carousel || !dotsWrap || !stage) return;
       const slides = Array.from(carousel.children) as HTMLElement[];
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const dots: HTMLButtonElement[] = [];
@@ -726,7 +848,7 @@ import LogoJose from '../components/LogoJose.astro';
         const b = document.createElement('button');
         b.type = 'button';
         b.setAttribute('role', 'tab');
-        b.setAttribute('aria-label', `Piatto ${i + 1} di ${slides.length}`);
+        b.setAttribute('aria-label', `${itemLabel} ${i + 1} di ${slides.length}`);
         b.className =
           'h-1.5 rounded-full bg-silk-white/50 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white';
         b.style.width = '6px';
@@ -776,5 +898,16 @@ import LogoJose from '../components/LogoJose.astro';
       render();
       start();
     }
+
+    initCarousel(
+      document.getElementById('proposta-carousel'),
+      document.querySelector<HTMLElement>('.proposta-dots'),
+      'Piatto'
+    );
+    initCarousel(
+      document.getElementById('pizzeria-carousel'),
+      document.querySelector<HTMLElement>('.pizzeria-dots'),
+      'Pizza'
+    );
   </script>
 </Base>
