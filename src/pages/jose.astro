@@ -572,80 +572,23 @@ import LogoJose from '../components/LogoJose.astro';
             </div>
           </div>
         </div>
-        <div class="md:w-1/2 p-12 bg-silk-white">
-          <form class="space-y-6">
-            <div>
-              <label
-                for="pren-data"
-                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
-                >Data</label
-              >
-              <input
-                id="pren-data"
-                name="data"
-                type="date"
-                required
-                class="w-full border-b border-outline-variant bg-transparent py-2 focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green transition-colors"
-              />
-            </div>
-            <div class="grid grid-cols-2 gap-gutter">
-              <div>
-                <label
-                  for="pren-persone"
-                  class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
-                  >Persone</label
-                >
-                <select
-                  id="pren-persone"
-                  name="persone"
-                  required
-                  class="w-full border-b border-outline-variant bg-transparent py-2 focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green appearance-none cursor-pointer"
-                >
-                  <option value="2">2 Ospiti</option>
-                  <option value="4">4 Ospiti</option>
-                  <option value="6">6 Ospiti</option>
-                  <option value="gruppo">Richiesta Gruppo</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  for="pren-orario"
-                  class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
-                  >Orario</label
-                >
-                <select
-                  id="pren-orario"
-                  name="orario"
-                  required
-                  class="w-full border-b border-outline-variant bg-transparent py-2 focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green appearance-none cursor-pointer"
-                >
-                  <option value="19:30">19:30</option>
-                  <option value="20:30">20:30</option>
-                  <option value="21:30">21:30</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label
-                for="pren-email"
-                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
-                >Email</label
-              >
-              <input
-                id="pren-email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                placeholder="nome@esempio.it"
-                class="w-full border-b border-outline-variant bg-transparent py-2 focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green transition-colors"
-              />
-            </div>
-            <button
-              class="w-full bg-lava-stone text-terracotta py-4 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
-              type="submit">Verifica Disponibilità</button
+        <div class="md:w-1/2 p-12 bg-silk-white flex flex-col justify-center items-start gap-6">
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Scegli la data, l'orario e il numero di ospiti: compila il modulo di
+            prenotazione e ti confermeremo il tuo tavolo a Josè Restaurant.
+          </p>
+          <a
+            href="https://mqv9bou19i9twdl5va81fbt5e4ndsmyt.forms.pienissimo.pro/info-client"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-3 bg-lava-stone text-terracotta px-8 py-4 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+          >
+            Prenota il tuo tavolo
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >arrow_forward</span
             >
-          </form>
+          </a>
         </div>
       </div>
     </section>
