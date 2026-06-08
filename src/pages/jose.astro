@@ -560,14 +560,14 @@ import LogoJose from '../components/LogoJose.astro';
           <div class="mt-12 space-y-4">
             <div class="flex items-center gap-4">
               <span class="material-symbols-outlined text-terracotta">phone</span>
-              <span class="font-label-sm text-label-sm">+39 081 123 4567</span>
+              <span class="font-label-sm text-label-sm">+39 081 883 6298</span>
             </div>
             <div class="flex items-center gap-4">
               <span class="material-symbols-outlined text-terracotta"
                 >location_on</span
               >
               <span class="font-label-sm text-label-sm"
-                >Via Villa Guerra, 7 - Torre del Greco (NA)</span
+                >Via Nazionale, 414 - 80059 Torre del Greco (NA)</span
               >
             </div>
           </div>
@@ -589,6 +589,55 @@ import LogoJose from '../components/LogoJose.astro';
               >arrow_forward</span
             >
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dove siamo: mappa del locale -->
+    <section
+      id="dove-siamo"
+      class="bg-lava-stone text-silk-white pt-20 md:pt-24 px-margin-mobile md:px-margin-desktop"
+    >
+      <div class="max-w-container-max mx-auto">
+        <div
+          class="flex flex-col gap-4 mb-8 md:flex-row md:items-end md:justify-between"
+        >
+          <div>
+            <h2
+              class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold mb-3"
+            >
+              Dove siamo
+            </h2>
+            <p class="font-headline-lg text-headline-lg leading-tight">
+              Via Nazionale, 414<br class="sm:hidden" /> 80059 Torre del Greco (NA)
+            </p>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Via+Nazionale+414+80059+Torre+del+Greco+NA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-2 self-start whitespace-nowrap font-label-sm text-label-sm uppercase tracking-widest text-antique-gold hover:text-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold"
+          >
+            Apri in Google Maps
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >arrow_outward</span
+            >
+          </a>
+        </div>
+        <div
+          class="overflow-hidden rounded-xl border border-silk-white/15 shadow-2xl"
+        >
+          <iframe
+            title="Mappa di Josè Restaurant — Via Nazionale 414, Torre del Greco"
+            src="https://www.google.com/maps?q=Via%20Nazionale%20414%2C%2080059%20Torre%20del%20Greco%20NA&output=embed"
+            width="100%"
+            height="440"
+            style="border:0; display:block;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
     </section>
@@ -628,18 +677,20 @@ import LogoJose from '../components/LogoJose.astro';
           <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
             Dove siamo
           </h4>
-          <p class="font-body-md text-body-md text-silk-white/80 leading-relaxed">
-            Via Villa Guerra, 7<br />80059 Torre del Greco (NA)
-          </p>
+          <a
+            href="#dove-siamo"
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors leading-relaxed"
+            >Via Nazionale, 414<br />80059 Torre del Greco (NA)</a
+          >
         </div>
         <div class="space-y-3">
           <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
             Contatti
           </h4>
           <a
-            href="tel:+390811234567"
+            href="tel:+390818836298"
             class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
-            >+39 081 123 4567</a
+            >+39 081 883 6298</a
           >
         </div>
         <div class="space-y-3">

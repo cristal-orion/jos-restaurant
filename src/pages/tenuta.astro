@@ -5,7 +5,7 @@ import LogoJose from '../components/LogoJose.astro';
 
 <Base
   title="Villa Guerra & Josè | Eventi e Prestigio"
-  description="Tenuta Villa Guerra: dimora storica del '700 nel Miglio d'Oro per matrimoni, eventi business e celebrazioni private."
+  description="Tenuta Villa Guerra: dimora storica del '700 nel Miglio d'Oro per eventi privati, business e cerimonie."
   bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
 >
   <!-- TopAppBar -->
@@ -112,8 +112,8 @@ import LogoJose from '../components/LogoJose.astro';
           <p
             class="mt-8 font-body-lg text-body-lg text-silk-white/80 max-w-xl"
           >
-            Sale affrescate e giardini sul Golfo di Napoli per matrimoni, eventi
-            business e celebrazioni private.
+            Sale eleganti e giardini sul Golfo di Napoli per eventi privati,
+            business e cerimonie.
           </p>
           <div class="mt-10 flex flex-col sm:flex-row gap-4">
             <a
@@ -263,7 +263,7 @@ import LogoJose from '../components/LogoJose.astro';
             <p
               class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-xl"
             >
-              Le nostre sale affrescate conservano l'anima aristocratica della
+              Le nostre sale conservano l'anima aristocratica della
               Napoli del XVIII secolo. Ogni dettaglio, dai lampadari in cristallo
               ai marmi pregiati, è stato restaurato per accogliere eventi che
               richiedono un'atmosfera di rara bellezza.
@@ -274,7 +274,7 @@ import LogoJose from '../components/LogoJose.astro';
                   Sala del Trono
                 </h4>
                 <p class="text-on-surface-variant">
-                  Affreschi originali e una vista mozzafiato sul Golfo di Napoli.
+                  Ambienti curati nei dettagli e una vista mozzafiato sul Golfo di Napoli.
                 </p>
               </div>
               <div>
@@ -306,14 +306,14 @@ import LogoJose from '../components/LogoJose.astro';
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-gutter">
-          <!-- Wedding — feature grande -->
+          <!-- Eventi Privati — feature grande (core business) -->
           <article
             class="group relative lg:col-span-7 lg:row-span-2 overflow-hidden villa-outline min-h-[460px]"
           >
             <img
-              alt="Tavoli allestiti nei giardini della Tenuta per un matrimonio"
+              alt="Tavoli allestiti nei giardini della Tenuta per un evento privato"
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              src="/images/tenuta-wedding.jpg"
+              src="/images/tenuta-privati.jpg"
             />
             <div
               class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
@@ -321,11 +321,12 @@ import LogoJose from '../components/LogoJose.astro';
             </div>
             <div class="relative h-full flex flex-col justify-end p-8 md:p-10">
               <h3 class="font-headline-display text-headline-lg text-silk-white">
-                Wedding
+                Eventi Privati
               </h3>
               <p class="mt-3 max-w-md font-body-md text-body-md text-silk-white/85">
-                Trasformiamo il «sì» più importante in una favola senza tempo,
-                curata in ogni minimo dettaglio scenografico.
+                Compleanni, anniversari e feste private: la Tenuta diventa la
+                vostra dimora per un giorno, con la riservatezza di una casa
+                nobiliare.
               </p>
               <a
                 class="mt-6 inline-flex items-center gap-2 text-antique-gold font-label-sm text-label-sm uppercase tracking-widest hover:text-silk-white transition-colors duration-300 ease-out"
@@ -370,22 +371,22 @@ import LogoJose from '../components/LogoJose.astro';
             </div>
           </article>
 
-          <!-- Private — card orizzontale -->
+          <!-- Cerimonie — card orizzontale -->
           <article
             class="group lg:col-span-5 flex flex-col sm:flex-row overflow-hidden villa-outline bg-clotted-cream"
           >
             <div class="sm:w-2/5 aspect-[4/3] sm:aspect-auto overflow-hidden">
               <img
-                alt="Il parco della Tenuta Villa Guerra per celebrazioni private"
+                alt="Il parco della Tenuta Villa Guerra per cerimonie e ricorrenze"
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 src="/images/tenuta-private.jpg"
               />
             </div>
             <div class="flex-1 p-7 flex flex-col justify-center">
-              <h3 class="font-headline-md text-headline-md text-primary">Private</h3>
+              <h3 class="font-headline-md text-headline-md text-primary">Cerimonie</h3>
               <p class="mt-2 font-body-md text-body-md text-on-surface-variant">
-                Anniversari, compleanni ed eventi privati dove l’esclusività
-                incontra il calore di una casa nobiliare.
+                Battesimi, comunioni e ricorrenze speciali, celebrate tra saloni
+                d’epoca e giardini affacciati sul Golfo.
               </p>
               <a
                 class="mt-4 inline-flex items-center gap-2 text-antique-gold font-label-sm text-label-sm uppercase tracking-widest hover:text-primary transition-colors duration-300 ease-out"
@@ -462,9 +463,9 @@ import LogoJose from '../components/LogoJose.astro';
                 class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 font-body-md"
               >
                 <option value="">Seleziona…</option>
-                <option value="wedding">Wedding</option>
+                <option value="privato">Evento privato</option>
                 <option value="business">Business</option>
-                <option value="privato">Privato</option>
+                <option value="cerimonia">Cerimonia</option>
               </select>
             </div>
             <div>
@@ -515,7 +516,7 @@ import LogoJose from '../components/LogoJose.astro';
     <div class="space-y-6">
       <div class="font-headline-md text-headline-md text-primary">Villa Guerra</div>
       <p class="text-on-surface-variant text-body-md">
-        Via G. Semmola, 28<br />Ercolano (NA) - Italia
+        Via Nazionale, 414<br />80059 Torre del Greco (NA) - Italia
       </p>
     </div>
     <div class="space-y-6">
