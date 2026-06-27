@@ -1,4 +1,4 @@
-const site = 'https://www.villaguerrajose.it';
+const site = 'https://tenutavillaguerra.it';
 
 const pages = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },

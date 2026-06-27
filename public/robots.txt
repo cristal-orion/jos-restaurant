@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.villaguerrajose.it/sitemap.xml
+Sitemap: https://tenutavillaguerra.it/sitemap.xml
