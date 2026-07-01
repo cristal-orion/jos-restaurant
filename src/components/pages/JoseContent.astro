@@ -90,37 +90,117 @@ const dict = {
     menu: {
       heading: 'La Carta',
       intro:
-        'Il menù è stagionale e cambia con quello che la terra e il mare offrono. I prezzi indicati sono per portata, sulla carta del momento.',
+        'Il concept orto-mare: i frutti dell\'orto vesuviano incontrano la ricchezza del Golfo, in un menù stagionale che segue il ritmo delle stagioni.',
+      download: 'Scarica il menù in PDF',
+      copertoLabel: 'Coperto € 3 a persona',
+      allergenNote: 'Il menù può contenere allergeni. Per l\'elenco completo, chiedi al personale.',
       categories: [
         {
           heading: 'Antipasti',
-          price: '€16 – 20',
           items: [
-            { text: 'Scarola imbottita, alici del Cantabrico e spuma di fagioli tondini' },
-            { text: 'Millefoglie di melanzane in parmigiana', note: '· tradizione pura' },
-            { text: 'Carpaccio di tonno rosso e bruschetta al pomodoro' },
-            { text: 'Tagliatella di seppia con variazione di zucchine alla scapece' },
+            { name: 'Peperone «mbuttunat»', price: '16€' },
+            { name: 'Millefoglie di melanzane in parmigiana', price: '16€' },
+            { name: 'Carpaccio di tonno rosso con bufala e bruschetta al pomodoro', price: '20€' },
+            { name: 'Tagliatella di seppia con variazione di zucchine alla scapece', price: '18€' },
+            { name: 'Polpo su biscotto di Agerola e caponatina amalfitana', price: '20€' },
+            { name: 'Sauté di vongole', price: '20€' },
+            { name: 'Fritto di gamberi e calamari', price: '22€' },
+          ],
+        },
+        {
+          heading: 'Sfizi Fritti',
+          items: [
+            { name: 'Crocchè di patate', price: '3€' },
+            { name: 'Frittatina di pasta', price: '4€' },
+            { name: 'Fiore di zucca ripieno di ricotta', price: '3€' },
           ],
         },
         {
           heading: 'Primi Piatti',
-          price: '€18 – 26',
           items: [
-            { text: "Taglioni all'uovo alla Nerano", note: "· il classico intramontabile" },
-            { text: 'Chicche di patate con piselli, scampi e tartufo nero' },
-            { text: 'Minestra di pasta, riccio di mare, patelle e sconcigli' },
-            { text: 'Risotto con astice e sfusato amalfitano', note: '· min. 2 persone' },
+            { name: "Tagliolini all'uovo alla Nerano", price: '18€' },
+            { name: 'Gnocchetti con cozze, pecorino e pomodorini', price: '20€' },
+            { name: 'Risotto con astice e sfusato amalfitano', price: '29€', note: 'min. 2 persone' },
+            { name: 'Minestra di pasta con ricci, alghe e frutti di mare', price: '26€' },
+            { name: 'Spaghetti alle vongole', price: '22€' },
           ],
         },
         {
           heading: 'Secondi Piatti',
-          price: '€20 – 35',
           items: [
-            { text: 'Maiale nero in lenta cottura con taccole alla pizzaiola' },
-            { text: 'Entrecôte alla griglia con rucola e funghi cardoncelli' },
-            { text: 'Baccalà fritto con salsa alla «bella donna»' },
-            { text: 'Fritto di gamberi e calamari freschi' },
-            { text: 'Misto di pesce alla griglia con verdurine al salto' },
+            { name: 'Maiale nero in lenta cottura con taccole alla pizzaiola', price: '25€' },
+            { name: 'Entrecôte alla griglia con rucola e funghi cardoncelli', price: '30€' },
+            { name: 'Baccalà fritto con salsa alla puttanesca', price: '25€' },
+            { name: 'Pescato arrosto con zucchine e menta', price: '29€' },
+            { name: 'Misto di pesce e crostacei alla brace con scarola al salto', price: '35€' },
+          ],
+        },
+        {
+          heading: 'Pizze',
+          items: [
+            { name: 'Margherita', price: '8€' },
+            { name: 'Marinara', price: '7€' },
+            {
+              name: 'Marinara in carrozza',
+              price: '10€',
+              desc: 'Salsa di datterini arrosto, pomodorini semidry, alici di Cetara, olive taggiasche, origano, Parmigiano Reggiano e aglio nero',
+            },
+            { name: 'Bufalina', price: '10€', desc: 'Mozzarella di bufala, pomodorini datterini, basilico' },
+            {
+              name: 'Scarpariello',
+              price: '10€',
+              desc: 'Salsa di datterino arrosto, provola affumicata, parmigiano e pomodorini semidry',
+            },
+            { name: 'Ciuri', price: '12€', desc: 'Fior di latte, variazione di zucchine e provolone di vacche rosse' },
+            {
+              name: 'Ciummariello',
+              price: '12€',
+              desc: 'Fior di latte, salame piccante, peperoncini verdi saltati in padella con pomodorini',
+            },
+            {
+              name: 'Calzone',
+              price: '10€',
+              desc: 'Provola affumicata, scarola ripassata, alici, pomodori secchi, olive taggiasche',
+            },
+            {
+              name: 'Norcino',
+              price: '14€',
+              desc: 'Fior di latte, capocollo Norcineria Bianculli, funghi porcini e salsa tartufata',
+            },
+            {
+              name: 'Rustica',
+              price: '12€',
+              desc: 'Provola affumicata, salsiccia, patanielli al forno e fonduta di parmigiano',
+            },
+            {
+              name: 'Massaro',
+              price: '12€',
+              desc: 'Fior di latte, pancetta arrotolata al peperone crusco, carciofini arrosto e stracciatella di bufala',
+            },
+            {
+              name: 'Crunchy',
+              price: '10€',
+              desc: 'Base focaccia turca, stracciatella di bufala, rucola, pomodorini datterini e limone',
+            },
+            {
+              name: 'Caprese',
+              price: '14€',
+              desc: 'Pomodoro di Sorrento, mozzarella di bufala, prosciutto crudo, origano, salsa al basilico',
+            },
+            {
+              name: 'Formaggi',
+              price: '12€',
+              desc: 'Fior di latte, blu di bufala, caciocavallo di vacche rosse, salsa di fichi e limone',
+            },
+          ],
+        },
+        {
+          heading: 'Dessert',
+          items: [
+            { name: 'Sfera di tiramisù nocciolato', price: '9€' },
+            { name: 'Millefoglie, vaniglia e caramello', price: '9€' },
+            { name: 'Babà, arancia e Cointreau', price: '8€' },
+            { name: 'Ricotta di bufala, albicocca pellecchiella e nocciole', price: '9€' },
           ],
         },
       ],
@@ -231,37 +311,117 @@ const dict = {
     menu: {
       heading: 'The Menu',
       intro:
-        'The menu is seasonal and changes with what the land and sea offer. Prices shown are per dish, on the current menu.',
+        'The garden-and-sea concept: the fruits of the Vesuvian garden meet the richness of the Gulf, in a seasonal menu that follows the rhythm of the seasons.',
+      download: 'Download the Menu (PDF)',
+      copertoLabel: 'Cover charge €3 per person',
+      allergenNote: 'Our dishes may contain allergens. Ask our staff for the full list.',
       categories: [
         {
           heading: 'Starters',
-          price: '€16 – 20',
           items: [
-            { text: 'Stuffed escarole, Cantabrian anchovies and tondino bean foam' },
-            { text: 'Aubergine parmigiana millefeuille', note: '· pure tradition' },
-            { text: 'Red tuna carpaccio with tomato bruschetta' },
-            { text: 'Cuttlefish tagliatelle with courgette scapece variations' },
+            { name: 'Stuffed «mbuttunat» pepper', price: '€16' },
+            { name: 'Aubergine parmigiana millefeuille', price: '€16' },
+            { name: 'Red tuna carpaccio with buffalo mozzarella and tomato bruschetta', price: '€20' },
+            { name: 'Cuttlefish tagliatelle with courgette scapece variations', price: '€18' },
+            { name: 'Octopus on Agerola biscuit with Amalfi-style caponata', price: '€20' },
+            { name: 'Sautéed clams', price: '€20' },
+            { name: 'Fried prawns and squid', price: '€22' },
+          ],
+        },
+        {
+          heading: 'Fried Bites',
+          items: [
+            { name: 'Potato croquette', price: '€3' },
+            { name: 'Pasta frittatina', price: '€4' },
+            { name: 'Courgette flower stuffed with ricotta', price: '€3' },
           ],
         },
         {
           heading: 'First Courses',
-          price: '€18 – 26',
           items: [
-            { text: 'Egg taglioni alla Nerano', note: '· the timeless classic' },
-            { text: 'Potato gnocchi with peas, scampi and black truffle' },
-            { text: 'Pasta soup with sea urchin, limpets and sea snails' },
-            { text: 'Risotto with lobster and Amalfi lemon', note: '· min. 2 people' },
+            { name: 'Egg tagliolini alla Nerano', price: '€18' },
+            { name: 'Potato gnocchetti with mussels, pecorino and cherry tomatoes', price: '€20' },
+            { name: 'Risotto with lobster and Amalfi lemon', price: '€29', note: 'min. 2 people' },
+            { name: 'Pasta soup with sea urchin, seaweed and shellfish', price: '€26' },
+            { name: 'Spaghetti alle vongole', price: '€22' },
           ],
         },
         {
           heading: 'Main Courses',
-          price: '€20 – 35',
           items: [
-            { text: 'Slow-cooked black pork with pizzaiola-style mangetout' },
-            { text: 'Grilled entrecôte with rocket and cardoncelli mushrooms' },
-            { text: 'Fried salt cod with «bella donna» sauce' },
-            { text: 'Fried fresh prawns and squid' },
-            { text: 'Grilled mixed fish with sautéed vegetables' },
+            { name: 'Slow-cooked black pork with pizzaiola-style mangetout', price: '€25' },
+            { name: 'Grilled entrecôte with rocket and cardoncelli mushrooms', price: '€30' },
+            { name: 'Fried salt cod with puttanesca sauce', price: '€25' },
+            { name: 'Roasted catch of the day with courgette and mint', price: '€29' },
+            { name: 'Grilled mixed fish and shellfish with sautéed escarole', price: '€35' },
+          ],
+        },
+        {
+          heading: 'Pizzas',
+          items: [
+            { name: 'Margherita', price: '€8' },
+            { name: 'Marinara', price: '€7' },
+            {
+              name: 'Marinara in carrozza',
+              price: '€10',
+              desc: 'Roasted datterino sauce, semi-dried cherry tomatoes, Cetara anchovies, taggiasca olives, oregano, Parmigiano Reggiano and black garlic',
+            },
+            { name: 'Bufalina', price: '€10', desc: 'Buffalo mozzarella, datterino cherry tomatoes, basil' },
+            {
+              name: 'Scarpariello',
+              price: '€10',
+              desc: 'Roasted datterino sauce, smoked provola, Parmigiano and semi-dried cherry tomatoes',
+            },
+            { name: 'Ciuri', price: '€12', desc: 'Fior di latte, courgette variations and red-cattle provolone' },
+            {
+              name: 'Ciummariello',
+              price: '€12',
+              desc: 'Fior di latte, spicy salami, pan-sautéed green chillies with cherry tomatoes',
+            },
+            {
+              name: 'Calzone',
+              price: '€10',
+              desc: 'Smoked provola, sautéed escarole, anchovies, sun-dried tomatoes, taggiasca olives',
+            },
+            {
+              name: 'Norcino',
+              price: '€14',
+              desc: 'Fior di latte, Norcineria Bianculli capocollo, porcini mushrooms and truffle sauce',
+            },
+            {
+              name: 'Rustica',
+              price: '€12',
+              desc: 'Smoked provola, sausage, oven-baked patanielli potatoes and Parmigiano fondue',
+            },
+            {
+              name: 'Massaro',
+              price: '€12',
+              desc: 'Fior di latte, pancetta rolled in crusco pepper, roasted baby artichokes and buffalo stracciatella',
+            },
+            {
+              name: 'Crunchy',
+              price: '€10',
+              desc: 'Turkish flatbread base, buffalo stracciatella, rocket, datterino cherry tomatoes and lemon',
+            },
+            {
+              name: 'Caprese',
+              price: '€14',
+              desc: 'Sorrento tomato, buffalo mozzarella, prosciutto crudo, oregano, basil sauce',
+            },
+            {
+              name: 'Formaggi',
+              price: '€12',
+              desc: 'Fior di latte, buffalo blue cheese, red-cattle caciocavallo, fig and lemon sauce',
+            },
+          ],
+        },
+        {
+          heading: 'Desserts',
+          items: [
+            { name: 'Hazelnut tiramisù sphere', price: '€9' },
+            { name: 'Millefeuille, vanilla and caramel', price: '€9' },
+            { name: 'Babà with orange and Cointreau', price: '€8' },
+            { name: 'Buffalo ricotta with pellecchiella apricot and hazelnuts', price: '€9' },
           ],
         },
       ],
@@ -662,31 +822,54 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
           <p class="mt-4 font-body-lg text-body-lg text-on-surface-variant">
             {t.menu.intro}
           </p>
+          <a
+            href="/pdf/jose-menu-estate-2026.pdf"
+            download
+            class="group mt-8 inline-flex items-center gap-3 bg-lava-stone text-terracotta px-6 py-3 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+          >
+            <span class="material-symbols-outlined text-[20px] leading-none">download</span>
+            {t.menu.download}
+          </a>
         </div>
 
         <div class="max-w-2xl mx-auto space-y-16">
           {t.menu.categories.map((category) => (
             <div>
-              <div
-                class="flex items-baseline justify-center gap-4 border-b border-outline-variant/50 pb-3 mb-6"
-              >
+              <div class="text-center border-b border-outline-variant/50 pb-3 mb-6">
                 <h3 class="font-headline-md text-headline-md text-primary">{category.heading}</h3>
-                <span
-                  class="font-label-sm text-label-sm text-terracotta whitespace-nowrap"
-                  >{category.price}</span
-                >
               </div>
-              <ul class="space-y-5 text-center">
+              <ul class="space-y-5">
                 {category.items.map((item) => (
-                  <li class="font-body-lg text-body-lg text-on-surface leading-snug">
-                    {item.text}{item.note && (
-                      <span class="text-on-surface-variant italic"> {item.note}</span>
-                    )}
+                  <li class="flex items-start justify-between gap-4">
+                    <div>
+                      <span class="font-body-lg text-body-lg text-on-surface leading-snug">
+                        {item.name}
+                      </span>
+                      {item.note && (
+                        <span class="font-body-md text-on-surface-variant italic"> · {item.note}</span>
+                      )}
+                      {item.desc && (
+                        <p class="mt-1 font-body-md text-body-md text-on-surface-variant italic">
+                          {item.desc}
+                        </p>
+                      )}
+                    </div>
+                    <span
+                      class="font-label-sm text-label-sm text-terracotta whitespace-nowrap pt-1"
+                      >{item.price}</span
+                    >
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+        </div>
+
+        <div
+          class="max-w-2xl mx-auto mt-14 pt-8 border-t border-outline-variant/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-center sm:text-left"
+        >
+          <p class="font-label-sm text-label-sm text-on-surface-variant">{t.menu.copertoLabel}</p>
+          <p class="font-label-sm text-label-sm text-on-surface-variant/80">{t.menu.allergenNote}</p>
         </div>
       </div>
     </section>

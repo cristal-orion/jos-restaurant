@@ -13,4 +13,9 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+  // /menu: URL fisso per i QR code, punta sempre al PDF del menù in vigore.
+  // Per aggiornare il menù: sostituire il PDF in public/pdf/ e aggiornare questo path.
+  redirects: {
+    '/menu': '/pdf/jose-menu-estate-2026.pdf',
+  },
 });

@@ -27,3 +27,5 @@ package-lock.json
 /_sorgenti/
 /5 stelle/
 /Josérestaurant-*/
+# PDF sorgente in root: la copia usata dal sito vive in public/pdf/
+/*.pdf
