@@ -1,12 +1,33 @@
 ---
 import Base from '../layouts/Base.astro';
 import LogoJose from '../components/LogoJose.astro';
+
+const restaurantSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'Josè Restaurant',
+  image: 'https://tenutavillaguerra.it/images/jose-hero-gourmet.jpg',
+  url: 'https://tenutavillaguerra.it/jose',
+  telephone: '+390818836298',
+  priceRange: '€€ - €€€',
+  servesCuisine: ['Cucina campana', 'Pizza napoletana', 'Pesce'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Via Nazionale, 414',
+    addressLocality: 'Torre del Greco',
+    addressRegion: 'NA',
+    postalCode: '80059',
+    addressCountry: 'IT',
+  },
+  menu: 'https://tenutavillaguerra.it/jose#menu',
+};
 ---
 
 <Base
-  title="Josè Restaurant | Oltre le etichette"
-  description="Josè Restaurant: un ritorno alla terra e ai sapori autentici del Vesuvio, oltre le etichette."
+  title="Josè Restaurant | Oltre le etichette — Torre del Greco, Vesuvio"
+  description="Josè Restaurant: ristorante e pizzeria a Torre del Greco, un ritorno alla terra e ai sapori autentici del Vesuvio, oltre le etichette."
   bodyClass="bg-surface text-on-surface selection:bg-terracotta selection:text-white"
+  schema={restaurantSchema}
 >
   <header
     class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
@@ -85,6 +106,7 @@ import LogoJose from '../components/LogoJose.astro';
           alt="Spaghetti gourmet ai frutti di mare di Josè Restaurant"
           class="w-full h-full object-cover"
           src="/images/jose-hero-gourmet.jpg"
+          fetchpriority="high"
         />
         <div
           class="absolute inset-0 bg-gradient-to-t from-lava-stone via-lava-stone/70 via-35% to-transparent to-70%"
@@ -246,7 +268,7 @@ import LogoJose from '../components/LogoJose.astro';
             >
               <img
                 class="snap-center shrink-0 w-full h-full object-cover"
-                src="/images/jose-pizza-margherita.jpg"
+                src="/images/jose-pizza-margherita.webp"
                 alt="Pizza margherita con basilico e pomodorini dal forno a legna di Josè"
                 loading="lazy"
               />

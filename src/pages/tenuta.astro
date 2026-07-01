@@ -1,12 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
 import LogoJose from '../components/LogoJose.astro';
+
+const venueSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'EventVenue'],
+  name: 'Tenuta Villa Guerra',
+  image: 'https://tenutavillaguerra.it/images/villa-grand.webp',
+  url: 'https://tenutavillaguerra.it/tenuta',
+  telephone: '+390818836298',
+  description:
+    "Dimora storica del '700 nel Miglio d'Oro per eventi privati, cerimonie e business.",
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Via Nazionale, 414',
+    addressLocality: 'Torre del Greco',
+    addressRegion: 'NA',
+    postalCode: '80059',
+    addressCountry: 'IT',
+  },
+};
 ---
 
 <Base
-  title="Villa Guerra & Josè | Eventi e Prestigio"
-  description="Tenuta Villa Guerra: dimora storica del '700 nel Miglio d'Oro per eventi privati, business e cerimonie."
+  title="Villa Guerra & Josè | Eventi e Prestigio a Torre del Greco, Miglio d'Oro"
+  description="Tenuta Villa Guerra: dimora storica del '700 nel Miglio d'Oro, a Torre del Greco, per eventi privati, business e cerimonie."
   bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
+  schema={venueSchema}
 >
   <!-- TopAppBar -->
   <header
@@ -86,7 +106,7 @@ import LogoJose from '../components/LogoJose.astro';
         <img
           alt="Facciata settecentesca della Tenuta Villa Guerra"
           class="w-full h-full object-cover scale-105"
-          src="/images/villa-grand.jpg"
+          src="/images/villa-grand.webp"
           fetchpriority="high"
         />
         <div
@@ -158,7 +178,7 @@ import LogoJose from '../components/LogoJose.astro';
                   <figure class="relative m-0 snap-center shrink-0 w-full h-full">
                     <img
                       class="w-full h-full object-cover"
-                      src="/images/tenuta-facciata.jpg"
+                      src="/images/tenuta-facciata.webp"
                       alt="Facciata settecentesca della Tenuta Villa Guerra immersa nel giardino"
                       loading="lazy"
                     />
@@ -178,7 +198,7 @@ import LogoJose from '../components/LogoJose.astro';
                   <figure class="relative m-0 snap-center shrink-0 w-full h-full">
                     <img
                       class="w-full h-full object-cover"
-                      src="/images/tenuta-salone.jpg"
+                      src="/images/tenuta-salone.webp"
                       alt="Salone per eventi della Tenuta con soffitto a volta e bancone allestito"
                       loading="lazy"
                     />
@@ -188,7 +208,7 @@ import LogoJose from '../components/LogoJose.astro';
                   <figure class="relative m-0 snap-center shrink-0 w-full h-full">
                     <img
                       class="w-full h-full object-cover"
-                      src="/images/tenuta-portico.jpg"
+                      src="/images/tenuta-portico.webp"
                       alt="Porticato a volta della Tenuta Villa Guerra"
                       loading="lazy"
                     />
@@ -198,7 +218,7 @@ import LogoJose from '../components/LogoJose.astro';
                   <figure class="relative m-0 snap-center shrink-0 w-full h-full">
                     <img
                       class="w-full h-full object-cover"
-                      src="/images/tenuta-terrazza.jpg"
+                      src="/images/tenuta-terrazza.webp"
                       alt="Terrazza esterna coperta della Tenuta con tavoli rotondi affacciata sul giardino"
                       loading="lazy"
                     />
@@ -208,7 +228,7 @@ import LogoJose from '../components/LogoJose.astro';
                   <figure class="relative m-0 snap-center shrink-0 w-full h-full">
                     <img
                       class="w-full h-full object-cover"
-                      src="/images/tenuta-giardino.jpg"
+                      src="/images/tenuta-giardino.webp"
                       alt="Vialetto nel giardino della Tenuta Villa Guerra tra il verde e il pergolato"
                       loading="lazy"
                     />
@@ -313,7 +333,7 @@ import LogoJose from '../components/LogoJose.astro';
             <img
               alt="Tavoli allestiti nei giardini della Tenuta per un evento privato"
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              src="/images/tenuta-privati.jpg"
+              src="/images/tenuta-privati.webp"
             />
             <div
               class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
@@ -349,7 +369,7 @@ import LogoJose from '../components/LogoJose.astro';
               <img
                 alt="Sala allestita per un evento aziendale alla Tenuta Villa Guerra"
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                src="/images/tenuta-business.jpg"
+                src="/images/tenuta-business.webp"
               />
             </div>
             <div class="flex-1 p-7 flex flex-col justify-center">
@@ -379,7 +399,7 @@ import LogoJose from '../components/LogoJose.astro';
               <img
                 alt="Il parco della Tenuta Villa Guerra per cerimonie e ricorrenze"
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                src="/images/tenuta-private.jpg"
+                src="/images/tenuta-private.webp"
               />
             </div>
             <div class="flex-1 p-7 flex flex-col justify-center">

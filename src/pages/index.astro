@@ -46,6 +46,9 @@ import LogoJose from '../components/LogoJose.astro';
   <main
     class="relative w-full h-screen flex flex-col md:flex-row overflow-hidden group"
   >
+    <h1 class="sr-only">
+      Tenuta Villa Guerra &amp; Josè Restaurant — Eventi e Ristorante sul Vesuvio, Torre del Greco
+    </h1>
     <!-- Tenuta -->
     <section
       class="split-pane split-pane-villa relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden flex flex-col justify-center items-center px-12 pt-20 md:pt-0 text-center group/villa"
@@ -54,7 +57,8 @@ import LogoJose from '../components/LogoJose.astro';
         <img
           alt="Tenuta Villa Guerra"
           class="w-full h-full object-cover transform transition-transform duration-1000 group-hover/villa:scale-110"
-          src="/images/villa-facade.jpg"
+          src="/images/villa-facade.webp"
+          fetchpriority="high"
         />
         <div class="absolute inset-0 overlay-vignette"></div>
       </div>
@@ -89,6 +93,7 @@ import LogoJose from '../components/LogoJose.astro';
           alt="Josè Restaurant"
           class="w-full h-full object-cover transform transition-transform duration-1000 group-hover/jose:scale-110"
           src="/fotoselezionehome.webp"
+          fetchpriority="high"
         />
         <div
           class="absolute inset-0 overlay-vignette"

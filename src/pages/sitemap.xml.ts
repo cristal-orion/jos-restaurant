@@ -1,10 +1,12 @@
 const site = 'https://tenutavillaguerra.it';
 
+// /cantina/ è esclusa: pagina orfana (non linkata da nav/footer) e con
+// immagini reali non ancora pronte (vedi noindex in src/pages/cantina.astro).
+// Va riaggiunta qui quando la pagina è pubblicabile.
 const pages = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/tenuta/', priority: '0.8', changefreq: 'monthly' },
   { path: '/jose/', priority: '0.8', changefreq: 'monthly' },
-  { path: '/cantina/', priority: '0.6', changefreq: 'monthly' },
 ];
 
 const lastmod = new Date().toISOString().slice(0, 10);
