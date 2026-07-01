@@ -1,0 +1,35 @@
+---
+import { localizedPath, type Locale } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  class?: string;
+}
+
+const { lang, class: className = '' } = Astro.props;
+const hrefIt = localizedPath('it', Astro.url);
+const hrefEn = localizedPath('en', Astro.url);
+---
+
+<div
+  class={`flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest ${className}`}
+  aria-label="Cambia lingua / Change language"
+>
+  <a
+    href={hrefIt}
+    hreflang="it"
+    lang="it"
+    aria-current={lang === 'it' ? 'true' : undefined}
+    class={lang === 'it' ? 'opacity-100' : 'opacity-50 hover:opacity-90 transition-opacity'}
+    >IT</a
+  >
+  <span aria-hidden="true" class="opacity-40">/</span>
+  <a
+    href={hrefEn}
+    hreflang="en"
+    lang="en"
+    aria-current={lang === 'en' ? 'true' : undefined}
+    class={lang === 'en' ? 'opacity-100' : 'opacity-50 hover:opacity-90 transition-opacity'}
+    >EN</a
+  >
+</div>

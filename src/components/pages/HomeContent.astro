@@ -1,0 +1,252 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Ristorante, eventi e cerimonie sul Vesuvio',
+      description:
+        'Tenuta Villa Guerra & Josè Restaurant: ristorante, eventi e cerimonie sul Vesuvio in una dimora storica dal fascino autentico.',
+    },
+    nav: { eventi: 'Eventi', ristorante: 'Ristorante', prenota: 'Prenota Ora' },
+    h1: 'Tenuta Villa Guerra & Josè Restaurant — Eventi e Ristorante sul Vesuvio, Torre del Greco',
+    villa: {
+      eyebrow: "L'Eredità Settecentesca",
+      heading: 'Tenuta Villa Guerra',
+      headingItalic: 'Eventi & Cerimonie',
+      cta: 'Entra nella Storia',
+    },
+    jose: {
+      eyebrow: 'Ritorno alla Terra',
+      tagline: "L'Autenticità del Vesuvio",
+      cta: 'Vivi il Gusto',
+    },
+    footer: {
+      contatti: 'Contatti',
+      doveSiamo: 'Dove Siamo',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+    },
+  },
+  en: {
+    meta: {
+      title: 'Restaurant, events and celebrations on Vesuvius',
+      description:
+        'Tenuta Villa Guerra & Josè Restaurant: restaurant, events and celebrations on Vesuvius in a historic estate with authentic charm.',
+    },
+    nav: { eventi: 'Events', ristorante: 'Restaurant', prenota: 'Book Now' },
+    h1: 'Tenuta Villa Guerra & Josè Restaurant — Events and Restaurant on Vesuvius, Torre del Greco',
+    villa: {
+      eyebrow: 'An 18th-Century Legacy',
+      heading: 'Tenuta Villa Guerra',
+      headingItalic: 'Events & Celebrations',
+      cta: 'Step Into History',
+    },
+    jose: {
+      eyebrow: 'A Return to the Land',
+      tagline: 'The Authentic Taste of Vesuvius',
+      cta: 'Live the Flavor',
+    },
+    footer: {
+      contatti: 'Contact',
+      doveSiamo: 'Find Us',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+    },
+  },
+} as const;
+
+const t = dict[lang];
+const villaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const joseContattiHref = localizedPath(lang, new URL('/jose#contatti', Astro.site));
+const tenutaContattiHref = localizedPath(lang, new URL('/tenuta#contatti', Astro.site));
+const joseDoveSiamoHref = localizedPath(lang, new URL('/jose#dove-siamo', Astro.site));
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-background text-on-background font-body-md overflow-hidden"
+  lang={lang}
+>
+  <nav
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
+  >
+    <div class="flex items-center gap-4">
+      <a
+        href={homeHref}
+        class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+        aria-label="Villa Guerra & Josè — home"
+      >
+        <span
+          class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+          >Villa Guerra &amp;</span
+        >
+        <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+      </a>
+    </div>
+    <div class="hidden md:flex gap-8 items-center">
+      <a
+        class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={villaHref}>{t.nav.eventi}</a
+      >
+      <a
+        class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
+      {/* <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      <a
+        href={joseContattiHref}
+        class="bg-primary-container text-on-primary-container px-6 py-2 font-label-sm text-label-sm uppercase hover:opacity-80 transition-opacity"
+        >{t.nav.prenota}</a
+      >
+    </div>
+  </nav>
+
+  <main
+    class="relative w-full h-screen flex flex-col md:flex-row overflow-hidden group"
+  >
+    <h1 class="sr-only">
+      {t.h1}
+    </h1>
+    <!-- Tenuta -->
+    <section
+      class="split-pane split-pane-villa relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden flex flex-col justify-center items-center px-12 pt-20 md:pt-0 text-center group/villa"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          alt="Tenuta Villa Guerra"
+          class="w-full h-full object-cover transform transition-transform duration-1000 group-hover/villa:scale-110"
+          src="/images/villa-facade.webp"
+          fetchpriority="high"
+        />
+        <div class="absolute inset-0 overlay-vignette"></div>
+      </div>
+      <div class="relative z-10 flex flex-col items-center">
+        <span
+          class="font-label-sm text-label-sm text-silk-white tracking-[0.3em] uppercase mb-4 opacity-80"
+          >{t.villa.eyebrow}</span
+        >
+        <h2 class="font-headline-lg text-3xl sm:text-headline-lg text-silk-white mb-6 break-words">
+          {t.villa.heading} <br />
+          <span class="italic font-normal opacity-90">{t.villa.headingItalic}</span>
+        </h2>
+        <a
+          class="group/btn inline-flex items-center gap-3 bg-silk-white text-lava-stone px-10 py-4 font-label-sm text-label-sm uppercase tracking-widest hover:bg-antique-gold hover:text-silk-white transition-all duration-300"
+          href={villaHref}
+        >
+          {t.villa.cta}
+          <span
+            class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform"
+            >arrow_forward</span
+          >
+        </a>
+      </div>
+    </section>
+
+    <!-- Josè -->
+    <section
+      class="split-pane split-pane-jose relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden flex flex-col justify-center items-center px-12 pb-28 md:pb-0 text-center group/jose"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          alt="Josè Restaurant"
+          class="w-full h-full object-cover transform transition-transform duration-1000 group-hover/jose:scale-110"
+          src="/fotoselezionehome.webp"
+          fetchpriority="high"
+        />
+        <div
+          class="absolute inset-0 overlay-vignette"
+          style="background: linear-gradient(to bottom, rgba(45,90,39,0.3) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.8) 100%);"
+        >
+        </div>
+      </div>
+      <div class="relative z-10 flex flex-col items-center">
+        <span
+          class="font-label-sm text-label-sm text-silk-white tracking-[0.3em] uppercase mb-5 opacity-80"
+          >{t.jose.eyebrow}</span
+        >
+        <LogoJose class="h-16 sm:h-20 w-auto text-silk-white mb-5" />
+        <p class="font-headline-lg text-3xl sm:text-4xl text-silk-white italic opacity-90 mb-6 break-words">
+          {t.jose.tagline}
+        </p>
+        <a
+          class="group/btn-jose inline-flex items-center gap-3 bg-terracotta text-silk-white px-10 py-4 font-label-sm text-label-sm uppercase tracking-widest hover:bg-vesuvius-green transition-all duration-300"
+          href={joseHref}
+        >
+          {t.jose.cta}
+          <span
+            class="material-symbols-outlined group-hover/btn-jose:translate-x-1 transition-transform"
+            >restaurant</span
+          >
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer
+    class="fixed bottom-0 w-full py-6 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center z-50 pointer-events-none"
+  >
+    <div
+      class="pointer-events-auto flex gap-8 items-center bg-lava-stone/20 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10"
+    >
+      <a
+        class="font-label-sm text-label-sm text-silk-white uppercase hover:text-antique-gold transition-colors"
+        href={tenutaContattiHref}>{t.footer.contatti}</a
+      >
+      <a
+        class="font-label-sm text-label-sm text-silk-white uppercase hover:text-antique-gold transition-colors"
+        href={joseDoveSiamoHref}>{t.footer.doveSiamo}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-silk-white" />
+    </div>
+    <div class="hidden md:flex flex-col items-end pointer-events-auto">
+      <p
+        class="font-label-sm text-[10px] text-silk-white/60 tracking-widest uppercase"
+      >
+        {t.footer.copyright}
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const villaPane = document.querySelector<HTMLElement>('.split-pane-villa');
+    const josePane = document.querySelector<HTMLElement>('.split-pane-jose');
+
+    if (villaPane && josePane) {
+      villaPane.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) {
+          villaPane.style.width = '65%';
+          josePane.style.width = '35%';
+        }
+      });
+
+      josePane.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) {
+          villaPane.style.width = '35%';
+          josePane.style.width = '65%';
+        }
+      });
+
+      [villaPane, josePane].forEach((pane) => {
+        pane.addEventListener('mouseleave', () => {
+          if (window.innerWidth > 768) {
+            villaPane.style.width = '50%';
+            josePane.style.width = '50%';
+          }
+        });
+      });
+    }
+  </script>
+</Base>

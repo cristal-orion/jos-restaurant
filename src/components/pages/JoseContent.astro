@@ -1,0 +1,1031 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  it: {
+    meta: {
+      title: "Josè Restaurant | Oltre le etichette — Torre del Greco, Vesuvio",
+      description:
+        'Josè Restaurant: ristorante e pizzeria a Torre del Greco, un ritorno alla terra e ai sapori autentici del Vesuvio, oltre le etichette.',
+      cuisine: ['Cucina campana', 'Pizza napoletana', 'Pesce'],
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    hero: {
+      imgAlt: 'Spaghetti gourmet ai frutti di mare di Josè Restaurant',
+      h1: "Oltre le etichette, verso l'autenticità",
+      subtitle:
+        "Un ritorno alla terra, ai sapori nudi del Vesuvio, liberati dai formalismi per riscoprire l'anima vera dell'ospitalità campana.",
+    },
+    manifesto: {
+      eyebrow: 'Il Nostro Manifesto',
+      heading: 'La cucina è un atto di resistenza contro la standardizzazione del gusto.',
+      p1: "A Josè Restaurant, abbiamo scelto di spogliarci delle sovrastrutture. Non cerchiamo la perfezione geometrica nel piatto, ma la vibrazione del sapore che nasce quando un ingrediente incontra la mano di chi lo rispetta.",
+      p2: "Il Vesuvio non è solo uno sfondo, è l'ingrediente segreto: la pietra lavica che trattiene il sole, la cenere che nutre le radici, l'aria salmastra che scivola giù dal cratere. Ogni boccone è una geologia del gusto, un ritorno a casa senza passare per vie già battute.",
+      cta: 'Sfoglia la carta',
+      carouselAria: 'I piatti di cucina di Josè Restaurant',
+      dotsAria: 'Vai al piatto',
+      prevAria: 'Piatto precedente',
+      nextAria: 'Piatto successivo',
+      itemLabel: 'Piatto',
+      alts: [
+        'Piatto gourmet di mare di Josè Restaurant',
+        'Pasta con frutti di mare di Josè Restaurant',
+        'Pasta fresca della carta di Josè Restaurant',
+        'Creazione dello chef impiattata',
+      ],
+      quote: '«Il sapore non mente mai.»',
+    },
+    pizzeria: {
+      eyebrow: 'Pizzeria · Casual · Aprile – Settembre',
+      heading: 'La Pizza in Giardino',
+      p1: "Accanto alla cucina, una proposta più informale: pizze gourmet con farine selezionate, lievitazioni lente e ingredienti del territorio, cotte nel forno a legna.",
+      p2: "Le serviamo nell'atmosfera rilassata dei giardini della Villa, da aprile a settembre, quando il Vesuvio si gode all'aperto.",
+      cta: 'Prenota un tavolo',
+      carouselAria: 'Le pizze di Josè',
+      dotsAria: 'Vai alla pizza',
+      prevAria: 'Pizza precedente',
+      nextAria: 'Pizza successiva',
+      itemLabel: 'Pizza',
+      alts: [
+        'Pizza margherita con basilico e pomodorini dal forno a legna di Josè',
+        'Pizza con fiori di zucca e crema di pesto di Josè Restaurant',
+        'Pizza con salmone, insalata e pomodorini di Josè Restaurant',
+        'Pizza gourmet dal forno a legna di Josè Restaurant',
+        'Pizze in cottura nel forno a legna acceso di Josè',
+        'Gli chef di Josè servono le pizze appena sfornate',
+      ],
+    },
+    proposta: {
+      heading: 'La Proposta',
+      intro:
+        'Un dialogo stagionale tra orto e mare, dove ogni ricetta è un frammento di storia vesuviana reinterpretata con occhi contemporanei.',
+      cards: [
+        {
+          alt: "Piatto di stagione con le verdure dell'orto vulcanico",
+          title: "L'Orto Vulcanico",
+          desc: 'Stagionalità cruda e autentica.',
+        },
+        {
+          alt: "Piatto gourmet: l'evoluzione contemporanea della tradizione",
+          title: 'Visioni Contemporanee',
+          desc: "L'evoluzione della tradizione.",
+        },
+        {
+          alt: 'Tavola apparecchiata con i vini del territorio vesuviano',
+          title: 'Vini dal Cratere',
+          desc: 'Etichette eroiche e territoriali.',
+        },
+      ],
+    },
+    menu: {
+      heading: 'La Carta',
+      intro:
+        'Il menù è stagionale e cambia con quello che la terra e il mare offrono. I prezzi indicati sono per portata, sulla carta del momento.',
+      categories: [
+        {
+          heading: 'Antipasti',
+          price: '€16 – 20',
+          items: [
+            { text: 'Scarola imbottita, alici del Cantabrico e spuma di fagioli tondini' },
+            { text: 'Millefoglie di melanzane in parmigiana', note: '· tradizione pura' },
+            { text: 'Carpaccio di tonno rosso e bruschetta al pomodoro' },
+            { text: 'Tagliatella di seppia con variazione di zucchine alla scapece' },
+          ],
+        },
+        {
+          heading: 'Primi Piatti',
+          price: '€18 – 26',
+          items: [
+            { text: "Taglioni all'uovo alla Nerano", note: "· il classico intramontabile" },
+            { text: 'Chicche di patate con piselli, scampi e tartufo nero' },
+            { text: 'Minestra di pasta, riccio di mare, patelle e sconcigli' },
+            { text: 'Risotto con astice e sfusato amalfitano', note: '· min. 2 persone' },
+          ],
+        },
+        {
+          heading: 'Secondi Piatti',
+          price: '€20 – 35',
+          items: [
+            { text: 'Maiale nero in lenta cottura con taccole alla pizzaiola' },
+            { text: 'Entrecôte alla griglia con rucola e funghi cardoncelli' },
+            { text: 'Baccalà fritto con salsa alla «bella donna»' },
+            { text: 'Fritto di gamberi e calamari freschi' },
+            { text: 'Misto di pesce alla griglia con verdurine al salto' },
+          ],
+        },
+      ],
+    },
+    booking: {
+      heading: 'Prenota la tua esperienza',
+      p1: 'Assicurati un tavolo a Josè Restaurant. Lasciati guidare attraverso un percorso dove il tempo si ferma e il sapore diventa protagonista.',
+      addressLabel: 'Via Nazionale, 414 - 80059 Torre del Greco (NA)',
+      p2: 'Scegli la data, l\'orario e il numero di ospiti: compila il modulo di prenotazione e ti confermeremo il tuo tavolo a Josè Restaurant.',
+      cta: 'Prenota il tuo tavolo',
+    },
+    location: {
+      eyebrow: 'Dove siamo',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA)',
+      cta: 'Apri in Google Maps',
+      mapTitle: 'Mappa di Josè Restaurant — Via Nazionale 414, Torre del Greco',
+    },
+    footer: {
+      taglineLine1: 'Due anime, un\'unica terra.',
+      taglineLine2: 'Il Vesuvio tra le mani.',
+      cta: 'Prenota un tavolo',
+      doveSiamo: 'Dove siamo',
+      contatti: 'Contatti',
+      esplora: 'Esplora',
+      laCarta: 'La Carta',
+      eventiVilla: 'Eventi Villa Guerra',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Napoli',
+    },
+  },
+  en: {
+    meta: {
+      title: 'Josè Restaurant | Beyond Labels — Torre del Greco, Vesuvius',
+      description:
+        "Josè Restaurant: restaurant and pizzeria in Torre del Greco, a return to the land and the authentic flavors of Vesuvius, beyond labels.",
+      cuisine: ['Campanian cuisine', 'Neapolitan pizza', 'Seafood'],
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    hero: {
+      imgAlt: 'Gourmet seafood spaghetti at Josè Restaurant',
+      h1: 'Beyond labels, toward authenticity',
+      subtitle:
+        'A return to the land, to the bare flavors of Vesuvius, freed from formality to rediscover the true soul of Campanian hospitality.',
+    },
+    manifesto: {
+      eyebrow: 'Our Manifesto',
+      heading: 'Cooking is an act of resistance against the standardization of taste.',
+      p1: "At Josè Restaurant, we've chosen to strip away the superstructures. We don't seek geometric perfection on the plate, but the vibration of flavor that arises when an ingredient meets the hand of someone who respects it.",
+      p2: "Vesuvius isn't just a backdrop, it's the secret ingredient: the volcanic rock that holds the sun, the ash that feeds the roots, the salt-laden air drifting down from the crater. Every bite is a geology of flavor, a homecoming that skips the well-worn paths.",
+      cta: 'Browse the Menu',
+      carouselAria: 'The kitchen dishes at Josè Restaurant',
+      dotsAria: 'Go to dish',
+      prevAria: 'Previous dish',
+      nextAria: 'Next dish',
+      itemLabel: 'Dish',
+      alts: [
+        'Gourmet seafood dish at Josè Restaurant',
+        'Seafood pasta at Josè Restaurant',
+        'Fresh pasta from the Josè Restaurant menu',
+        "Chef's plated creation",
+      ],
+      quote: '«Flavor never lies.»',
+    },
+    pizzeria: {
+      eyebrow: 'Pizzeria · Casual · April – September',
+      heading: 'Pizza in the Garden',
+      p1: 'Alongside the kitchen, a more casual offering: gourmet pizzas with selected flours, slow fermentation and local ingredients, baked in a wood-fired oven.',
+      p2: "We serve them in the relaxed atmosphere of the Villa's gardens, from April to September, when Vesuvius is best enjoyed outdoors.",
+      cta: 'Book a Table',
+      carouselAria: "Josè's pizzas",
+      dotsAria: 'Go to pizza',
+      prevAria: 'Previous pizza',
+      nextAria: 'Next pizza',
+      itemLabel: 'Pizza',
+      alts: [
+        "Margherita pizza with basil and cherry tomatoes from Josè's wood-fired oven",
+        'Pizza with courgette flowers and pesto cream at Josè Restaurant',
+        'Pizza with salmon, salad and cherry tomatoes at Josè Restaurant',
+        "Gourmet pizza from Josè Restaurant's wood-fired oven",
+        "Pizzas baking in Josè's lit wood-fired oven",
+        "Josè's chefs serving freshly baked pizzas",
+      ],
+    },
+    proposta: {
+      heading: 'Our Offering',
+      intro:
+        'A seasonal dialogue between garden and sea, where every recipe is a fragment of Vesuvian history reinterpreted through contemporary eyes.',
+      cards: [
+        {
+          alt: 'Seasonal dish with vegetables from the volcanic garden',
+          title: 'The Volcanic Garden',
+          desc: 'Raw, authentic seasonality.',
+        },
+        {
+          alt: 'Gourmet dish: the contemporary evolution of tradition',
+          title: 'Contemporary Visions',
+          desc: 'The evolution of tradition.',
+        },
+        {
+          alt: 'Table set with wines from the Vesuvian territory',
+          title: 'Wines from the Crater',
+          desc: 'Heroic, territorial labels.',
+        },
+      ],
+    },
+    menu: {
+      heading: 'The Menu',
+      intro:
+        'The menu is seasonal and changes with what the land and sea offer. Prices shown are per dish, on the current menu.',
+      categories: [
+        {
+          heading: 'Starters',
+          price: '€16 – 20',
+          items: [
+            { text: 'Stuffed escarole, Cantabrian anchovies and tondino bean foam' },
+            { text: 'Aubergine parmigiana millefeuille', note: '· pure tradition' },
+            { text: 'Red tuna carpaccio with tomato bruschetta' },
+            { text: 'Cuttlefish tagliatelle with courgette scapece variations' },
+          ],
+        },
+        {
+          heading: 'First Courses',
+          price: '€18 – 26',
+          items: [
+            { text: 'Egg taglioni alla Nerano', note: '· the timeless classic' },
+            { text: 'Potato gnocchi with peas, scampi and black truffle' },
+            { text: 'Pasta soup with sea urchin, limpets and sea snails' },
+            { text: 'Risotto with lobster and Amalfi lemon', note: '· min. 2 people' },
+          ],
+        },
+        {
+          heading: 'Main Courses',
+          price: '€20 – 35',
+          items: [
+            { text: 'Slow-cooked black pork with pizzaiola-style mangetout' },
+            { text: 'Grilled entrecôte with rocket and cardoncelli mushrooms' },
+            { text: 'Fried salt cod with «bella donna» sauce' },
+            { text: 'Fried fresh prawns and squid' },
+            { text: 'Grilled mixed fish with sautéed vegetables' },
+          ],
+        },
+      ],
+    },
+    booking: {
+      heading: 'Book Your Experience',
+      p1: "Secure your table at Josè Restaurant. Let yourself be guided through a journey where time stands still and flavor takes center stage.",
+      addressLabel: 'Via Nazionale, 414 - 80059 Torre del Greco (NA), Italy',
+      p2: "Choose the date, time and number of guests: fill in the booking form and we'll confirm your table at Josè Restaurant.",
+      cta: 'Book Your Table',
+    },
+    location: {
+      eyebrow: 'Find Us',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA), Italy',
+      cta: 'Open in Google Maps',
+      mapTitle: 'Map of Josè Restaurant — Via Nazionale 414, Torre del Greco',
+    },
+    footer: {
+      taglineLine1: 'Two souls, one land.',
+      taglineLine2: 'Vesuvius in your hands.',
+      cta: 'Book a Table',
+      doveSiamo: 'Find Us',
+      contatti: 'Contact',
+      esplora: 'Explore',
+      laCarta: 'The Menu',
+      eventiVilla: 'Villa Guerra Events',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Naples',
+    },
+  },
+} as const;
+
+const t = dict[lang];
+
+const restaurantSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'Josè Restaurant',
+  image: 'https://tenutavillaguerra.it/images/jose-hero-gourmet.jpg',
+  url: new URL(localizedPath(lang, new URL('/jose', Astro.site)), Astro.site).toString(),
+  telephone: '+390818836298',
+  priceRange: '€€ - €€€',
+  servesCuisine: t.meta.cuisine,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Via Nazionale, 414',
+    addressLocality: 'Torre del Greco',
+    addressRegion: 'NA',
+    postalCode: '80059',
+    addressCountry: 'IT',
+  },
+  menu: new URL(`${localizedPath(lang, new URL('/jose', Astro.site))}#menu`, Astro.site).toString(),
+};
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface selection:bg-terracotta selection:text-white"
+  schema={restaurantSchema}
+  lang={lang}
+>
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
+  >
+    <div class="flex items-center gap-4">
+      <a
+        href={homeHref}
+        class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+        aria-label="Villa Guerra & Josè — home"
+      >
+        <span
+          class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+          >Villa Guerra &amp;</span
+        >
+        <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+      </a>
+    </div>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-primary border-b-2 border-antique-gold pb-1"
+        href={joseHref}
+        aria-current="page">{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
+      {/* <a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <div class="flex items-center gap-6">
+      <a
+        href="#contatti"
+        class="hidden sm:inline-block bg-terracotta text-lava-stone px-6 py-2 font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
+        >{t.nav.prenota}</a
+      >
+      <button
+        id="menu-toggle"
+        class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+        aria-label={t.aria.openMenu}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-label-open={t.aria.openMenu}
+        data-label-close={t.aria.closeMenu}
+        >menu</button
+      >
+    </div>
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20"
+        href={joseHref}
+        aria-current="page">{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
+      {/* <a class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20" href="/cantina">Cantina</a> */}
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+      <a
+        href="#contatti"
+        class="mt-4 bg-terracotta text-lava-stone px-6 py-3 text-center font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
+        >{t.nav.prenota}</a
+      >
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="relative h-[90vh] overflow-hidden">
+      <div class="absolute inset-0">
+        <img
+          alt={t.hero.imgAlt}
+          class="w-full h-full object-cover"
+          src="/images/jose-hero-gourmet.jpg"
+          fetchpriority="high"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-lava-stone via-lava-stone/70 via-35% to-transparent to-70%"
+        >
+        </div>
+      </div>
+      <div
+        class="relative h-full flex flex-col items-center justify-end pb-32 px-margin-mobile md:px-margin-desktop text-center"
+      >
+        <h1
+          class="font-headline-display text-[2.25rem] sm:text-5xl md:text-headline-display text-silk-white max-w-4xl mb-6 break-words"
+        >
+          {t.hero.h1}
+        </h1>
+        <p class="font-body-lg text-body-lg text-silk-white/90 max-w-2xl">
+          {t.hero.subtitle}
+        </p>
+        <div class="mt-12 animate-bounce">
+          <span class="material-symbols-outlined text-silk-white text-4xl"
+            >keyboard_double_arrow_down</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="py-24 bg-surface px-margin-mobile md:px-margin-desktop">
+      <div
+        class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center"
+      >
+        <div class="space-y-8">
+          <span
+            class="text-label-sm font-label-sm text-vesuvius-green tracking-widest uppercase"
+            >{t.manifesto.eyebrow}</span
+          >
+          <div
+            class="font-headline-lg text-3xl sm:text-4xl md:text-headline-lg text-on-surface leading-tight break-words"
+          >
+            {t.manifesto.heading}
+          </div>
+          <div
+            class="font-body-lg text-body-lg text-on-surface-variant space-y-6"
+          >
+            <p>{t.manifesto.p1}</p>
+            <p>{t.manifesto.p2}</p>
+          </div>
+          <a
+            href="#menu"
+            class="group inline-flex items-center gap-3 text-primary font-bold"
+          >
+            <span class="font-label-sm text-label-sm uppercase">{t.manifesto.cta}</span>
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >east</span
+            >
+          </a>
+        </div>
+        <div class="relative">
+          <div class="aspect-[4/5] bg-vesuvius-green overflow-hidden">
+            <div
+              id="proposta-carousel"
+              class="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
+              aria-roledescription="carosello"
+              aria-label={t.manifesto.carouselAria}
+              data-item-label={t.manifesto.itemLabel}
+              data-of-word={lang === 'en' ? 'of' : 'di'}
+              tabindex="0"
+            >
+              {t.manifesto.alts.map((alt, i) => (
+                <img
+                  class="snap-center shrink-0 w-full h-full object-cover"
+                  src={`/images/${['jose-piatto-3.jpg', 'jose-pasta-mare.jpg', 'jose-piatto-2.jpg', 'jose-piatto-4.jpg'][i]}`}
+                  alt={alt}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <!-- controlli carosello -->
+            <div class="absolute bottom-4 right-4 z-10 flex items-center gap-3">
+              <div
+                class="proposta-dots flex items-center gap-1.5"
+                role="tablist"
+                aria-label={t.manifesto.dotsAria}
+              >
+              </div>
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  data-carousel="prev"
+                  aria-label={t.manifesto.prevAria}
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_left</span>
+                </button>
+                <button
+                  type="button"
+                  data-carousel="next"
+                  aria-label={t.manifesto.nextAria}
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -bottom-12 -left-12 bg-terracotta p-12 hidden md:block z-20 pointer-events-none">
+            <span class="text-lava-stone font-headline-md text-headline-md italic"
+              >{t.manifesto.quote}</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pizzeria -->
+    <section
+      id="pizzeria"
+      class="py-24 bg-surface-container px-margin-mobile md:px-margin-desktop scroll-mt-20"
+    >
+      <div
+        class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center"
+      >
+        <!-- Carosello pizze -->
+        <div class="relative order-2 lg:order-1">
+          <div class="aspect-[4/5] bg-lava-stone overflow-hidden">
+            <div
+              id="pizzeria-carousel"
+              class="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar"
+              aria-roledescription="carosello"
+              aria-label={t.pizzeria.carouselAria}
+              data-item-label={t.pizzeria.itemLabel}
+              data-of-word={lang === 'en' ? 'of' : 'di'}
+              tabindex="0"
+            >
+              {t.pizzeria.alts.map((alt, i) => (
+                <img
+                  class="snap-center shrink-0 w-full h-full object-cover"
+                  src={`/images/${['jose-pizza-margherita.webp', 'jose-pizza-fiori.jpg', 'jose-pizza-salmone.jpg', 'jose-pizza.jpg', 'jose-forno-fiamme.jpg', 'jose-forno-servizio.jpg'][i]}`}
+                  alt={alt}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <!-- controlli carosello -->
+            <div class="absolute bottom-4 right-4 z-10 flex items-center gap-3">
+              <div
+                class="pizzeria-dots flex items-center gap-1.5"
+                role="tablist"
+                aria-label={t.pizzeria.dotsAria}
+              >
+              </div>
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  data-carousel="prev"
+                  aria-label={t.pizzeria.prevAria}
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_left</span>
+                </button>
+                <button
+                  type="button"
+                  data-carousel="next"
+                  aria-label={t.pizzeria.nextAria}
+                  class="grid place-items-center h-9 w-9 bg-lava-stone/70 backdrop-blur-sm text-silk-white hover:bg-terracotta hover:text-lava-stone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white"
+                >
+                  <span class="material-symbols-outlined text-[20px] leading-none">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Testo pizzeria -->
+        <div class="space-y-8 order-1 lg:order-2">
+          <span
+            class="text-label-sm font-label-sm text-terracotta tracking-widest uppercase"
+            >{t.pizzeria.eyebrow}</span
+          >
+          <div
+            class="font-headline-lg text-3xl sm:text-4xl md:text-headline-lg text-on-surface leading-tight break-words"
+          >
+            {t.pizzeria.heading}
+          </div>
+          <div class="font-body-lg text-body-lg text-on-surface-variant space-y-6">
+            <p>{t.pizzeria.p1}</p>
+            <p>{t.pizzeria.p2}</p>
+          </div>
+          <a
+            href="#contatti"
+            class="group inline-flex items-center gap-3 text-primary font-bold"
+          >
+            <span class="font-label-sm text-label-sm uppercase">{t.pizzeria.cta}</span>
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >east</span
+            >
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- La Proposta -->
+    <section class="bg-lava-stone py-24 px-margin-mobile md:px-margin-desktop overflow-hidden">
+      <div class="max-w-container-max mx-auto">
+        <div class="max-w-xl mb-16">
+          <h2 class="font-headline-lg text-headline-lg text-silk-white mb-4">
+            {t.proposta.heading}
+          </h2>
+          <p class="font-body-md text-body-md text-surface-variant">
+            {t.proposta.intro}
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+          {t.proposta.cards.map((card, i) => (
+            <div class:list={["group relative aspect-square overflow-hidden", i === 1 && 'bg-terracotta/20']}>
+              <img
+                alt={card.alt}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                src={`/images/${['jose-orto.jpg', 'jose-gourmet.jpg', 'jose-vini.jpg'][i]}`}
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex flex-col justify-end p-8"
+              >
+                <h3 class="font-headline-md text-headline-md text-silk-white">
+                  {card.title}
+                </h3>
+                <p class="text-surface-variant font-body-md">
+                  {card.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- La Carta / Menù -->
+    <section
+      id="menu"
+      class="py-24 md:py-28 px-margin-mobile md:px-margin-desktop bg-surface scroll-mt-20"
+    >
+      <div class="max-w-container-max mx-auto">
+        <div class="max-w-2xl mx-auto text-center mb-14">
+          <h2 class="font-headline-lg text-headline-lg text-on-surface leading-tight">
+            {t.menu.heading}
+          </h2>
+          <p class="mt-4 font-body-lg text-body-lg text-on-surface-variant">
+            {t.menu.intro}
+          </p>
+        </div>
+
+        <div class="max-w-2xl mx-auto space-y-16">
+          {t.menu.categories.map((category) => (
+            <div>
+              <div
+                class="flex items-baseline justify-center gap-4 border-b border-outline-variant/50 pb-3 mb-6"
+              >
+                <h3 class="font-headline-md text-headline-md text-primary">{category.heading}</h3>
+                <span
+                  class="font-label-sm text-label-sm text-terracotta whitespace-nowrap"
+                  >{category.price}</span
+                >
+              </div>
+              <ul class="space-y-5 text-center">
+                {category.items.map((item) => (
+                  <li class="font-body-lg text-body-lg text-on-surface leading-snug">
+                    {item.text}{item.note && (
+                      <span class="text-on-surface-variant italic"> {item.note}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Prenotazione -->
+    <section id="contatti" class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container">
+      <div
+        class="max-w-[1000px] mx-auto bg-white shadow-2xl overflow-hidden flex flex-col md:flex-row"
+      >
+        <div
+          class="md:w-1/2 bg-vesuvius-green p-12 text-silk-white flex flex-col justify-between"
+        >
+          <div>
+            <h2 class="font-headline-lg text-headline-lg mb-6">
+              {t.booking.heading}
+            </h2>
+            <p class="font-body-md text-body-md opacity-80">
+              {t.booking.p1}
+            </p>
+          </div>
+          <div class="mt-12 space-y-4">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-terracotta">phone</span>
+              <span class="font-label-sm text-label-sm">+39 081 883 6298</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-terracotta"
+                >location_on</span
+              >
+              <span class="font-label-sm text-label-sm"
+                >{t.booking.addressLabel}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2 p-12 bg-silk-white flex flex-col justify-center items-start gap-6">
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            {t.booking.p2}
+          </p>
+          <a
+            href="https://mqv9bou19i9twdl5va81fbt5e4ndsmyt.forms.pienissimo.pro/info-client?id=Fl7E3J"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-3 bg-lava-stone text-terracotta px-8 py-4 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+          >
+            {t.booking.cta}
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >arrow_forward</span
+            >
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dove siamo: mappa del locale -->
+    <section
+      id="dove-siamo"
+      class="bg-lava-stone text-silk-white pt-20 md:pt-24 px-margin-mobile md:px-margin-desktop"
+    >
+      <div class="max-w-container-max mx-auto">
+        <div
+          class="flex flex-col gap-4 mb-8 md:flex-row md:items-end md:justify-between"
+        >
+          <div>
+            <h2
+              class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold mb-3"
+            >
+              {t.location.eyebrow}
+            </h2>
+            <p class="font-headline-lg text-headline-lg leading-tight">
+              {t.location.address}<br class="sm:hidden" /> {t.location.addressLine2}
+            </p>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Via+Nazionale+414+80059+Torre+del+Greco+NA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-2 self-start whitespace-nowrap font-label-sm text-label-sm uppercase tracking-widest text-antique-gold hover:text-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold"
+          >
+            {t.location.cta}
+            <span
+              class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >arrow_outward</span
+            >
+          </a>
+        </div>
+        <div
+          class="overflow-hidden rounded-xl border border-silk-white/15 shadow-2xl"
+        >
+          <iframe
+            title={t.location.mapTitle}
+            src="https://www.google.com/maps?q=Via%20Nazionale%20414%2C%2080059%20Torre%20del%20Greco%20NA&output=embed"
+            width="100%"
+            height="440"
+            style="border:0; display:block;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-lava-stone text-silk-white">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <!-- Riga superiore: logo + claim + CTA -->
+      <div
+        class="py-14 md:py-16 flex flex-col gap-10 md:flex-row md:items-end md:justify-between border-b border-silk-white/15"
+      >
+        <div>
+          <a href={homeHref} aria-label="Villa Guerra & Josè — home" class="inline-block">
+            <LogoJose class="h-12 md:h-14 w-auto text-silk-white" />
+          </a>
+          <p
+            class="mt-6 font-headline-md text-headline-md italic text-silk-white/85 leading-snug max-w-md"
+          >
+            {t.footer.taglineLine1}<br class="hidden sm:block" /> {t.footer.taglineLine2}
+          </p>
+        </div>
+        <a
+          href="#contatti"
+          class="group inline-flex items-center justify-center gap-3 self-start whitespace-nowrap bg-terracotta text-lava-stone px-8 py-4 font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
+        >
+          {t.footer.cta}
+          <span
+            class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+            >arrow_forward</span
+          >
+        </a>
+      </div>
+
+      <!-- Riga centrale: contatti + esplora -->
+      <div class="py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.doveSiamo}
+          </h4>
+          <a
+            href="#dove-siamo"
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors leading-relaxed"
+            >{t.location.address}<br />{t.location.addressLine2}</a
+          >
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.contatti}
+          </h4>
+          <a
+            href="tel:+390818836298"
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >+39 081 883 6298</a
+          >
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.esplora}
+          </h4>
+          <a
+            href="#menu"
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.laCarta}</a
+          >
+          <a
+            href={tenutaHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.eventiVilla}</a
+          >
+          {/* "La Cantina" nascosta finché la pagina /cantina resta non pubblica. */}
+        </div>
+      </div>
+
+      <!-- Riga inferiore: copyright -->
+      <div
+        class="py-6 border-t border-silk-white/10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p class="text-label-sm font-label-sm text-silk-white/45">
+          {t.footer.copyright}
+        </p>
+        <p class="text-label-sm font-label-sm text-silk-white/45 uppercase tracking-widest">
+          {t.footer.location}
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll per le ancore interne
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (this: HTMLAnchorElement, e) {
+        const id = this.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+    });
+
+    // Ombra header allo scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (!header) return;
+      header.classList.toggle('shadow-md', window.scrollY > 50);
+    });
+
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+
+    // Caroselli (manifesto cucina + pizzeria): stessa logica, due istanze
+    function initCarousel(carousel: HTMLElement | null, dotsWrap: HTMLElement | null) {
+      const stage = carousel?.parentElement ?? null;
+      if (!carousel || !dotsWrap || !stage) return;
+      const itemLabel = carousel.dataset.itemLabel ?? '';
+      const ofWord = carousel.dataset.ofWord ?? 'di';
+      const slides = Array.from(carousel.children) as HTMLElement[];
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const dots: HTMLButtonElement[] = [];
+      let index = 0;
+      let timer: number | undefined;
+
+      const render = () => {
+        dots.forEach((d, i) => {
+          const active = i === index;
+          d.style.width = active ? '18px' : '6px';
+          d.classList.toggle('bg-silk-white', active);
+          d.classList.toggle('bg-silk-white/50', !active);
+          d.setAttribute('aria-selected', String(active));
+        });
+      };
+
+      const go = (i: number, user = false) => {
+        index = (i + slides.length) % slides.length;
+        carousel.scrollTo({ left: slides[index].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+        render();
+        if (user) restart();
+      };
+
+      const stop = () => {
+        if (timer) {
+          clearInterval(timer);
+          timer = undefined;
+        }
+      };
+      const start = () => {
+        if (reduce) return;
+        stop();
+        timer = window.setInterval(() => go(index + 1), 5000);
+      };
+      const restart = () => {
+        stop();
+        start();
+      };
+
+      // puntini
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-label', `${itemLabel} ${i + 1} ${ofWord} ${slides.length}`);
+        b.className =
+          'h-1.5 rounded-full bg-silk-white/50 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silk-white';
+        b.style.width = '6px';
+        b.addEventListener('click', () => go(i, true));
+        dotsWrap.appendChild(b);
+        dots.push(b);
+      });
+
+      // sincronizza i puntini con lo swipe/scroll manuale
+      let raf: number | undefined;
+      carousel.addEventListener('scroll', () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const i = Math.round(carousel.scrollLeft / carousel.clientWidth);
+          if (i !== index) {
+            index = i;
+            render();
+          }
+        });
+      });
+
+      // frecce
+      stage.querySelectorAll<HTMLButtonElement>('[data-carousel]').forEach((btn) => {
+        btn.addEventListener('click', () =>
+          go(index + (btn.dataset.carousel === 'next' ? 1 : -1), true)
+        );
+      });
+
+      // tastiera (track focalizzabile)
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          go(index + 1, true);
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          go(index - 1, true);
+        }
+      });
+
+      // autoplay: in pausa su hover/focus/touch e a scheda nascosta; off con riduci-movimento
+      ['mouseenter', 'focusin', 'touchstart'].forEach((ev) =>
+        stage.addEventListener(ev, stop, { passive: true })
+      );
+      ['mouseleave', 'focusout'].forEach((ev) => stage.addEventListener(ev, start));
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+      render();
+      start();
+    }
+
+    initCarousel(
+      document.getElementById('proposta-carousel'),
+      document.querySelector<HTMLElement>('.proposta-dots')
+    );
+    initCarousel(
+      document.getElementById('pizzeria-carousel'),
+      document.querySelector<HTMLElement>('.pizzeria-dots')
+    );
+  </script>
+</Base>

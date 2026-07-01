@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { locales, localizedPath, type Locale } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -7,6 +8,7 @@ interface Props {
   bodyClass?: string;
   ogImage?: string;
   noindex?: boolean;
+  lang?: Locale;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
@@ -16,15 +18,17 @@ const {
   bodyClass = '',
   ogImage = '/images/link-preview-villa-guerra-jose.jpg',
   noindex = false,
+  lang = 'it',
   schema,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const absoluteOgImage = new URL(ogImage, Astro.site).toString();
+const ogLocale = lang === 'en' ? 'en_US' : 'it_IT';
 ---
 
 <!DOCTYPE html>
-<html class="light" lang="it">
+<html class="light" lang={lang}>
   <head>
     <!-- Google Tag Manager -->
     <script is:inline>
@@ -40,8 +44,14 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalURL} />
+    {!noindex && locales.map((locale) => (
+      <link rel="alternate" hreflang={locale} href={new URL(localizedPath(locale, Astro.url), Astro.site)} />
+    ))}
+    {!noindex && (
+      <link rel="alternate" hreflang="x-default" href={new URL(localizedPath('it', Astro.url), Astro.site)} />
+    )}
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="it_IT" />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

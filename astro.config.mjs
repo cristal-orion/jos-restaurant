@@ -6,4 +6,11 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   site: 'https://tenutavillaguerra.it',
   integrations: [tailwind()],
+  i18n: {
+    defaultLocale: 'it',
+    locales: ['it', 'en'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
 });
