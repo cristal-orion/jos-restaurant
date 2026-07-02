@@ -214,6 +214,7 @@ const venueSchema = {
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
 ---
 
 <Base
@@ -566,7 +567,7 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
           {t.form.intro}
         </p>
-        <form class="space-y-10 text-left">
+        <form id="evento-form" class="space-y-10 text-left" data-redirect={grazieHref}>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <label
@@ -773,6 +774,17 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
       });
       mobileMenu.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => setMenu(false));
+      });
+    }
+
+    // Form "Progetta il tuo evento": in attesa del collegamento a un backend/servizio email,
+    // dopo l'invio reindirizza alla pagina di ringraziamento (vedi README, sezione Note).
+    const eventoForm = document.getElementById('evento-form') as HTMLFormElement | null;
+    if (eventoForm) {
+      eventoForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const redirect = eventoForm.dataset.redirect;
+        if (redirect) window.location.href = redirect;
       });
     }
 

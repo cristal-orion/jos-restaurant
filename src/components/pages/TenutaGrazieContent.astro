@@ -1,0 +1,180 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Richiesta Inviata | Villa Guerra & Josè',
+      description: 'Abbiamo ricevuto la tua richiesta per il tuo evento alla Tenuta Villa Guerra. La nostra Event Manager ti contatterà a breve.',
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    eyebrow: 'Richiesta Inviata',
+    heading: 'Grazie per averci scritto',
+    body: 'Abbiamo ricevuto la tua richiesta. La nostra Event Manager la esaminerà e ti contatterà al più presto per iniziare a progettare il tuo evento insieme.',
+    cta: 'Torna alla pagina Eventi',
+    ctaJose: 'Scopri Josè Restaurant',
+  },
+  en: {
+    meta: {
+      title: 'Request Sent | Villa Guerra & Josè',
+      description: "We've received your event request for Tenuta Villa Guerra. Our Event Manager will contact you shortly.",
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    eyebrow: 'Request Sent',
+    heading: 'Thank you for reaching out',
+    body: "We've received your request. Our Event Manager will review it and get back to you shortly to start planning your event together.",
+    cta: 'Back to the Events page',
+    ctaJose: 'Discover Josè Restaurant',
+  },
+} as const;
+
+const t = dict[lang];
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
+  lang={lang}
+  noindex
+>
+  <!-- TopAppBar -->
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-50"
+  >
+    <a
+      href={homeHref}
+      class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+      aria-label="Villa Guerra & Josè — home"
+    >
+      <span
+        class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+        >Villa Guerra &amp;</span
+      >
+      <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <button
+      id="menu-toggle"
+      class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+      aria-label={t.aria.openMenu}
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-label-open={t.aria.openMenu}
+      data-label-close={t.aria.closeMenu}
+      >menu</button
+    >
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="min-h-[80vh] flex items-center px-margin-mobile md:px-margin-desktop bg-clotted-cream">
+      <div class="max-w-2xl mx-auto text-center py-24">
+        <span
+          class="material-symbols-outlined text-antique-gold text-5xl mb-6"
+          aria-hidden="true"
+          >mail</span
+        >
+        <p class="font-label-sm text-label-sm text-antique-gold tracking-[0.3em] uppercase mb-4">
+          {t.eyebrow}
+        </p>
+        <h1 class="font-headline-lg text-headline-lg text-primary mb-6 leading-tight">
+          {t.heading}
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-12 max-w-xl mx-auto">
+          {t.body}
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={tenutaHref}
+            class="inline-flex items-center justify-center whitespace-nowrap bg-primary text-silk-white px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-antique-gold transition-colors duration-300 ease-out"
+          >
+            {t.cta}
+          </a>
+          <a
+            href={joseHref}
+            class="inline-flex items-center justify-center whitespace-nowrap border border-primary text-primary px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary hover:text-silk-white transition-colors duration-300 ease-out"
+          >
+            {t.ctaJose}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 max-w-container-max mx-auto bg-surface-container-highest border-t border-outline-variant/30 text-center"
+  >
+    <div class="font-headline-md text-headline-md text-primary">Villa Guerra</div>
+    <p class="text-on-surface-variant text-body-md">
+      Via Nazionale, 414 — 80059 Torre del Greco (NA)
+    </p>
+  </footer>
+
+  <script>
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+  </script>
+</Base>
