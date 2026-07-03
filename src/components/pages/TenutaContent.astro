@@ -215,6 +215,8 @@ const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
 const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
+const klaviyoCompanyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? 'RNGRZq';
+const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su6agb';
 ---
 
 <Base
@@ -567,7 +569,13 @@ const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
           {t.form.intro}
         </p>
-        <form id="evento-form" class="space-y-10 text-left" data-redirect={grazieHref}>
+        <form
+          id="evento-form"
+          class="space-y-10 text-left"
+          data-redirect={grazieHref}
+          data-klaviyo-company-id={klaviyoCompanyId}
+          data-klaviyo-list-id={klaviyoEventiListId}
+        >
           <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <label
@@ -777,14 +785,78 @@ const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
       });
     }
 
-    // Form "Progetta il tuo evento": in attesa del collegamento a un backend/servizio email,
-    // dopo l'invio reindirizza alla pagina di ringraziamento (vedi README, sezione Note).
+    // Form "Progetta il tuo evento": iscrive l'email alla lista eventi Klaviyo,
+    // poi reindirizza alla pagina di ringraziamento.
     const eventoForm = document.getElementById('evento-form') as HTMLFormElement | null;
+    const subscribeToKlaviyoEvents = async (form: HTMLFormElement) => {
+      const companyId = form.dataset.klaviyoCompanyId;
+      const listId = form.dataset.klaviyoListId;
+      const formData = new FormData(form);
+      const email = String(formData.get('email') ?? '').trim();
+      if (!companyId || !listId || !email) return;
+
+      const fullName = String(formData.get('nome') ?? '').trim();
+      const [firstName, ...lastNameParts] = fullName.split(/\s+/).filter(Boolean);
+
+      await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${encodeURIComponent(companyId)}`, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          revision: '2025-01-15',
+        },
+        body: JSON.stringify({
+          data: {
+            type: 'subscription',
+            attributes: {
+              custom_source: 'Tenuta Villa Guerra - form eventi',
+              profile: {
+                data: {
+                  type: 'profile',
+                  attributes: {
+                    email,
+                    ...(firstName ? { first_name: firstName } : {}),
+                    ...(lastNameParts.length ? { last_name: lastNameParts.join(' ') } : {}),
+                    subscriptions: {
+                      email: {
+                        marketing: {
+                          consent: 'SUBSCRIBED',
+                        },
+                      },
+                    },
+                    properties: {
+                      tipo_evento: formData.get('tipo') || undefined,
+                      data_evento: formData.get('data') || undefined,
+                      messaggio_evento: formData.get('messaggio') || undefined,
+                    },
+                  },
+                },
+              },
+            },
+            relationships: {
+              list: {
+                data: {
+                  type: 'list',
+                  id: listId,
+                },
+              },
+            },
+          },
+        }),
+      });
+    };
+
     if (eventoForm) {
-      eventoForm.addEventListener('submit', (e) => {
+      eventoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const redirect = eventoForm.dataset.redirect;
-        if (redirect) window.location.href = redirect;
+        try {
+          await subscribeToKlaviyoEvents(eventoForm);
+        } catch (error) {
+          console.error('Errore iscrizione Klaviyo', error);
+        } finally {
+          const redirect = eventoForm.dataset.redirect;
+          if (redirect) window.location.href = redirect;
+        }
       });
     }
 
