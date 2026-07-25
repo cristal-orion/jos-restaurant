@@ -47,6 +47,17 @@ Cloudflare Pages, o un semplice spazio FTP). Nessun server Node richiesto.
 - **Font:** Libre Caslon Text (display, eredità storica) + Inter (testo, UI).
 - **Palette:** Oro antico e crema per la Tenuta; verde Vesuvio, terracotta e
   pietra lavica per Josè.
-- I form (prenotazione tavolo e richiesta evento) sono attualmente solo
-  front-end: vanno collegati a un backend, a un servizio email o al gestionale
-  prenotazioni prima della messa in produzione.
+- **Form richiesta evento (Tenuta):** all'invio fa due cose, poi reindirizza alla
+  pagina di ringraziamento.
+  1. **Notifica al ristorante via [EmailJS](https://www.emailjs.com)** (invio lato
+     browser). Copia `.env.example` in `.env` e inserisci `PUBLIC_EMAILJS_SERVICE_ID`,
+     `PUBLIC_EMAILJS_TEMPLATE_ID` e `PUBLIC_EMAILJS_PUBLIC_KEY`. Nel template EmailJS
+     usa i campi `{{nome}}`, `{{email}}`, `{{tipo}}`, `{{data}}`, `{{messaggio}}` e
+     imposta lì il destinatario. Senza chiavi configurate l'invio viene saltato (con
+     avviso in console) e si procede comunque al redirect, utile per il QA locale.
+  2. **Iscrizione alla lista eventi [Klaviyo](https://www.klaviyo.com)** (best-effort:
+     un errore non blocca l'invio). Configurabile con `PUBLIC_KLAVIYO_COMPANY_ID` e
+     `PUBLIC_KLAVIYO_EVENTI_LIST_ID`; in assenza usa i default nel componente.
+- Il form di **prenotazione tavolo** (Josè) è ancora solo front-end: va
+  collegato a un servizio email o al gestionale prenotazioni prima della
+  produzione.

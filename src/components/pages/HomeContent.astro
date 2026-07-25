@@ -33,6 +33,7 @@ const dict = {
     footer: {
       contatti: 'Contatti',
       doveSiamo: 'Dove Siamo',
+      cookie: 'Informativa cookie',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
     },
   },
@@ -58,6 +59,7 @@ const dict = {
     footer: {
       contatti: 'Contact',
       doveSiamo: 'Find Us',
+      cookie: 'Cookie policy',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
     },
   },
@@ -65,6 +67,7 @@ const dict = {
 
 const t = dict[lang];
 const villaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const joseContattiHref = localizedPath(lang, new URL('/jose#contatti', Astro.site));
 const tenutaContattiHref = localizedPath(lang, new URL('/tenuta#contatti', Astro.site));
@@ -211,7 +214,12 @@ const homeHref = localizedPath(lang, new URL('/', Astro.site));
       >
       <LanguageSwitcher lang={lang} class="text-silk-white" />
     </div>
-    <div class="hidden md:flex flex-col items-end pointer-events-auto">
+    <div class="hidden md:flex flex-col items-end pointer-events-auto gap-1">
+      <a
+        href={cookiePolicyHref}
+        class="font-label-sm text-[10px] text-silk-white/60 tracking-widest uppercase hover:text-antique-gold transition-colors"
+        >{t.footer.cookie}</a
+      >
       <p
         class="font-label-sm text-[10px] text-silk-white/60 tracking-widest uppercase"
       >

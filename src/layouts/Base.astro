@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { locales, localizedPath, type Locale } from '../i18n/utils';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title: string;
@@ -30,15 +31,8 @@ const ogLocale = lang === 'en' ? 'en_US' : 'it_IT';
 <!DOCTYPE html>
 <html class="light" lang={lang}>
   <head>
-    <!-- Google Tag Manager -->
-    <script is:inline>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-KT27KM3F');
-    </script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager: caricato dinamicamente SOLO dopo il consenso cookie
+         (vedi src/components/CookieConsent.astro). -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
@@ -80,10 +74,7 @@ const ogLocale = lang === 'en' ? 'en_US' : 'it_IT';
     />
   </head>
   <body class={bodyClass}>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KT27KM3F"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <slot />
+    <CookieConsent lang={lang} />
   </body>
 </html>

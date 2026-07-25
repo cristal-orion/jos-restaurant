@@ -218,6 +218,8 @@ const dict = {
       addressLine2: '80059 Torre del Greco (NA)',
       cta: 'Apri in Google Maps',
       mapTitle: 'Mappa di Josè Restaurant — Via Nazionale 414, Torre del Greco',
+      mapConsentText: 'Per mostrare la mappa serve il consenso ai cookie di Google Maps.',
+      mapConsentCta: 'Carica la mappa',
     },
     footer: {
       taglineLine1: 'Due anime, un\'unica terra.',
@@ -228,6 +230,7 @@ const dict = {
       esplora: 'Esplora',
       laCarta: 'La Carta',
       eventiVilla: 'Eventi Villa Guerra',
+      cookie: 'Informativa cookie',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
       location: 'Torre del Greco · Napoli',
     },
@@ -439,6 +442,8 @@ const dict = {
       addressLine2: '80059 Torre del Greco (NA), Italy',
       cta: 'Open in Google Maps',
       mapTitle: 'Map of Josè Restaurant — Via Nazionale 414, Torre del Greco',
+      mapConsentText: 'To show the map we need your consent to Google Maps cookies.',
+      mapConsentCta: 'Load the map',
     },
     footer: {
       taglineLine1: 'Two souls, one land.',
@@ -449,6 +454,7 @@ const dict = {
       esplora: 'Explore',
       laCarta: 'The Menu',
       eventiVilla: 'Villa Guerra Events',
+      cookie: 'Cookie policy',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
       location: 'Torre del Greco · Naples',
     },
@@ -480,6 +486,7 @@ const restaurantSchema = {
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 ---
 
 <Base
@@ -960,16 +967,31 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
         <div
           class="overflow-hidden rounded-xl border border-silk-white/15 shadow-2xl"
         >
-          <iframe
-            title={t.location.mapTitle}
-            src="https://www.google.com/maps?q=Via%20Nazionale%20414%2C%2080059%20Torre%20del%20Greco%20NA&output=embed"
-            width="100%"
-            height="440"
-            style="border:0; display:block;"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen
-          ></iframe>
+          <!-- Mappa Google gated: l'iframe (che imposta cookie di Google) viene
+               caricato solo dopo il consenso, oppure con un clic esplicito qui. -->
+          <div
+            id="jose-map"
+            class="relative min-h-[440px]"
+            data-map-src="https://www.google.com/maps?q=Via%20Nazionale%20414%2C%2080059%20Torre%20del%20Greco%20NA&output=embed"
+            data-map-title={t.location.mapTitle}
+          >
+            <div
+              data-map-placeholder
+              class="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-lava-stone/95 text-silk-white text-center px-6"
+            >
+              <span class="material-symbols-outlined text-4xl text-antique-gold">map</span>
+              <p class="font-body-md text-body-md max-w-sm text-silk-white/80">
+                {t.location.mapConsentText}
+              </p>
+              <button
+                type="button"
+                data-map-load
+                class="inline-flex items-center gap-2 px-8 py-4 uppercase font-label-sm text-label-sm tracking-[0.2em] bg-antique-gold text-lava-stone hover:bg-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold"
+              >
+                {t.location.mapConsentCta}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1050,6 +1072,11 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
         <p class="text-label-sm font-label-sm text-silk-white/45">
           {t.footer.copyright}
         </p>
+        <a
+          href={cookiePolicyHref}
+          class="text-label-sm font-label-sm text-silk-white/45 hover:text-antique-gold transition-colors"
+          >{t.footer.cookie}</a
+        >
         <p class="text-label-sm font-label-sm text-silk-white/45 uppercase tracking-widest">
           {t.footer.location}
         </p>
@@ -1210,5 +1237,38 @@ const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
       document.getElementById('pizzeria-carousel'),
       document.querySelector<HTMLElement>('.pizzeria-dots')
     );
+
+    // Mappa Google "click-to-load": carica l'iframe (che imposta cookie di Google)
+    // solo se l'utente ha già accettato i cookie, se accetta ora dal banner, o se
+    // clicca esplicitamente "Carica la mappa".
+    const mapBox = document.getElementById('jose-map');
+    if (mapBox) {
+      const src = mapBox.dataset.mapSrc;
+      const title = mapBox.dataset.mapTitle ?? '';
+      let mapLoaded = false;
+
+      const loadMap = () => {
+        if (mapLoaded || !src) return;
+        mapLoaded = true;
+        const iframe = document.createElement('iframe');
+        iframe.title = title;
+        iframe.src = src;
+        iframe.width = '100%';
+        iframe.height = '440';
+        iframe.loading = 'lazy';
+        iframe.style.cssText = 'border:0; display:block;';
+        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+        iframe.allowFullscreen = true;
+        mapBox.replaceChildren(iframe);
+      };
+
+      const hasConsent = () => /(?:^|;\s*)vg_cookie_consent=accepted/.test(document.cookie);
+
+      if (hasConsent()) loadMap();
+      mapBox.querySelector('[data-map-load]')?.addEventListener('click', loadMap);
+      window.addEventListener('vg-consent-changed', (e) => {
+        if ((e as CustomEvent).detail === 'accepted') loadMap();
+      });
+    }
   </script>
 </Base>

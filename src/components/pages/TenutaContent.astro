@@ -86,6 +86,8 @@ const dict = {
       messaggioLabel: 'La tua visione',
       messaggioPlaceholder: 'Raccontaci la tua idea per l’evento…',
       submit: 'Invia Richiesta',
+      sending: 'Invio in corso…',
+      error: 'Non è stato possibile inviare la richiesta. Riprova tra poco o chiamaci allo 081 883 6298.',
     },
     footer: {
       villaHeading: 'Villa Guerra',
@@ -97,6 +99,7 @@ const dict = {
       prenotaTavolo: 'Prenota un tavolo',
       joseHeading: 'Josè Restaurant',
       joseQuote: '«Il Vesuvio tra le mani»',
+      cookie: 'Informativa cookie',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant. Napoli.',
     },
   },
@@ -175,6 +178,8 @@ const dict = {
       messaggioLabel: 'Your Vision',
       messaggioPlaceholder: 'Tell us about your idea for the event…',
       submit: 'Send Request',
+      sending: 'Sending…',
+      error: 'We couldn’t send your request. Please try again shortly or call us at +39 081 883 6298.',
     },
     footer: {
       villaHeading: 'Villa Guerra',
@@ -186,6 +191,7 @@ const dict = {
       prenotaTavolo: 'Book a Table',
       joseHeading: 'Josè Restaurant',
       joseQuote: '«Vesuvius in your hands»',
+      cookie: 'Cookie policy',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant. Naples.',
     },
   },
@@ -215,6 +221,7 @@ const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
 const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
+const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 const klaviyoCompanyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? 'RNGRZq';
 const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su6agb';
 ---
@@ -575,6 +582,8 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
           data-redirect={grazieHref}
           data-klaviyo-company-id={klaviyoCompanyId}
           data-klaviyo-list-id={klaviyoEventiListId}
+          data-sending={t.form.sending}
+          data-error={t.form.error}
         >
           <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
@@ -659,11 +668,19 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
           </div>
           <div class="text-center">
             <button
-              class="bg-primary text-silk-white px-16 py-5 uppercase font-label-sm text-label-sm tracking-[0.2em] hover:bg-antique-gold transition-colors shadow-lg active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              class="bg-primary text-silk-white px-16 py-5 uppercase font-label-sm text-label-sm tracking-[0.2em] hover:bg-antique-gold transition-colors shadow-lg active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
               type="submit"
             >
               {t.form.submit}
             </button>
+            <p
+              id="evento-error"
+              class="mt-6 text-body-md font-body-md text-error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              {t.form.error}
+            </p>
           </div>
         </form>
       </div>
@@ -715,13 +732,22 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
           {t.footer.joseQuote}
         </p>
       </div>
-      <p class="text-on-surface-variant opacity-70 font-label-sm text-label-sm">
-        {t.footer.copyright}
-      </p>
+      <div class="flex flex-col gap-1">
+        <a
+          href={cookiePolicyHref}
+          class="text-on-surface-variant opacity-70 font-label-sm text-label-sm hover:text-primary hover:opacity-100 transition"
+          >{t.footer.cookie}</a
+        >
+        <p class="text-on-surface-variant opacity-70 font-label-sm text-label-sm">
+          {t.footer.copyright}
+        </p>
+      </div>
     </div>
   </footer>
 
   <script>
+    import emailjs from '@emailjs/browser';
+
     // Reveal morbido delle sezioni allo scroll
     document.addEventListener('DOMContentLoaded', () => {
       // Con "riduci movimento" le sezioni restano subito visibili, senza dissolvenza
@@ -785,8 +811,13 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
       });
     }
 
-    // Form "Progetta il tuo evento": iscrive l'email alla lista eventi Klaviyo,
-    // poi reindirizza alla pagina di ringraziamento.
+    // Form "Progetta il tuo evento": all'invio (1) iscrive l'email alla lista
+    // eventi Klaviyo e (2) invia la richiesta al ristorante via EmailJS, poi
+    // reindirizza alla pagina di ringraziamento.
+    // - Klaviyo: variabili PUBLIC_KLAVIYO_* (best-effort, un errore non blocca).
+    // - EmailJS: variabili PUBLIC_EMAILJS_* (vedi .env.example). Senza chiavi
+    //   configurate (es. QA locale) l'invio viene saltato con un avviso in console
+    //   e si procede comunque al redirect.
     const eventoForm = document.getElementById('evento-form') as HTMLFormElement | null;
     const subscribeToKlaviyoEvents = async (form: HTMLFormElement) => {
       const companyId = form.dataset.klaviyoCompanyId;
@@ -847,15 +878,57 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
     };
 
     if (eventoForm) {
+      const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+      const isConfigured = Boolean(serviceId && templateId && publicKey);
+
+      const submitBtn = eventoForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const errorBox = document.getElementById('evento-error');
+      const redirect = eventoForm.dataset.redirect;
+      const sendingText = eventoForm.dataset.sending ?? '…';
+      const submitText = submitBtn?.textContent ?? '';
+
+      const goToThanks = () => {
+        if (redirect) window.location.href = redirect;
+      };
+
       eventoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // (1) Iscrizione alla lista eventi Klaviyo — best-effort: un errore qui
+        //     non deve impedire l'invio della richiesta né il redirect finale.
         try {
           await subscribeToKlaviyoEvents(eventoForm);
         } catch (error) {
           console.error('Errore iscrizione Klaviyo', error);
-        } finally {
-          const redirect = eventoForm.dataset.redirect;
-          if (redirect) window.location.href = redirect;
+        }
+
+        // (2) Invio della richiesta al ristorante via EmailJS.
+        if (!isConfigured) {
+          console.warn(
+            'EmailJS non configurato: imposta PUBLIC_EMAILJS_SERVICE_ID, PUBLIC_EMAILJS_TEMPLATE_ID e PUBLIC_EMAILJS_PUBLIC_KEY in .env. Redirect alla pagina di ringraziamento senza invio.'
+          );
+          goToThanks();
+          return;
+        }
+
+        errorBox?.classList.add('hidden');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = sendingText;
+        }
+
+        try {
+          await emailjs.sendForm(serviceId, templateId, eventoForm, { publicKey });
+          goToThanks();
+        } catch (err) {
+          console.error('Invio EmailJS fallito:', err);
+          errorBox?.classList.remove('hidden');
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitText;
+          }
         }
       });
     }

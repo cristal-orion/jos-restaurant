@@ -1,0 +1,253 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Informativa Cookie | Villa Guerra & Josè',
+      description:
+        'Come Tenuta Villa Guerra & Josè Restaurant usa i cookie e gli strumenti di terze parti, e come gestire il tuo consenso.',
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    eyebrow: 'Privacy',
+    heading: 'Informativa sui cookie',
+    intro:
+      'Questa pagina spiega quali cookie e strumenti di terze parti utilizziamo su questo sito e come puoi gestire il tuo consenso. Al primo accesso ti mostriamo un banner: gli strumenti non necessari vengono attivati solo se scegli “Accetta”.',
+    manageCta: 'Gestisci le preferenze cookie',
+    sections: [
+      {
+        h: 'Cosa sono i cookie',
+        p: 'I cookie sono piccoli file di testo che i siti salvano sul tuo dispositivo. Servono a far funzionare il sito, a ricordare le tue scelte o a raccogliere statistiche di utilizzo. Insieme ai cookie usiamo anche tecnologie analoghe (es. contenuti incorporati da terze parti).',
+      },
+      {
+        h: 'Cookie tecnici (necessari)',
+        p: 'Sono sempre attivi perché indispensabili. In particolare salviamo un cookie di prima parte, “vg_cookie_consent”, che memorizza la tua scelta sul consenso per circa 6 mesi, così da non riproporti il banner ad ogni visita. Non raccoglie dati per finalità statistiche o di marketing.',
+      },
+      {
+        h: 'Cookie e strumenti di terze parti (soggetti a consenso)',
+        p: 'Vengono attivati solo dopo il tuo “Accetta”:',
+        items: [
+          'Google Tag Manager: gestisce i tag di misurazione del sito e può attivare strumenti statistici come Google Analytics. Titolare del trattamento a valle: Google Ireland Ltd.',
+          'Google Maps: la mappa con la nostra posizione è incorporata da Google e imposta cookie di Google. La carichiamo solo dopo il consenso, oppure quando premi tu il pulsante “Carica la mappa”.',
+          'Google Fonts: i font tipografici sono serviti dai server di Google; il caricamento comporta una connessione a Google.',
+        ],
+      },
+      {
+        h: 'Come gestire o revocare il consenso',
+        p: 'Puoi cambiare idea in qualsiasi momento con il pulsante “Gestisci le preferenze cookie” qui sopra, che riapre il banner. Per revocare un consenso già concesso può essere necessario ricaricare la pagina. In alternativa puoi bloccare o cancellare i cookie dalle impostazioni del tuo browser.',
+      },
+    ],
+    updated: 'Ultimo aggiornamento: luglio 2026',
+    cta: 'Torna alla home',
+  },
+  en: {
+    meta: {
+      title: 'Cookie Policy | Villa Guerra & Josè',
+      description:
+        'How Tenuta Villa Guerra & Josè Restaurant uses cookies and third-party tools, and how to manage your consent.',
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    eyebrow: 'Privacy',
+    heading: 'Cookie Policy',
+    intro:
+      'This page explains which cookies and third-party tools we use on this website and how you can manage your consent. On your first visit we show a banner: non-essential tools are only activated if you choose “Accept”.',
+    manageCta: 'Manage cookie preferences',
+    sections: [
+      {
+        h: 'What cookies are',
+        p: 'Cookies are small text files that websites store on your device. They make the site work, remember your choices or collect usage statistics. Alongside cookies we also use similar technologies (e.g. content embedded from third parties).',
+      },
+      {
+        h: 'Technical cookies (necessary)',
+        p: 'These are always active because they are essential. In particular we store a first-party cookie, “vg_cookie_consent”, which remembers your consent choice for about 6 months so we don’t show the banner on every visit. It does not collect data for statistics or marketing.',
+      },
+      {
+        h: 'Third-party cookies and tools (subject to consent)',
+        p: 'These are only activated after you click “Accept”:',
+        items: [
+          'Google Tag Manager: manages the site’s measurement tags and may activate analytics tools such as Google Analytics. Downstream data controller: Google Ireland Ltd.',
+          'Google Maps: the map with our location is embedded from Google and sets Google cookies. We only load it after consent, or when you press the “Load the map” button.',
+          'Google Fonts: the typefaces are served from Google’s servers; loading them involves a connection to Google.',
+        ],
+      },
+      {
+        h: 'How to manage or withdraw consent',
+        p: 'You can change your mind at any time using the “Manage cookie preferences” button above, which reopens the banner. To withdraw consent you have already given, a page reload may be required. Alternatively you can block or delete cookies from your browser settings.',
+      },
+    ],
+    updated: 'Last updated: July 2026',
+    cta: 'Back to home',
+  },
+} as const;
+
+const t = dict[lang];
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface font-body-md selection:bg-antique-gold/30"
+  lang={lang}
+  noindex
+>
+  <!-- TopAppBar -->
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-50"
+  >
+    <a
+      href={homeHref}
+      class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+      aria-label="Villa Guerra & Josè — home"
+    >
+      <span
+        class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+        >Villa Guerra &amp;</span
+      >
+      <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <button
+      id="menu-toggle"
+      class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+      aria-label={t.aria.openMenu}
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-label-open={t.aria.openMenu}
+      data-label-close={t.aria.closeMenu}
+      >menu</button
+    >
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="px-margin-mobile md:px-margin-desktop bg-clotted-cream">
+      <div class="max-w-3xl mx-auto py-24">
+        <p class="font-label-sm text-label-sm text-antique-gold tracking-[0.3em] uppercase mb-4">
+          {t.eyebrow}
+        </p>
+        <h1 class="font-headline-lg text-headline-lg text-primary mb-6 leading-tight">
+          {t.heading}
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+          {t.intro}
+        </p>
+        <button
+          type="button"
+          id="reopen-cookie"
+          class="inline-flex items-center gap-2 mb-14 px-8 py-4 uppercase font-label-sm text-label-sm tracking-[0.2em] border border-primary text-primary hover:bg-primary hover:text-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          {t.manageCta}
+        </button>
+
+        <div class="space-y-10">
+          {
+            t.sections.map((s) => (
+              <div>
+                <h2 class="font-headline-md text-2xl text-primary mb-3">{s.h}</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">{s.p}</p>
+                {'items' in s && s.items && (
+                  <ul class="mt-4 space-y-3 list-disc pl-5 marker:text-antique-gold">
+                    {s.items.map((item) => (
+                      <li class="font-body-md text-body-md text-on-surface-variant">{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-14 font-label-sm text-label-sm text-on-surface-variant/70 uppercase tracking-widest">
+          {t.updated}
+        </p>
+        <a
+          href={homeHref}
+          class="inline-flex items-center gap-2 mt-8 text-primary underline underline-offset-2 decoration-antique-gold hover:text-antique-gold transition-colors font-body-md"
+        >
+          {t.cta}
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 max-w-container-max mx-auto bg-surface-container-highest border-t border-outline-variant/30 text-center"
+  >
+    <div class="font-headline-md text-headline-md text-primary">Villa Guerra</div>
+    <p class="text-on-surface-variant text-body-md">
+      Via Nazionale, 414 — 80059 Torre del Greco (NA)
+    </p>
+  </footer>
+
+  <script>
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+
+    // Riapre il banner cookie per rivedere/cambiare la scelta.
+    document.getElementById('reopen-cookie')?.addEventListener('click', () => {
+      (window as any).openCookiePreferences?.();
+    });
+  </script>
+</Base>

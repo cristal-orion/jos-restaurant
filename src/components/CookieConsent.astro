@@ -1,0 +1,175 @@
+---
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'it' } = Astro.props;
+
+// ID del contenitore Google Tag Manager: NON viene caricato finché l'utente non
+// dà il consenso (vedi lo <script> in fondo al componente).
+const GTM_ID = 'GTM-KT27KM3F';
+
+const policyHref = lang === 'en' ? '/en/cookie-policy' : '/cookie-policy';
+
+const dict = {
+  it: {
+    title: 'Rispettiamo la tua privacy',
+    body: 'Questo sito usa cookie tecnici necessari e, solo con il tuo consenso, strumenti di terze parti (Google Tag Manager e la mappa di Google) per statistiche e contenuti. Puoi accettarli o rifiutarli in qualsiasi momento.',
+    link: 'Informativa cookie',
+    accept: 'Accetta',
+    reject: 'Rifiuta',
+    label: 'Avviso sull’uso dei cookie',
+  },
+  en: {
+    title: 'We value your privacy',
+    body: 'This site uses necessary technical cookies and, only with your consent, third-party tools (Google Tag Manager and the Google map) for analytics and content. You can accept or reject them at any time.',
+    link: 'Cookie policy',
+    accept: 'Accept',
+    reject: 'Reject',
+    label: 'Cookie notice',
+  },
+};
+
+const t = dict[lang];
+---
+
+<div
+  id="cookie-consent"
+  role="dialog"
+  aria-modal="false"
+  aria-label={t.label}
+  data-gtm-id={GTM_ID}
+  hidden
+  class="fixed inset-x-0 bottom-0 z-[100] translate-y-full transition-transform duration-500 ease-out motion-reduce:transition-none motion-reduce:duration-0"
+>
+  <div class="mx-4 mb-4 md:mx-12 md:mb-12 max-w-container-max lg:mx-auto">
+    <div
+      class="bg-clotted-cream border border-outline-variant/60 shadow-2xl rounded-lg px-6 py-6 md:px-10 md:py-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+    >
+      <div class="max-w-2xl">
+        <h2 class="font-headline-md text-xl md:text-2xl text-primary mb-2">
+          {t.title}
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          {t.body}{' '}
+          <a
+            href={policyHref}
+            class="text-primary underline underline-offset-2 decoration-antique-gold hover:text-antique-gold transition-colors"
+            >{t.link}</a
+          >.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 md:shrink-0">
+        <button
+          type="button"
+          data-consent-reject
+          class="px-8 py-4 uppercase font-label-sm text-label-sm tracking-[0.2em] border border-primary text-primary hover:bg-primary/5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          {t.reject}
+        </button>
+        <button
+          type="button"
+          data-consent-accept
+          class="px-8 py-4 uppercase font-label-sm text-label-sm tracking-[0.2em] bg-primary text-silk-white hover:bg-antique-gold transition-colors shadow-lg active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          {t.accept}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cookie banner con consenso reale (GDPR/ePrivacy).
+  // Google Tag Manager e la mappa di Google NON partono finché l'utente non
+  // clicca "Accetta". La scelta è salvata in un cookie di prima parte e viene
+  // comunicata al resto della pagina con l'evento `vg-consent-changed`.
+  const root = document.getElementById('cookie-consent');
+  if (root) {
+    const COOKIE = 'vg_cookie_consent';
+    const gtmId = root.dataset.gtmId ?? '';
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const readConsent = (): string | null => {
+      const match = document.cookie.match(/(?:^|;\s*)vg_cookie_consent=([^;]+)/);
+      return match ? decodeURIComponent(match[1]) : null;
+    };
+
+    const writeConsent = (value: string) => {
+      const maxAge = 60 * 60 * 24 * 180; // 180 giorni
+      document.cookie = `${COOKIE}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    };
+
+    let gtmLoaded = false;
+    const loadGtm = () => {
+      if (gtmLoaded || !gtmId) return;
+      gtmLoaded = true;
+      (function (w: any, d, s, l: string, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s) as HTMLScriptElement;
+        const dl = l !== 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode?.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', gtmId);
+    };
+
+    const notify = (value: string) => {
+      window.dispatchEvent(new CustomEvent('vg-consent-changed', { detail: value }));
+    };
+
+    const show = () => {
+      root.hidden = false;
+      if (prefersReducedMotion) {
+        root.classList.remove('translate-y-full');
+      } else {
+        requestAnimationFrame(() => root.classList.remove('translate-y-full'));
+      }
+    };
+
+    const hide = () => {
+      if (prefersReducedMotion) {
+        root.classList.add('translate-y-full');
+        root.hidden = true;
+        return;
+      }
+      root.classList.add('translate-y-full');
+      root.addEventListener(
+        'transitionend',
+        () => {
+          root.hidden = true;
+        },
+        { once: true }
+      );
+    };
+
+    root.querySelector('[data-consent-accept]')?.addEventListener('click', () => {
+      writeConsent('accepted');
+      loadGtm();
+      notify('accepted');
+      hide();
+    });
+
+    root.querySelector('[data-consent-reject]')?.addEventListener('click', () => {
+      writeConsent('rejected');
+      notify('rejected');
+      hide();
+    });
+
+    // Stato all'avvio: chi ha già accettato riottiene subito il tracciamento;
+    // chi non ha ancora scelto vede il banner; chi ha rifiutato non vede nulla.
+    const current = readConsent();
+    if (current === 'accepted') {
+      loadGtm();
+    } else if (current !== 'rejected') {
+      show();
+    }
+
+    // Consente di riaprire il banner (es. da un link "Preferenze cookie").
+    (window as any).openCookiePreferences = show;
+  }
+</script>
