@@ -1,0 +1,204 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Richiesta di prenotazione inviata | Josè Restaurant',
+      description:
+        'Abbiamo ricevuto la tua richiesta di prenotazione a Josè Restaurant. Ti confermiamo il tavolo al più presto.',
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    eyebrow: 'Richiesta inviata',
+    heading: 'Ci vediamo a tavola',
+    body: 'La tua richiesta è arrivata in sala. Ti contattiamo al più presto, per telefono o via email, per confermarti il tavolo.',
+    nota: 'Se hai bisogno di cambiare qualcosa — o se la prenotazione è per oggi — chiamaci: è la via più rapida.',
+    phone: '+39 081 883 6298',
+    phoneHref: 'tel:+390818836298',
+    ctaCarta: 'Sfoglia la carta',
+    ctaHome: 'Torna a Josè Restaurant',
+  },
+  en: {
+    meta: {
+      title: 'Booking request sent | Josè Restaurant',
+      description:
+        'We have received your booking request for Josè Restaurant. We will confirm your table shortly.',
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    eyebrow: 'Request sent',
+    heading: 'See you at the table',
+    body: 'Your request has reached the dining room. We will get in touch shortly, by phone or email, to confirm your table.',
+    nota: 'If anything needs changing — or if the booking is for today — give us a call: it is the fastest way.',
+    phone: '+39 081 883 6298',
+    phoneHref: 'tel:+390818836298',
+    ctaCarta: 'Browse the menu',
+    ctaHome: 'Back to Josè Restaurant',
+  },
+} as const;
+
+const t = dict[lang];
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const cartaHref = `${joseHref}#menu`;
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface selection:bg-terracotta selection:text-white"
+  lang={lang}
+  noindex
+>
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
+  >
+    <a
+      href={homeHref}
+      class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+      aria-label="Villa Guerra & Josè — home"
+    >
+      <span
+        class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+        >Villa Guerra &amp;</span
+      >
+      <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <button
+      id="menu-toggle"
+      class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+      aria-label={t.aria.openMenu}
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-label-open={t.aria.openMenu}
+      data-label-close={t.aria.closeMenu}
+      >menu</button
+    >
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section
+      class="min-h-[80vh] flex items-center px-margin-mobile md:px-margin-desktop bg-clotted-cream"
+    >
+      <div class="max-w-2xl mx-auto py-24">
+        <span
+          class="material-symbols-outlined text-terracotta text-5xl mb-6 block"
+          aria-hidden="true">restaurant</span
+        >
+        <p
+          class="font-label-sm text-label-sm text-terracotta tracking-[0.3em] uppercase mb-4"
+        >
+          {t.eyebrow}
+        </p>
+        <h1
+          class="font-headline-lg text-[2.25rem] sm:text-5xl md:text-headline-lg text-vesuvius-green mb-6 leading-tight break-words"
+        >
+          {t.heading}
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+          {t.body}
+        </p>
+        <p
+          class="font-body-md text-body-md text-on-surface-variant bg-surface-container border-l-2 border-terracotta px-6 py-5 mb-10"
+        >
+          {t.nota}
+        </p>
+        <a
+          href={t.phoneHref}
+          class="group inline-flex items-center gap-3 font-headline-md text-headline-md text-terracotta hover:text-vesuvius-green transition-colors mb-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">phone</span>
+          <span class="break-words">{t.phone}</span>
+        </a>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href={cartaHref}
+            class="inline-flex items-center justify-center whitespace-nowrap bg-vesuvius-green text-silk-white px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-lava-stone transition-colors duration-300 ease-out"
+          >
+            {t.ctaCarta}
+          </a>
+          <a
+            href={joseHref}
+            class="inline-flex items-center justify-center whitespace-nowrap border border-vesuvius-green text-vesuvius-green px-10 py-4 uppercase font-label-sm text-label-sm tracking-widest hover:bg-vesuvius-green hover:text-silk-white transition-colors duration-300 ease-out"
+          >
+            {t.ctaHome}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer
+    class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 max-w-container-max mx-auto bg-lava-stone text-center"
+  >
+    <LogoJose class="h-10 w-auto text-silk-white mb-2" />
+    <p class="text-silk-white/70 text-body-md font-body-md">
+      Via Nazionale, 414 — 80059 Torre del Greco (NA)
+    </p>
+  </footer>
+
+  <script>
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+  </script>
+</Base>

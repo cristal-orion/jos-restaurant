@@ -1,0 +1,954 @@
+---
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+// STATO: pagina PARCHEGGIATA. Il canale di prenotazione ufficiale del ristorante
+// è ancora Pienissimo (link esterno nella sezione "Prenotazione" di jose.astro):
+// questa pagina esiste per far provare il sistema al cliente, non è linkata da
+// nav/footer ed è `noindex` + esclusa dalla sitemap, così Google non manda qui
+// clienti veri prima che il ristorante la presidi.
+// PER PUBBLICARLA: togliere `noindex` dal <Base> qui sotto, rimettere il gruppo
+// /prenota in src/pages/sitemap.xml.ts e puntare a /prenota il nav "Prenota Ora"
+// + il bottone di jose.astro (oggi entrambi su #contatti / Pienissimo).
+
+// Orari di servizio proposti nel menu a tendina.
+// ATTENZIONE: fasce ipotizzate, DA CONFERMARE col ristorante — per cambiarle
+// basta modificare questi due array (i valori sono anche le etichette mostrate).
+const SLOT_PRANZO = ['12:30', '13:00', '13:30', '14:00'];
+const SLOT_CENA = ['19:30', '20:00', '20:30', '21:00', '21:30'];
+
+// Giorni di chiusura (0=domenica … 6=sabato): il calendario rifiuta queste date.
+// Vuoto = nessuna chiusura impostata. Da riempire quando sappiamo il giorno di
+// riposo di Josè, es. [1] per il lunedì.
+const CLOSED_WEEKDAYS: number[] = [];
+
+// Oltre questa soglia la prenotazione online non basta: serve parlare col
+// ristorante (tavolate, menu concordato, sale).
+const MAX_GUESTS_ONLINE = 10;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Prenota un tavolo | Josè Restaurant — Torre del Greco',
+      description:
+        'Prenota il tuo tavolo a Josè Restaurant, Torre del Greco: scegli data, orario e numero di ospiti. Ti confermiamo noi la prenotazione.',
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    hero: {
+      eyebrow: 'Josè Restaurant · Torre del Greco',
+      h1: 'Prenota il tuo tavolo',
+      sub: 'Scegli data, orario e numero di ospiti. La richiesta arriva direttamente in sala: ti confermiamo il tavolo per telefono o via email, di norma entro poche ore.',
+    },
+    form: {
+      legendQuando: 'Quando',
+      legendChi: 'Chi',
+      dataLabel: 'Data',
+      orarioLabel: 'Orario',
+      orarioSelect: 'Scegli un orario',
+      orarioPranzo: 'Pranzo',
+      orarioCena: 'Cena',
+      ospitiLabel: 'Ospiti',
+      ospitiSelect: 'Quante persone',
+      ospitiOne: 'ospite',
+      ospitiMany: 'ospiti',
+      ospitiOver: `Più di ${MAX_GUESTS_ONLINE}`,
+      ospitiOverNote: `Per tavolate oltre ${MAX_GUESTS_ONLINE} persone preferiamo organizzarci al telefono: chiamaci allo +39 081 883 6298 e troviamo la soluzione giusta.`,
+      nomeLabel: 'Nome e cognome',
+      nomePlaceholder: 'Come ti chiamiamo',
+      telefonoLabel: 'Telefono',
+      telefonoPlaceholder: 'Per confermarti il tavolo',
+      emailLabel: 'Email',
+      emailPlaceholder: 'nome@esempio.it',
+      noteLabel: 'Note (facoltativo)',
+      notePlaceholder:
+        'Allergie o intolleranze, seggiolone, un’occasione da festeggiare, un tavolo in giardino…',
+      consenso:
+        'Vorrei ricevere per email le novità di Josè Restaurant (carta di stagione, serate, pizza in giardino).',
+      consensoNota: 'Niente spam, puoi disiscriverti quando vuoi.',
+      submit: 'Invia la richiesta',
+      sending: 'Invio in corso…',
+      error:
+        'Non siamo riusciti a inviare la richiesta. Riprova, oppure chiamaci allo +39 081 883 6298.',
+      chiusuraError: 'In quella data siamo chiusi: scegline un’altra.',
+      privacy: 'Trattiamo i tuoi dati solo per gestire la prenotazione.',
+      privacyLink: 'Informativa cookie',
+    },
+    recap: {
+      heading: 'La tua richiesta',
+      empty: 'Compila il modulo e qui vedrai il riepilogo.',
+      dataLabel: 'Data',
+      orarioLabel: 'Orario',
+      ospitiLabel: 'Ospiti',
+      placeholder: '—',
+      nota: 'La richiesta non è ancora una conferma: te la confermiamo noi.',
+    },
+    info: {
+      heading: 'Preferisci il telefono?',
+      body: 'Per stasera, per un cambio all’ultimo minuto o per una tavolata numerosa, chiamare è la via più rapida.',
+      phone: '+39 081 883 6298',
+      phoneHref: 'tel:+390818836298',
+      addressLabel: 'Dove siamo',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA)',
+      mapsCta: 'Apri in Google Maps',
+      cartaLabel: 'Prima di scegliere',
+      cartaCta: 'Sfoglia la carta',
+    },
+    footer: {
+      claim: 'Il Vesuvio tra le mani.',
+      esplora: 'Esplora',
+      ristorante: 'Josè Restaurant',
+      eventi: 'Eventi Villa Guerra',
+      cookie: 'Informativa cookie',
+      contatti: 'Contatti',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Napoli',
+    },
+  },
+  en: {
+    meta: {
+      title: 'Book a table | Josè Restaurant — Torre del Greco',
+      description:
+        'Book your table at Josè Restaurant, Torre del Greco: pick a date, a time and the number of guests. We confirm every booking personally.',
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    hero: {
+      eyebrow: 'Josè Restaurant · Torre del Greco',
+      h1: 'Book your table',
+      sub: 'Pick a date, a time and the number of guests. Your request goes straight to the dining room: we confirm by phone or email, usually within a few hours.',
+    },
+    form: {
+      legendQuando: 'When',
+      legendChi: 'Who',
+      dataLabel: 'Date',
+      orarioLabel: 'Time',
+      orarioSelect: 'Choose a time',
+      orarioPranzo: 'Lunch',
+      orarioCena: 'Dinner',
+      ospitiLabel: 'Guests',
+      ospitiSelect: 'How many people',
+      ospitiOne: 'guest',
+      ospitiMany: 'guests',
+      ospitiOver: `More than ${MAX_GUESTS_ONLINE}`,
+      ospitiOverNote: `For parties over ${MAX_GUESTS_ONLINE} we would rather arrange things by phone: call us on +39 081 883 6298 and we will find the right setting.`,
+      nomeLabel: 'Full name',
+      nomePlaceholder: 'What should we call you',
+      telefonoLabel: 'Phone',
+      telefonoPlaceholder: 'So we can confirm your table',
+      emailLabel: 'Email',
+      emailPlaceholder: 'name@example.com',
+      noteLabel: 'Notes (optional)',
+      notePlaceholder:
+        'Allergies or intolerances, a high chair, something to celebrate, a table in the garden…',
+      consenso:
+        'I would like to hear from Josè Restaurant by email (seasonal menu, special evenings, pizza in the garden).',
+      consensoNota: 'No spam, unsubscribe whenever you like.',
+      submit: 'Send request',
+      sending: 'Sending…',
+      error:
+        'We could not send your request. Please try again, or call us on +39 081 883 6298.',
+      chiusuraError: 'We are closed on that date: please pick another one.',
+      privacy: 'We use your details only to handle this booking.',
+      privacyLink: 'Cookie policy',
+    },
+    recap: {
+      heading: 'Your request',
+      empty: 'Fill in the form and your summary will appear here.',
+      dataLabel: 'Date',
+      orarioLabel: 'Time',
+      ospitiLabel: 'Guests',
+      placeholder: '—',
+      nota: 'A request is not yet a confirmation: we will confirm it for you.',
+    },
+    info: {
+      heading: 'Rather call us?',
+      body: 'For tonight, for a last-minute change or for a large party, the phone is the fastest way.',
+      phone: '+39 081 883 6298',
+      phoneHref: 'tel:+390818836298',
+      addressLabel: 'Where we are',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA)',
+      mapsCta: 'Open in Google Maps',
+      cartaLabel: 'Before you choose',
+      cartaCta: 'Browse the menu',
+    },
+    footer: {
+      claim: 'The Vesuvius in our hands.',
+      esplora: 'Explore',
+      ristorante: 'Josè Restaurant',
+      eventi: 'Villa Guerra Events',
+      cookie: 'Cookie policy',
+      contatti: 'Contact',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Naples',
+    },
+  },
+} as const;
+
+const t = dict[lang];
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const cookieHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
+const grazieHref = localizedPath(lang, new URL('/prenota/grazie', Astro.site));
+const cartaHref = `${joseHref}#menu`;
+
+// Klaviyo: lista dedicata alle prenotazioni. Nessun default — se la variabile
+// non è impostata l'iscrizione viene semplicemente saltata (la lista 'eventi'
+// del form Tenuta è un'altra cosa e non va riusata qui).
+const klaviyoCompanyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? 'RNGRZq';
+const klaviyoPrenotaListId = import.meta.env.PUBLIC_KLAVIYO_PRENOTA_LIST_ID ?? '';
+
+const guestOptions = Array.from({ length: MAX_GUESTS_ONLINE }, (_, i) => i + 1);
+
+// Schema.org: dichiara che questa pagina è l'azione di prenotazione del ristorante.
+const reserveSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'Josè Restaurant',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Via Nazionale, 414',
+    postalCode: '80059',
+    addressLocality: 'Torre del Greco',
+    addressRegion: 'NA',
+    addressCountry: 'IT',
+  },
+  telephone: '+39 081 883 6298',
+  potentialAction: {
+    '@type': 'ReserveAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: new URL('/prenota', Astro.site).toString(),
+      inLanguage: lang === 'en' ? 'en' : 'it',
+      actionPlatform: [
+        'http://schema.org/DesktopWebPlatform',
+        'http://schema.org/MobileWebPlatform',
+      ],
+    },
+    result: {
+      '@type': 'FoodEstablishmentReservation',
+      name: 'Prenotazione tavolo',
+    },
+  },
+};
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface selection:bg-terracotta selection:text-white"
+  lang={lang}
+  schema={reserveSchema}
+  noindex
+>
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
+  >
+    <div class="flex items-center gap-4">
+      <a
+        href={homeHref}
+        class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+        aria-label="Villa Guerra & Josè — home"
+      >
+        <span
+          class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+          >Villa Guerra &amp;</span
+        >
+        <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+      </a>
+    </div>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <div class="flex items-center gap-6">
+      <span
+        class="hidden sm:inline-block border-b-2 border-terracotta pb-1 text-label-sm font-label-sm font-bold text-primary"
+        aria-current="page">{t.nav.prenota}</span
+      >
+      <button
+        id="menu-toggle"
+        class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+        aria-label={t.aria.openMenu}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-label-open={t.aria.openMenu}
+        data-label-close={t.aria.closeMenu}
+        >menu</button
+      >
+    </div>
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile md:px-margin-desktop py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- Intestazione compatta: questa è una pagina di servizio, il modulo deve
+         restare raggiungibile senza scroll inutile (niente hero a tutta altezza). -->
+    <section
+      class="px-margin-mobile md:px-margin-desktop pt-14 pb-10 md:pt-20 md:pb-14 bg-clotted-cream border-b border-outline-variant/30"
+    >
+      <div class="max-w-container-max mx-auto">
+        <p
+          class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-terracotta mb-5"
+        >
+          {t.hero.eyebrow}
+        </p>
+        <h1
+          class="font-headline-lg text-[2.25rem] sm:text-5xl md:text-headline-lg text-vesuvius-green leading-tight break-words max-w-3xl"
+        >
+          {t.hero.h1}
+        </h1>
+        <p
+          class="mt-6 font-body-lg text-body-lg text-on-surface-variant max-w-2xl"
+        >
+          {t.hero.sub}
+        </p>
+      </div>
+    </section>
+
+    <!-- Modulo + riepilogo: griglia asimmetrica, il modulo ha la precedenza -->
+    <section class="px-margin-mobile md:px-margin-desktop py-14 md:py-20">
+      <div
+        class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-gutter"
+      >
+        <!-- Colonna modulo -->
+        <div class="lg:col-span-7">
+          <form
+            id="prenota-form"
+            class="space-y-12"
+            novalidate
+            data-lang={lang}
+            data-redirect={grazieHref}
+            data-klaviyo-company-id={klaviyoCompanyId}
+            data-klaviyo-list-id={klaviyoPrenotaListId}
+            data-sending={t.form.sending}
+            data-closed-weekdays={CLOSED_WEEKDAYS.join(',')}
+            data-closed-message={t.form.chiusuraError}
+            data-recap-empty={t.recap.empty}
+            data-guest-one={t.form.ospitiOne}
+            data-guest-many={t.form.ospitiMany}
+            data-guest-over={t.form.ospitiOver}
+          >
+            <!-- Quando -->
+            <fieldset class="space-y-8">
+              <legend
+                class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-vesuvius-green border-b border-outline-variant/40 w-full pb-3 mb-8"
+                >{t.form.legendQuando}</legend
+              >
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <label
+                    for="pre-data"
+                    class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                    >{t.form.dataLabel}</label
+                  >
+                  <input
+                    id="pre-data"
+                    name="data"
+                    type="date"
+                    required
+                    class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 font-body-md"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="pre-orario"
+                    class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                    >{t.form.orarioLabel}</label
+                  >
+                  <select
+                    id="pre-orario"
+                    name="orario"
+                    required
+                    class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 font-body-md"
+                  >
+                    <option value="">{t.form.orarioSelect}</option>
+                    <optgroup label={t.form.orarioPranzo}>
+                      {SLOT_PRANZO.map((slot) => (
+                        <option value={slot}>{slot}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label={t.form.orarioCena}>
+                      {SLOT_CENA.map((slot) => (
+                        <option value={slot}>{slot}</option>
+                      ))}
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label
+                  for="pre-ospiti"
+                  class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                  >{t.form.ospitiLabel}</label
+                >
+                <select
+                  id="pre-ospiti"
+                  name="ospiti"
+                  required
+                  class="w-full sm:w-1/2 bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 font-body-md"
+                >
+                  <option value="">{t.form.ospitiSelect}</option>
+                  {guestOptions.map((n) => (
+                    <option value={String(n)}>
+                      {n} {n === 1 ? t.form.ospitiOne : t.form.ospitiMany}
+                    </option>
+                  ))}
+                  <option value="oltre">{t.form.ospitiOver}</option>
+                </select>
+                <!-- Compare solo scegliendo "più di N": una tavolata va gestita a voce -->
+                <p
+                  id="pre-ospiti-nota"
+                  class="mt-4 hidden font-body-md text-body-md text-on-surface-variant bg-surface-container border-l-2 border-terracotta px-5 py-4"
+                >
+                  {t.form.ospitiOverNote}
+                </p>
+              </div>
+            </fieldset>
+
+            <!-- Chi -->
+            <fieldset class="space-y-8">
+              <legend
+                class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-vesuvius-green border-b border-outline-variant/40 w-full pb-3 mb-8"
+                >{t.form.legendChi}</legend
+              >
+              <div>
+                <label
+                  for="pre-nome"
+                  class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                  >{t.form.nomeLabel}</label
+                >
+                <input
+                  id="pre-nome"
+                  name="nome"
+                  type="text"
+                  autocomplete="name"
+                  required
+                  placeholder={t.form.nomePlaceholder}
+                  class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+                />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <label
+                    for="pre-telefono"
+                    class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                    >{t.form.telefonoLabel}</label
+                  >
+                  <input
+                    id="pre-telefono"
+                    name="telefono"
+                    type="tel"
+                    autocomplete="tel"
+                    required
+                    placeholder={t.form.telefonoPlaceholder}
+                    class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="pre-email"
+                    class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                    >{t.form.emailLabel}</label
+                  >
+                  <input
+                    id="pre-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    placeholder={t.form.emailPlaceholder}
+                    class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  for="pre-note"
+                  class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                  >{t.form.noteLabel}</label
+                >
+                <textarea
+                  id="pre-note"
+                  name="note"
+                  rows="4"
+                  placeholder={t.form.notePlaceholder}
+                  class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline focus:ring-0 focus:border-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+                ></textarea>
+              </div>
+              <!-- Consenso marketing separato e non pre-spuntato: l'iscrizione
+                   alla lista email è facoltativa e non condiziona la prenotazione. -->
+              <div class="flex items-start gap-4 pt-2">
+                <input
+                  id="pre-consenso"
+                  name="consenso"
+                  type="checkbox"
+                  value="si"
+                  class="mt-1 h-5 w-5 shrink-0 rounded border-outline text-vesuvius-green focus:ring-vesuvius-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vesuvius-green"
+                />
+                <label
+                  for="pre-consenso"
+                  class="font-body-md text-body-md text-on-surface-variant"
+                >
+                  {t.form.consenso}
+                  <span class="block mt-1 text-label-sm font-label-sm opacity-70"
+                    >{t.form.consensoNota}</span
+                  >
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="space-y-6 pt-2">
+              <button
+                type="submit"
+                class="w-full sm:w-auto bg-vesuvius-green text-silk-white px-14 py-5 uppercase font-label-sm text-label-sm tracking-[0.2em] hover:bg-lava-stone transition-colors shadow-lg active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+              >
+                {t.form.submit}
+              </button>
+              <p
+                id="prenota-error"
+                class="font-body-md text-body-md text-error hidden"
+                role="alert"
+                aria-live="assertive"
+              >
+                {t.form.error}
+              </p>
+              <p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">
+                {t.form.privacy}{' '}
+                <a
+                  href={cookieHref}
+                  class="underline hover:text-vesuvius-green transition-colors"
+                  >{t.form.privacyLink}</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Colonna riepilogo + contatti -->
+        <aside class="lg:col-span-5 lg:pl-8">
+          <div class="lg:sticky lg:top-28 space-y-8">
+            <!-- Riepilogo live: si compila mentre l'utente riempie il modulo -->
+            <div class="bg-vesuvius-green text-silk-white p-8 md:p-10">
+              <h2
+                class="font-headline-md text-headline-md mb-8 leading-tight"
+              >
+                {t.recap.heading}
+              </h2>
+              <dl class="space-y-5">
+                <div class="flex items-baseline justify-between gap-4 border-b border-silk-white/20 pb-4">
+                  <dt class="font-label-sm text-label-sm uppercase tracking-widest opacity-70">
+                    {t.recap.dataLabel}
+                  </dt>
+                  <dd
+                    id="recap-data"
+                    class="font-body-md text-body-md text-right"
+                  >
+                    {t.recap.placeholder}
+                  </dd>
+                </div>
+                <div class="flex items-baseline justify-between gap-4 border-b border-silk-white/20 pb-4">
+                  <dt class="font-label-sm text-label-sm uppercase tracking-widest opacity-70">
+                    {t.recap.orarioLabel}
+                  </dt>
+                  <dd id="recap-orario" class="font-body-md text-body-md text-right">
+                    {t.recap.placeholder}
+                  </dd>
+                </div>
+                <div class="flex items-baseline justify-between gap-4">
+                  <dt class="font-label-sm text-label-sm uppercase tracking-widest opacity-70">
+                    {t.recap.ospitiLabel}
+                  </dt>
+                  <dd id="recap-ospiti" class="font-body-md text-body-md text-right">
+                    {t.recap.placeholder}
+                  </dd>
+                </div>
+              </dl>
+              <p class="mt-8 pt-6 border-t border-silk-white/20 font-body-md text-body-md text-silk-white/80">
+                {t.recap.nota}
+              </p>
+            </div>
+
+            <!-- Telefono: per molti clienti resta il canale naturale -->
+            <div class="bg-clotted-cream border border-outline-variant/50 p-8 md:p-10 space-y-6">
+              <h2 class="font-headline-md text-headline-md text-vesuvius-green leading-tight">
+                {t.info.heading}
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                {t.info.body}
+              </p>
+              <a
+                href={t.info.phoneHref}
+                class="group inline-flex items-center gap-3 font-headline-md text-headline-md text-terracotta hover:text-vesuvius-green transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">phone</span>
+                <span class="break-words">{t.info.phone}</span>
+              </a>
+              <div class="pt-6 border-t border-outline-variant/50 space-y-2">
+                <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant opacity-70">
+                  {t.info.addressLabel}
+                </p>
+                <p class="font-body-md text-body-md text-on-surface">
+                  {t.info.address}<br />{t.info.addressLine2}
+                </p>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Via+Nazionale+414+80059+Torre+del+Greco+NA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-vesuvius-green hover:text-terracotta transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+                >
+                  {t.info.mapsCta}
+                  <span
+                    class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    aria-hidden="true">arrow_outward</span
+                  >
+                </a>
+              </div>
+              <div class="pt-6 border-t border-outline-variant/50 space-y-2">
+                <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant opacity-70">
+                  {t.info.cartaLabel}
+                </p>
+                <a
+                  href={cartaHref}
+                  class="group inline-flex items-center gap-2 font-body-md text-body-md text-vesuvius-green hover:text-terracotta transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+                >
+                  {t.info.cartaCta}
+                  <span
+                    class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    aria-hidden="true">arrow_forward</span
+                  >
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-lava-stone text-silk-white">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <div
+        class="py-14 flex flex-col gap-10 md:flex-row md:items-end md:justify-between border-b border-silk-white/15"
+      >
+        <a href={homeHref} aria-label="Villa Guerra & Josè — home" class="inline-block">
+          <LogoJose class="h-12 md:h-14 w-auto text-silk-white" />
+        </a>
+        <p class="font-headline-md text-headline-md italic text-antique-gold">
+          {t.footer.claim}
+        </p>
+      </div>
+      <div class="py-12 grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div class="space-y-3">
+          <p class="font-label-sm text-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.esplora}
+          </p>
+          <a
+            href={joseHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.ristorante}</a
+          >
+          <a
+            href={tenutaHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.eventi}</a
+          >
+          <a
+            href={cookieHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.cookie}</a
+          >
+        </div>
+        <div class="space-y-3">
+          <p class="font-label-sm text-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.contatti}
+          </p>
+          <p class="font-body-md text-body-md text-silk-white/80">
+            {t.info.address} — {t.info.addressLine2}
+          </p>
+          <a
+            href={t.info.phoneHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.info.phone}</a
+          >
+        </div>
+      </div>
+      <div
+        class="py-8 border-t border-silk-white/15 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between font-label-sm text-label-sm text-silk-white/60"
+      >
+        <p>{t.footer.copyright}</p>
+        <p>{t.footer.location}</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    import emailjs from '@emailjs/browser';
+
+    // Menu mobile (hamburger) — stesso pattern delle altre pagine
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+
+    const form = document.getElementById('prenota-form') as HTMLFormElement | null;
+
+    if (form) {
+      const lang = form.dataset.lang === 'en' ? 'en' : 'it';
+      const dateLocale = lang === 'en' ? 'en-GB' : 'it-IT';
+      const dataInput = document.getElementById('pre-data') as HTMLInputElement;
+      const orarioInput = document.getElementById('pre-orario') as HTMLSelectElement;
+      const ospitiInput = document.getElementById('pre-ospiti') as HTMLSelectElement;
+      const ospitiNota = document.getElementById('pre-ospiti-nota');
+      const errorBox = document.getElementById('prenota-error');
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const submitText = submitBtn?.textContent ?? '';
+      const sendingText = form.dataset.sending ?? '…';
+      const placeholder = '—';
+
+      const guestOne = form.dataset.guestOne ?? '';
+      const guestMany = form.dataset.guestMany ?? '';
+      const guestOver = form.dataset.guestOver ?? '';
+      const closedMessage = form.dataset.closedMessage ?? '';
+      const closedWeekdays = (form.dataset.closedWeekdays ?? '')
+        .split(',')
+        .map((d) => Number(d.trim()))
+        .filter((d) => Number.isInteger(d));
+
+      // Data locale in formato YYYY-MM-DD, senza passare da toISOString()
+      // (che converte in UTC e di sera sposta il giorno indietro).
+      const pad = (n: number) => String(n).padStart(2, '0');
+      const toLocalISO = (d: Date) =>
+        `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+      // La stringa del campo date va letta come data locale: senza l'orario
+      // esplicito il browser la interpreta come UTC.
+      const parseLocalDate = (value: string) => new Date(`${value}T00:00:00`);
+
+      // Non si prenota nel passato
+      dataInput.min = toLocalISO(new Date());
+
+      const setCustomError = (message: string) => {
+        dataInput.setCustomValidity(message);
+        if (message) dataInput.reportValidity();
+      };
+
+      const isClosed = (value: string) => {
+        if (!value || closedWeekdays.length === 0) return false;
+        return closedWeekdays.includes(parseLocalDate(value).getDay());
+      };
+
+      // Riepilogo live nella colonna di destra
+      const recap = {
+        data: document.getElementById('recap-data'),
+        orario: document.getElementById('recap-orario'),
+        ospiti: document.getElementById('recap-ospiti'),
+      };
+
+      const renderRecap = () => {
+        if (recap.data) {
+          const value = dataInput.value;
+          recap.data.textContent = value
+            ? parseLocalDate(value).toLocaleDateString(dateLocale, {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+              })
+            : placeholder;
+        }
+        if (recap.orario) {
+          recap.orario.textContent = orarioInput.value || placeholder;
+        }
+        if (recap.ospiti) {
+          const value = ospitiInput.value;
+          if (!value) {
+            recap.ospiti.textContent = placeholder;
+          } else if (value === 'oltre') {
+            recap.ospiti.textContent = guestOver;
+          } else {
+            recap.ospiti.textContent = `${value} ${value === '1' ? guestOne : guestMany}`;
+          }
+        }
+      };
+
+      dataInput.addEventListener('change', () => {
+        setCustomError(isClosed(dataInput.value) ? closedMessage : '');
+        renderRecap();
+      });
+      orarioInput.addEventListener('change', renderRecap);
+      ospitiInput.addEventListener('change', () => {
+        ospitiNota?.classList.toggle('hidden', ospitiInput.value !== 'oltre');
+        renderRecap();
+      });
+
+      // Il browser può ripristinare i valori al ricaricamento della pagina
+      renderRecap();
+      ospitiNota?.classList.toggle('hidden', ospitiInput.value !== 'oltre');
+
+      // Iscrizione facoltativa alla lista prenotazioni di Klaviyo: solo se
+      // l'utente ha spuntato il consenso E la lista è configurata.
+      // Best-effort — un errore qui non deve fermare la prenotazione.
+      const subscribeToKlaviyo = async () => {
+        const companyId = form.dataset.klaviyoCompanyId;
+        const listId = form.dataset.klaviyoListId;
+        const consenso = form.querySelector<HTMLInputElement>('#pre-consenso')?.checked;
+        if (!companyId || !listId || !consenso) return;
+
+        const formData = new FormData(form);
+        const email = String(formData.get('email') ?? '').trim();
+        if (!email) return;
+
+        const fullName = String(formData.get('nome') ?? '').trim();
+        const [firstName, ...lastNameParts] = fullName.split(/\s+/).filter(Boolean);
+
+        await fetch(
+          `https://a.klaviyo.com/client/subscriptions/?company_id=${encodeURIComponent(companyId)}`,
+          {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              'content-type': 'application/json',
+              revision: '2025-01-15',
+            },
+            body: JSON.stringify({
+              data: {
+                type: 'subscription',
+                attributes: {
+                  custom_source: 'Josè Restaurant - prenotazione tavolo',
+                  profile: {
+                    data: {
+                      type: 'profile',
+                      attributes: {
+                        email,
+                        ...(firstName ? { first_name: firstName } : {}),
+                        ...(lastNameParts.length
+                          ? { last_name: lastNameParts.join(' ') }
+                          : {}),
+                        ...(formData.get('telefono')
+                          ? { properties: { telefono: formData.get('telefono') } }
+                          : {}),
+                        subscriptions: {
+                          email: { marketing: { consent: 'SUBSCRIBED' } },
+                        },
+                      },
+                    },
+                  },
+                },
+                relationships: { list: { data: { type: 'list', id: listId } } },
+              },
+            }),
+          }
+        );
+      };
+
+      // Invio: EmailJS manda la richiesta in sala, poi si va alla pagina di
+      // ringraziamento. Template dedicato alle prenotazioni se configurato,
+      // altrimenti si riusa quello generico (vedi .env.example).
+      const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId =
+        import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID_PRENOTA ||
+        import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+      const isConfigured = Boolean(serviceId && templateId && publicKey);
+      const redirect = form.dataset.redirect;
+
+      const goToThanks = () => {
+        if (redirect) window.location.href = redirect;
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // novalidate sul form: la validazione la chiediamo noi, così il
+        // messaggio sulla data di chiusura convive con i required nativi.
+        setCustomError(isClosed(dataInput.value) ? closedMessage : '');
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        errorBox?.classList.add('hidden');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = sendingText;
+        }
+
+        try {
+          await subscribeToKlaviyo();
+        } catch (error) {
+          console.error('Errore iscrizione Klaviyo', error);
+        }
+
+        if (!isConfigured) {
+          console.warn(
+            'EmailJS non configurato: imposta PUBLIC_EMAILJS_SERVICE_ID, PUBLIC_EMAILJS_TEMPLATE_ID(_PRENOTA) e PUBLIC_EMAILJS_PUBLIC_KEY in .env. Redirect alla pagina di ringraziamento senza invio.'
+          );
+          goToThanks();
+          return;
+        }
+
+        try {
+          await emailjs.sendForm(serviceId, templateId, form, { publicKey });
+          goToThanks();
+        } catch (err) {
+          console.error('Invio EmailJS fallito:', err);
+          errorBox?.classList.remove('hidden');
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitText;
+          }
+        }
+      });
+    }
+  </script>
+</Base>

@@ -9,6 +9,11 @@ const pageGroups = [
   { it: '/jose/', en: '/en/jose/', priority: '0.8', changefreq: 'monthly' },
 ];
 
+// /prenota/ è esclusa finché il ristorante usa Pienissimo come canale ufficiale:
+// la pagina è noindex e non linkata (vedi nota in PrenotaContent.astro). Quando
+// il cliente adotta il nostro sistema, riaggiungere qui:
+//   { it: '/prenota/', en: '/en/prenota/', priority: '0.9', changefreq: 'monthly' },
+
 const lastmod = new Date().toISOString().slice(0, 10);
 
 function urlEntry(path: string, priority: string, changefreq: string, alternates: { hreflang: string; href: string }[]) {
