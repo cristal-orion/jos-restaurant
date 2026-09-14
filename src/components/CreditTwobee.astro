@@ -1,0 +1,36 @@
+---
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  lang?: Locale;
+  class?: string;
+  /**
+   * `pill` = tasto con bordo, per i footer distesi.
+   * `plain` = solo testo, quando sta già dentro un contenitore (es. la
+   * pillola del footer della home).
+   */
+  variant?: 'pill' | 'plain';
+  /** Su mobile mostra solo "twobee": l'etichetta compare da `md` in su. */
+  compact?: boolean;
+}
+
+// Credito dello studio che ha realizzato il sito. Usa `currentColor` per il
+// bordo, così funziona sia sui footer chiari sia su quelli scuri.
+const { lang = 'it', class: className = '', variant = 'pill', compact = false } = Astro.props;
+const label = lang === 'en' ? 'Website by' : 'Realizzato da';
+const variantClass =
+  variant === 'pill'
+    ? 'border border-current rounded-full px-3 py-1 tracking-widest opacity-50 hover:opacity-100'
+    : 'tracking-wide md:tracking-widest opacity-60 hover:opacity-100';
+---
+
+<a
+  href="https://twobee.it/"
+  target="_blank"
+  rel="noopener"
+  aria-label={`${label} twobee`}
+  class={`inline-flex items-center gap-1.5 font-label-sm text-[10px] uppercase whitespace-nowrap transition-opacity ${variantClass} ${className}`}
+>
+  <span class={compact ? 'hidden md:inline' : ''}>{label}</span>
+  <span class="font-semibold tracking-[0.15em]">twobee</span>
+</a>

@@ -4,15 +4,17 @@ import { localizedPath, type Locale } from '../i18n/utils';
 interface Props {
   lang: Locale;
   class?: string;
+  /** Classe di dimensione del testo, sovrascrivibile dove serve più compatto. */
+  textClass?: string;
 }
 
-const { lang, class: className = '' } = Astro.props;
+const { lang, class: className = '', textClass = 'text-label-sm' } = Astro.props;
 const hrefIt = localizedPath('it', Astro.url);
 const hrefEn = localizedPath('en', Astro.url);
 ---
 
 <div
-  class={`flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest ${className}`}
+  class={`flex items-center gap-1.5 font-label-sm ${textClass} uppercase tracking-widest ${className}`}
   aria-label="Cambia lingua / Change language"
 >
   <a

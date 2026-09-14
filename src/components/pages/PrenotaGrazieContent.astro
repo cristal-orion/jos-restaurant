@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
+import CreditTwobee from '../CreditTwobee.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -176,6 +177,7 @@ const cartaHref = `${joseHref}#menu`;
     <p class="text-silk-white/70 text-body-md font-body-md">
       Via Nazionale, 414 — 80059 Torre del Greco (NA)
     </p>
+    <CreditTwobee lang={lang} class="mt-2 text-silk-white" />
   </footer>
 
   <script>

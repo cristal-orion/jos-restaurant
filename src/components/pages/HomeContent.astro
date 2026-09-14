@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
+import CreditTwobee from '../CreditTwobee.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
 import { BOOKING_URL } from '../../consts';
 
@@ -35,6 +36,7 @@ const dict = {
       contatti: 'Contatti',
       doveSiamo: 'Dove Siamo',
       cookie: 'Informativa cookie',
+      cookieShort: 'Cookie',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
     },
   },
@@ -61,6 +63,7 @@ const dict = {
       contatti: 'Contact',
       doveSiamo: 'Find Us',
       cookie: 'Cookie policy',
+      cookieShort: 'Cookie',
       copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
     },
   },
@@ -199,20 +202,33 @@ const homeHref = localizedPath(lang, new URL('/', Astro.site));
   </main>
 
   <footer
-    class="fixed bottom-0 w-full py-6 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center z-50 pointer-events-none"
+    class="fixed bottom-0 w-full py-4 md:py-6 px-margin-mobile md:px-margin-desktop flex flex-row justify-center md:justify-between items-center z-50 pointer-events-none"
   >
+    {/* Su mobile un'unica pillola su una riga sola: testo a 10px, tracking più
+        stretto, "Cookie" abbreviato e il credito ridotto a "twobee". Da `md` in
+        su la pillola torna quella di prima e il fine print va a destra. */}
     <div
-      class="pointer-events-auto flex gap-8 items-center bg-lava-stone/20 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10"
+      class="pointer-events-auto flex flex-nowrap items-center gap-2.5 md:gap-8 bg-lava-stone/20 backdrop-blur-sm px-3 md:px-6 py-2 rounded-full border border-white/10"
     >
       <a
-        class="font-label-sm text-label-sm text-silk-white uppercase hover:text-antique-gold transition-colors"
+        class="font-label-sm text-[10px] md:text-label-sm tracking-wide md:tracking-widest text-silk-white uppercase whitespace-nowrap hover:text-antique-gold transition-colors"
         href={tenutaContattiHref}>{t.footer.contatti}</a
       >
       <a
-        class="font-label-sm text-label-sm text-silk-white uppercase hover:text-antique-gold transition-colors"
+        class="font-label-sm text-[10px] md:text-label-sm tracking-wide md:tracking-widest text-silk-white uppercase whitespace-nowrap hover:text-antique-gold transition-colors"
         href={joseDoveSiamoHref}>{t.footer.doveSiamo}</a
       >
-      <LanguageSwitcher lang={lang} class="text-silk-white" />
+      <LanguageSwitcher
+        lang={lang}
+        textClass="text-[10px] md:text-label-sm"
+        class="text-silk-white"
+      />
+      <a
+        href={cookiePolicyHref}
+        class="md:hidden font-label-sm text-[10px] tracking-wide text-silk-white/70 uppercase whitespace-nowrap hover:text-antique-gold transition-colors"
+        >{t.footer.cookieShort}</a
+      >
+      <CreditTwobee lang={lang} variant="plain" compact class="text-silk-white" />
     </div>
     <div class="hidden md:flex flex-col items-end pointer-events-auto gap-1">
       <a

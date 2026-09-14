@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
+import CreditTwobee from '../CreditTwobee.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -712,6 +713,7 @@ const reserveSchema = {
       >
         <p>{t.footer.copyright}</p>
         <p>{t.footer.location}</p>
+        <CreditTwobee lang={lang} class="self-start sm:self-auto text-silk-white" />
       </div>
     </div>
   </footer>

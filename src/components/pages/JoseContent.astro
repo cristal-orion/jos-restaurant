@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
+import CreditTwobee from '../CreditTwobee.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
 import { BOOKING_URL } from '../../consts';
 
@@ -1079,6 +1080,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
         <p class="text-label-sm font-label-sm text-silk-white/45 uppercase tracking-widest">
           {t.footer.location}
         </p>
+        <CreditTwobee lang={lang} class="self-start sm:self-auto text-silk-white" />
       </div>
     </div>
   </footer>
