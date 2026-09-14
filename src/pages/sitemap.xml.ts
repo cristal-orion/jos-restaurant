@@ -9,10 +9,9 @@ const pageGroups = [
   { it: '/jose/', en: '/en/jose/', priority: '0.8', changefreq: 'monthly' },
 ];
 
-// /prenota/ è esclusa finché il ristorante usa Pienissimo come canale ufficiale:
-// la pagina è noindex e non linkata (vedi nota in PrenotaContent.astro). Quando
-// il cliente adotta il nostro sistema, riaggiungere qui:
-//   { it: '/prenota/', en: '/en/prenota/', priority: '0.9', changefreq: 'monthly' },
+// /prenota/ è esclusa e ci resta: le prenotazioni sono su un'app a sé
+// (prenota.tenutavillaguerra.it, vedi src/consts.ts) che ha la propria sitemap,
+// e questa pagina interna è superata — nginx la rimanda là con un 301.
 
 const lastmod = new Date().toISOString().slice(0, 10);
 

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import LogoJose from '../components/LogoJose.astro';
+import { BOOKING_URL } from '../consts';
 ---
 
 <Base
@@ -38,7 +39,7 @@ import LogoJose from '../components/LogoJose.astro';
     </nav>
     <div class="flex items-center gap-6">
       <a
-        href="/jose#contatti"
+        href={BOOKING_URL}
         class="hidden sm:inline-block bg-antique-gold text-silk-white px-6 py-2 uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors duration-300 ease-out"
         >Prenota Ora</a
       >
@@ -68,7 +69,7 @@ import LogoJose from '../components/LogoJose.astro';
       {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
       {/* <a class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20" href="/cantina" aria-current="page">Cantina</a> */}
       <a
-        href="/jose#contatti"
+        href={BOOKING_URL}
         class="mt-4 bg-antique-gold text-silk-white px-6 py-3 text-center uppercase font-label-sm text-label-sm tracking-widest hover:bg-primary transition-colors"
         >Prenota Ora</a
       >

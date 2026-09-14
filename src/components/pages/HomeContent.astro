@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
+import { BOOKING_URL } from '../../consts';
 
 interface Props {
   lang: Locale;
@@ -69,7 +70,6 @@ const t = dict[lang];
 const villaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
 const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
-const joseContattiHref = localizedPath(lang, new URL('/jose#contatti', Astro.site));
 const tenutaContattiHref = localizedPath(lang, new URL('/tenuta#contatti', Astro.site));
 const joseDoveSiamoHref = localizedPath(lang, new URL('/jose#dove-siamo', Astro.site));
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
@@ -110,7 +110,7 @@ const homeHref = localizedPath(lang, new URL('/', Astro.site));
       {/* <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
       <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
       <a
-        href={joseContattiHref}
+        href={BOOKING_URL}
         class="bg-primary-container text-on-primary-container px-6 py-2 font-label-sm text-label-sm uppercase hover:opacity-80 transition-opacity"
         >{t.nav.prenota}</a
       >

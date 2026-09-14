@@ -10,14 +10,13 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// STATO: pagina PARCHEGGIATA. Il canale di prenotazione ufficiale del ristorante
-// è ancora Pienissimo (link esterno nella sezione "Prenotazione" di jose.astro):
-// questa pagina esiste per far provare il sistema al cliente, non è linkata da
-// nav/footer ed è `noindex` + esclusa dalla sitemap, così Google non manda qui
-// clienti veri prima che il ristorante la presidi.
-// PER PUBBLICARLA: togliere `noindex` dal <Base> qui sotto, rimettere il gruppo
-// /prenota in src/pages/sitemap.xml.ts e puntare a /prenota il nav "Prenota Ora"
-// + il bottone di jose.astro (oggi entrambi su #contatti / Pienissimo).
+// STATO: pagina SUPERATA, tenuta solo come traccia. Il ristorante ha adottato
+// l'app di prenotazione dedicata (src/consts.ts → prenota.tenutavillaguerra.it),
+// che ha anche il pannello per confermare le richieste: i pulsanti "Prenota" del
+// sito puntano là, e nginx rimanda /prenota allo stesso indirizzo con un 301
+// (vedi nginx.conf), così questo modulo non è più raggiungibile in produzione.
+// Resta `noindex` e fuori dalla sitemap. Era il modulo statico costruito per far
+// provare il sistema al cliente quando le prenotazioni passavano da Pienissimo.
 
 // Orari di servizio proposti nel menu a tendina.
 // ATTENZIONE: fasce ipotizzate, DA CONFERMARE col ristorante — per cambiarle

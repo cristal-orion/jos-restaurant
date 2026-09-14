@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
+import { BOOKING_URL } from '../../consts';
 
 interface Props {
   lang: Locale;
@@ -718,7 +719,7 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
         <li>
           <a
             class="text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity font-label-sm text-label-sm"
-            href={`${joseHref}#contatti`}>{t.footer.prenotaTavolo}</a
+            href={BOOKING_URL}>{t.footer.prenotaTavolo}</a
           >
         </li>
       </ul>

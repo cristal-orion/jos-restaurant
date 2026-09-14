@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import LogoJose from '../LogoJose.astro';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
 import { localizedPath, type Locale } from '../../i18n/utils';
+import { BOOKING_URL } from '../../consts';
 
 interface Props {
   lang: Locale;
@@ -528,7 +529,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
     </nav>
     <div class="flex items-center gap-6">
       <a
-        href="#contatti"
+        href={BOOKING_URL}
         class="hidden sm:inline-block bg-terracotta text-lava-stone px-6 py-2 font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
         >{t.nav.prenota}</a
       >
@@ -564,7 +565,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
         <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
       </div>
       <a
-        href="#contatti"
+        href={BOOKING_URL}
         class="mt-4 bg-terracotta text-lava-stone px-6 py-3 text-center font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
         >{t.nav.prenota}</a
       >
@@ -768,7 +769,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
             <p>{t.pizzeria.p2}</p>
           </div>
           <a
-            href="#contatti"
+            href={BOOKING_URL}
             class="group inline-flex items-center gap-3 text-primary font-bold"
           >
             <span class="font-label-sm text-label-sm uppercase">{t.pizzeria.cta}</span>
@@ -917,9 +918,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
             {t.booking.p2}
           </p>
           <a
-            href="https://mqv9bou19i9twdl5va81fbt5e4ndsmyt.forms.pienissimo.pro/info-client?id=Fl7E3J"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={BOOKING_URL}
             class="group inline-flex items-center gap-3 bg-lava-stone text-terracotta px-8 py-4 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
           >
             {t.booking.cta}
@@ -1014,7 +1013,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
           </p>
         </div>
         <a
-          href="#contatti"
+          href={BOOKING_URL}
           class="group inline-flex items-center justify-center gap-3 self-start whitespace-nowrap bg-terracotta text-lava-stone px-8 py-4 font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
         >
           {t.footer.cta}
