@@ -15,6 +15,8 @@ interface ImportMetaEnv {
   readonly PUBLIC_KLAVIYO_EVENTI_LIST_ID?: string;
   /** Klaviyo — ID della lista "prenotazioni" (/prenota). Senza questo valore l'iscrizione viene saltata. */
   readonly PUBLIC_KLAVIYO_PRENOTA_LIST_ID?: string;
+  /** Pannello del ristorante (Prenotissimo) che raccoglie le richieste eventi. Default https://prenota.tenutavillaguerra.it */
+  readonly PUBLIC_CRM_URL?: string;
 }
 
 interface ImportMeta {

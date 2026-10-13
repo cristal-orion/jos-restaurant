@@ -226,6 +226,7 @@ const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
 const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 const klaviyoCompanyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? 'RNGRZq';
 const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su6agb';
+const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillaguerra.it').replace(/\/$/, '');
 ---
 
 <Base
@@ -584,9 +585,16 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
           data-redirect={grazieHref}
           data-klaviyo-company-id={klaviyoCompanyId}
           data-klaviyo-list-id={klaviyoEventiListId}
+          data-crm-url={crmUrl}
           data-sending={t.form.sending}
           data-error={t.form.error}
         >
+          <input type="hidden" name="lang" value={lang} />
+          <!-- Campo trappola per i bot: nascosto alle persone e agli screen reader. -->
+          <div class="hidden" aria-hidden="true">
+            <label for="evt-website">Website</label>
+            <input id="evt-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <label
@@ -814,14 +822,26 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
       });
     }
 
-    // Form "Progetta il tuo evento": all'invio (1) iscrive l'email alla lista
-    // eventi Klaviyo e (2) invia la richiesta al ristorante via EmailJS, poi
-    // reindirizza alla pagina di ringraziamento.
+    // Form "Progetta il tuo evento": all'invio (0) registra la richiesta nel
+    // pannello del ristorante (sezione "Richieste eventi" di prenota.*),
+    // (1) iscrive l'email alla lista eventi Klaviyo e (2) invia la richiesta al
+    // ristorante via EmailJS, poi reindirizza alla pagina di ringraziamento.
+    // - Pannello: PUBLIC_CRM_URL (best-effort, un errore non blocca: la mail
+    //   EmailJS resta la rete di sicurezza).
     // - Klaviyo: variabili PUBLIC_KLAVIYO_* (best-effort, un errore non blocca).
     // - EmailJS: variabili PUBLIC_EMAILJS_* (vedi .env.example). Senza chiavi
     //   configurate (es. QA locale) l'invio viene saltato con un avviso in console
     //   e si procede comunque al redirect.
     const eventoForm = document.getElementById('evento-form') as HTMLFormElement | null;
+    const sendToCrm = async (form: HTMLFormElement) => {
+      const base = form.dataset.crmUrl;
+      if (!base) return;
+      // form-urlencoded = richiesta "semplice": niente preflight CORS.
+      const body = new URLSearchParams();
+      new FormData(form).forEach((value, key) => body.append(key, String(value)));
+      const res = await fetch(`${base}/api/public/event-request`, { method: 'POST', body });
+      if (!res.ok) throw new Error(`CRM ${res.status}`);
+    };
     const subscribeToKlaviyoEvents = async (form: HTMLFormElement) => {
       const companyId = form.dataset.klaviyoCompanyId;
       const listId = form.dataset.klaviyoListId;
@@ -899,6 +919,19 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
       eventoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        errorBox?.classList.add('hidden');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = sendingText;
+        }
+
+        // (0) Registrazione nel pannello del ristorante — best-effort.
+        try {
+          await sendToCrm(eventoForm);
+        } catch (error) {
+          console.error('Errore invio al pannello', error);
+        }
+
         // (1) Iscrizione alla lista eventi Klaviyo — best-effort: un errore qui
         //     non deve impedire l'invio della richiesta né il redirect finale.
         try {
@@ -914,12 +947,6 @@ const klaviyoEventiListId = import.meta.env.PUBLIC_KLAVIYO_EVENTI_LIST_ID ?? 'Su
           );
           goToThanks();
           return;
-        }
-
-        errorBox?.classList.add('hidden');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = sendingText;
         }
 
         try {
