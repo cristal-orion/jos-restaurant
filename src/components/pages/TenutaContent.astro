@@ -846,10 +846,10 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
 
     // Form "Progetta il tuo evento": all'invio (0) registra la richiesta nel
     // pannello del ristorante (sezione "Richieste eventi" di prenota.*),
-    // (1) iscrive l'email alla lista eventi Klaviyo e (2) invia la richiesta al
+    // (1) iscrive l'email alla lista eventi Klaviyo e (2) manda la mail al
     // ristorante via EmailJS, poi reindirizza alla pagina di ringraziamento.
-    // - Pannello: PUBLIC_CRM_URL (best-effort, un errore non blocca: la mail
-    //   EmailJS resta la rete di sicurezza).
+    // - Pannello: PUBLIC_CRM_URL. È obbligatorio: senza, errore e si riprova.
+    //   Il telefono arriva solo qui.
     // - Klaviyo: variabili PUBLIC_KLAVIYO_* (best-effort, un errore non blocca).
     // - EmailJS: variabili PUBLIC_EMAILJS_* (vedi .env.example). Senza chiavi
     //   configurate (es. QA locale) l'invio viene saltato con un avviso in console
@@ -947,41 +947,53 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
           submitBtn.textContent = sendingText;
         }
 
-        // (0) Registrazione nel pannello del ristorante — best-effort.
+        // (0) Registrazione nel pannello del ristorante: è l'unico posto dove
+        //     arriva il telefono, quindi è il passaggio che conta. Se fallisce
+        //     l'utente lo vede e può riprovare, invece di perdere il contatto.
         try {
           await sendToCrm(eventoForm);
         } catch (error) {
           console.error('Errore invio al pannello', error);
+          errorBox?.classList.remove('hidden');
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitText;
+          }
+          return;
         }
 
-        // (1) Iscrizione alla lista eventi Klaviyo — best-effort: un errore qui
-        //     non deve impedire l'invio della richiesta né il redirect finale.
+        // (1) Iscrizione alla lista eventi Klaviyo — best-effort.
         try {
           await subscribeToKlaviyoEvents(eventoForm);
         } catch (error) {
           console.error('Errore iscrizione Klaviyo', error);
         }
 
-        // (2) Invio della richiesta al ristorante via EmailJS.
-        if (!isConfigured) {
-          console.warn(
-            'EmailJS non configurato: imposta PUBLIC_EMAILJS_SERVICE_ID, PUBLIC_EMAILJS_TEMPLATE_ID e PUBLIC_EMAILJS_PUBLIC_KEY in .env. Redirect alla pagina di ringraziamento senza invio.'
-          );
-          goToThanks();
-          return;
+        // (2) Mail al ristorante via EmailJS — best-effort: la richiesta è già
+        //     nel pannello. Campi espliciti, così il telefono resta fuori.
+        if (isConfigured) {
+          const data = new FormData(eventoForm);
+          try {
+            await emailjs.send(
+              serviceId,
+              templateId,
+              {
+                nome: String(data.get('nome') ?? ''),
+                email: String(data.get('email') ?? ''),
+                tipo: String(data.get('tipo') ?? ''),
+                data: String(data.get('data') ?? ''),
+                messaggio: String(data.get('messaggio') ?? ''),
+              },
+              { publicKey }
+            );
+          } catch (err) {
+            console.error('Invio EmailJS fallito:', err);
+          }
+        } else {
+          console.warn('EmailJS non configurato: la richiesta è solo nel pannello.');
         }
 
-        try {
-          await emailjs.sendForm(serviceId, templateId, eventoForm, { publicKey });
-          goToThanks();
-        } catch (err) {
-          console.error('Invio EmailJS fallito:', err);
-          errorBox?.classList.remove('hidden');
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = submitText;
-          }
-        }
+        goToThanks();
       });
     }
 
