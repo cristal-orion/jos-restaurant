@@ -79,6 +79,8 @@ const dict = {
       nomePlaceholder: 'Mario Rossi',
       emailLabel: 'Email',
       emailPlaceholder: 'nome@esempio.it',
+      telefonoLabel: 'Telefono',
+      telefonoPlaceholder: '+39 333 123 4567',
       tipoLabel: 'Tipo di evento',
       tipoSelect: 'Seleziona…',
       tipoPrivato: 'Evento privato',
@@ -171,6 +173,8 @@ const dict = {
       nomePlaceholder: 'John Smith',
       emailLabel: 'Email',
       emailPlaceholder: 'name@example.com',
+      telefonoLabel: 'Phone',
+      telefonoPlaceholder: '+39 333 123 4567',
       tipoLabel: 'Event Type',
       tipoSelect: 'Select…',
       tipoPrivato: 'Private event',
@@ -595,7 +599,7 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
             <label for="evt-website">Website</label>
             <input id="evt-website" name="website" type="text" tabindex="-1" autocomplete="off" />
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div>
               <label
                 for="evt-nome"
@@ -625,6 +629,24 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
                 autocomplete="email"
                 required
                 placeholder={t.form.emailPlaceholder}
+                class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
+              />
+            </div>
+            <div>
+              <label
+                for="evt-telefono"
+                class="block text-label-sm font-label-sm text-on-surface-variant mb-2"
+                >{t.form.telefonoLabel}</label
+              >
+              <input
+                id="evt-telefono"
+                name="telefono"
+                type="tel"
+                autocomplete="tel"
+                inputmode="tel"
+                required
+                pattern="[+0-9 ()./-]{6,}"
+                placeholder={t.form.telefonoPlaceholder}
                 class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-antique-gold focus:ring-0 focus:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-antique-gold px-0 py-3 placeholder:text-on-surface-variant/50 font-body-md"
               />
             </div>
