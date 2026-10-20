@@ -120,11 +120,32 @@ const dict = {
         {
           heading: 'Primi Piatti',
           items: [
-            { name: "Tagliolini all'uovo alla Nerano", price: '18€' },
-            { name: 'Gnocchetti con cozze, pecorino e pomodorini', price: '20€' },
-            { name: 'Risotto con astice e sfusato amalfitano', price: '29€', note: 'min. 2 persone' },
-            { name: 'Minestra di pasta con ricci, alghe e frutti di mare', price: '26€' },
-            { name: 'Spaghetti alle vongole', price: '22€' },
+            {
+              name: 'Linguine alla bella donna',
+              price: '20€',
+              desc: 'Linguine con lupini, pomodorini del piennolo, olive taggiasche, capperi e basilico',
+            },
+            {
+              name: 'Tubetti al profumo di mare',
+              price: '26€',
+              desc: 'Tubetti con ricci, alghe e frutti di mare',
+            },
+            {
+              name: 'Risotto con astice e zafferano',
+              price: '30€',
+              note: 'min. 2 persone',
+              desc: 'Risotto con astice, la sua bisque, zafferano e limone',
+            },
+            {
+              name: 'Tagliolini con alici e tartufo nero',
+              price: '25€',
+              desc: 'Tagliolini mantecati con burro di bufala, alici del Cantabrico e tartufo nero',
+            },
+            {
+              name: 'Ravioli all’ischitana',
+              price: '19€',
+              desc: 'Ravioli ripieni con coniglio all’ischitana, crudo di canocchie, bottarga e aneto',
+            },
           ],
         },
         {
@@ -344,11 +365,32 @@ const dict = {
         {
           heading: 'First Courses',
           items: [
-            { name: 'Egg tagliolini alla Nerano', price: '€18' },
-            { name: 'Potato gnocchetti with mussels, pecorino and cherry tomatoes', price: '€20' },
-            { name: 'Risotto with lobster and Amalfi lemon', price: '€29', note: 'min. 2 people' },
-            { name: 'Pasta soup with sea urchin, seaweed and shellfish', price: '€26' },
-            { name: 'Spaghetti alle vongole', price: '€22' },
+            {
+              name: 'Linguine alla bella donna',
+              price: '€20',
+              desc: 'Linguine with lupini clams, piennolo cherry tomatoes, taggiasca olives, capers and basil',
+            },
+            {
+              name: 'Tubetti with the flavours of the sea',
+              price: '€26',
+              desc: 'Tubetti pasta with sea urchin, seaweed and seafood',
+            },
+            {
+              name: 'Risotto with lobster and saffron',
+              price: '€30',
+              note: 'min. 2 people',
+              desc: 'Risotto with lobster, its bisque, saffron and lemon',
+            },
+            {
+              name: 'Tagliolini with anchovies and black truffle',
+              price: '€25',
+              desc: 'Tagliolini tossed with buffalo butter, Cantabrian anchovies and black truffle',
+            },
+            {
+              name: 'Ischia-style ravioli',
+              price: '€19',
+              desc: 'Ravioli filled with Ischia-style rabbit, raw mantis shrimp, bottarga and dill',
+            },
           ],
         },
         {
@@ -832,7 +874,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
             {t.menu.intro}
           </p>
           <a
-            href="/pdf/jose-menu-estate-2026.pdf"
+            href="/pdf/jose-menu-estate-2026.pdf?v=2026-10-16"
             download
             class="group mt-8 inline-flex items-center gap-3 bg-lava-stone text-terracotta px-6 py-3 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
           >
