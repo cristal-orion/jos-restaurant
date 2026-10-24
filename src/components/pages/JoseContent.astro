@@ -100,21 +100,14 @@ const dict = {
         {
           heading: 'Antipasti',
           items: [
-            { name: 'Peperone «mbuttunat»', price: '16€' },
-            { name: 'Millefoglie di melanzane in parmigiana', price: '16€' },
-            { name: 'Carpaccio di tonno rosso con bufala e bruschetta al pomodoro', price: '20€' },
-            { name: 'Tagliatella di seppia con variazione di zucchine alla scapece', price: '18€' },
-            { name: 'Polpo su biscotto di Agerola e caponatina amalfitana', price: '20€' },
-            { name: 'Sauté di vongole', price: '20€' },
-            { name: 'Fritto di gamberi e calamari', price: '22€' },
-          ],
-        },
-        {
-          heading: 'Sfizi Fritti',
-          items: [
-            { name: 'Crocchè di patate', price: '3€' },
-            { name: 'Frittatina di pasta', price: '4€' },
-            { name: 'Fiore di zucca ripieno di ricotta', price: '3€' },
+            { name: 'Carciofo arrosto', price: '16€', desc: 'Carciofo arrosto su fondente di patate e aglio nero, bruschetta al pomodoro' },
+            { name: 'Lupini alla brace', price: '18€', desc: 'Lupini, acqua di pomodoro affumicato e olio al basilico' },
+            { name: 'Baccalà, fagioli, scarola e papaccella', price: '18€', desc: 'Crocchetta di baccalà mantecato, morbido di fagioli, scarola al salto e papaccelle' },
+            { name: 'Totano e patate', price: '18€', desc: 'Salsiccia di totano, patata croccante, maionese al limone e prezzemolo' },
+            { name: 'Gambero e sottobosco', price: '25€', desc: 'Gamberi crudi e la sua bisque, funghi di stagione con il suo olio' },
+            { name: 'Polpo, zucca e friarielli', price: '22€', desc: 'Polpo arrosto, zucca e friarielli saltati' },
+            { name: 'Frittatina di Gragnano', price: '8€', desc: 'Frittatina di pasta di Gragnano con ragù napoletano' },
+            { name: 'Crocchè', price: '8€', desc: 'Crocchè di patate di Avezzano, fonduta di provolone di grotta e funghi porcini' },
           ],
         },
         {
@@ -151,79 +144,32 @@ const dict = {
         {
           heading: 'Secondi Piatti',
           items: [
-            { name: 'Maiale nero in lenta cottura con taccole alla pizzaiola', price: '25€' },
-            { name: 'Entrecôte alla griglia con rucola e funghi cardoncelli', price: '30€' },
-            { name: 'Baccalà fritto con salsa alla puttanesca', price: '25€' },
-            { name: 'Pescato arrosto con zucchine e menta', price: '29€' },
-            { name: 'Misto di pesce e crostacei alla brace con scarola al salto', price: '35€' },
+            { name: 'Triglia, funghi e zucca', price: '30€', desc: 'Triglia arrosto, funghi, zucca affumicata e fondo di triglia' },
+            { name: 'Pescato, patate e scarole', price: '28€', desc: 'Trancio di pescato del giorno, patata fondente e scarola saltata' },
+            { name: 'Calamari e gamberi', price: '24€', desc: 'Fritto di calamari e gamberi, emulsione di crostacei, maionese di limone ed erbe' },
+            { name: 'Asado alla pizzaiola', price: '25€', desc: 'Asado di manzo cotto lentamente, pomodoro, origano e jus di manzo' },
           ],
         },
         {
           heading: 'Pizze',
           items: [
-            { name: 'Margherita', price: '8€' },
-            { name: 'Marinara', price: '7€' },
-            {
-              name: 'Marinara in carrozza',
-              price: '10€',
-              desc: 'Salsa di datterini arrosto, pomodorini semidry, alici di Cetara, olive taggiasche, origano, Parmigiano Reggiano e aglio nero',
-            },
-            { name: 'Bufalina', price: '10€', desc: 'Mozzarella di bufala, pomodorini datterini, basilico' },
-            {
-              name: 'Scarpariello',
-              price: '10€',
-              desc: 'Salsa di datterino arrosto, provola affumicata, parmigiano e pomodorini semidry',
-            },
-            { name: 'Ciuri', price: '12€', desc: 'Fior di latte, variazione di zucchine e provolone di vacche rosse' },
-            {
-              name: 'Ciummariello',
-              price: '12€',
-              desc: 'Fior di latte, salame piccante, peperoncini verdi saltati in padella con pomodorini',
-            },
-            {
-              name: 'Calzone',
-              price: '10€',
-              desc: 'Provola affumicata, scarola ripassata, alici, pomodori secchi, olive taggiasche',
-            },
-            {
-              name: 'Norcino',
-              price: '14€',
-              desc: 'Fior di latte, capocollo Norcineria Bianculli, funghi porcini e salsa tartufata',
-            },
-            {
-              name: 'Rustica',
-              price: '12€',
-              desc: 'Provola affumicata, salsiccia, patanielli al forno e fonduta di parmigiano',
-            },
-            {
-              name: 'Massaro',
-              price: '12€',
-              desc: 'Fior di latte, pancetta arrotolata al peperone crusco, carciofini arrosto e stracciatella di bufala',
-            },
-            {
-              name: 'Crunchy',
-              price: '10€',
-              desc: 'Base focaccia turca, stracciatella di bufala, rucola, pomodorini datterini e limone',
-            },
-            {
-              name: 'Caprese',
-              price: '14€',
-              desc: 'Pomodoro di Sorrento, mozzarella di bufala, prosciutto crudo, origano, salsa al basilico',
-            },
-            {
-              name: 'Formaggi',
-              price: '12€',
-              desc: 'Fior di latte, blu di bufala, caciocavallo di vacche rosse, salsa di fichi e limone',
-            },
+            { name: 'Margherita', price: '10€', desc: 'Pomodoro San Marzano, fior di latte d’Agerola e basilico' },
+            { name: 'P & P', price: '10€', desc: 'Pomodoro San Marzano, provola affumicata di Agerola, pepe e basilico' },
+            { name: 'Bufalina fresca', price: '12€', desc: 'Mozzarella di bufala Il Casolare, pomodorini corbarino a pacchetelle e basilico' },
+            { name: 'Scarpariello', price: '14€', desc: 'Salsa di pomodorini datterino arrosto, provola affumicata, cialda di parmigiano, pomodorini semidry e salsa al basilico' },
+            { name: 'Carrettiera’s way', price: '16€', desc: 'Padellino croccante con provola affumicata, friarielli saltati, tartare di manzo, fondo bruno e salsa all’arrabbiata' },
+            { name: 'Autunno', price: '18€', desc: 'Crema di patate affumicata, funghi, tartufo nero, fonduta di provolone del monaco e germogli di senape' },
+            { name: 'Genovese', price: '18€', desc: 'Salsa alla genovese, carpaccio di tonno, nocciole tostate e formaggio caprino' },
+            { name: 'Zucca', price: '14€', desc: 'Mozzarella di bufala, blu di bufala, cremoso di zucca e noci' },
           ],
         },
         {
           heading: 'Dessert',
           items: [
             { name: 'Sfera di tiramisù nocciolato', price: '9€' },
-            { name: 'Millefoglie, vaniglia e caramello', price: '9€' },
-            { name: 'Babà, arancia e Cointreau', price: '8€' },
-            { name: 'Ricotta di bufala, albicocca pellecchiella e nocciole', price: '9€' },
+            { name: 'Millefoglie, crema pasticciera e amarene', price: '9€' },
+            { name: 'Ganache al Cointreau, cuore di babà e arancia', price: '8€' },
+            { name: 'Mousse di ricotta di capra, pera e gelato alla nocciola', price: '9€' },
           ],
         },
       ],
@@ -345,21 +291,14 @@ const dict = {
         {
           heading: 'Starters',
           items: [
-            { name: 'Stuffed «mbuttunat» pepper', price: '€16' },
-            { name: 'Aubergine parmigiana millefeuille', price: '€16' },
-            { name: 'Red tuna carpaccio with buffalo mozzarella and tomato bruschetta', price: '€20' },
-            { name: 'Cuttlefish tagliatelle with courgette scapece variations', price: '€18' },
-            { name: 'Octopus on Agerola biscuit with Amalfi-style caponata', price: '€20' },
-            { name: 'Sautéed clams', price: '€20' },
-            { name: 'Fried prawns and squid', price: '€22' },
-          ],
-        },
-        {
-          heading: 'Fried Bites',
-          items: [
-            { name: 'Potato croquette', price: '€3' },
-            { name: 'Pasta frittatina', price: '€4' },
-            { name: 'Courgette flower stuffed with ricotta', price: '€3' },
+            { name: 'Roasted artichoke', price: '€16', desc: 'Roasted artichoke on potato fondant and black garlic, tomato bruschetta' },
+            { name: 'Chargrilled lupini clams', price: '€18', desc: 'Lupini clams, smoked tomato water and basil oil' },
+            { name: 'Salt cod, beans, escarole and papaccella pepper', price: '€18', desc: 'Creamed salt cod croquette, smooth bean purée, sautéed escarole and papaccella peppers' },
+            { name: 'Flying squid and potatoes', price: '€18', desc: 'Flying squid sausage, crispy potato, lemon mayonnaise and parsley' },
+            { name: 'Prawns and woodland flavours', price: '€25', desc: 'Raw prawns and their bisque, seasonal mushrooms with mushroom oil' },
+            { name: 'Octopus, pumpkin and friarielli', price: '€22', desc: 'Roasted octopus, pumpkin and sautéed friarielli greens' },
+            { name: 'Gragnano pasta frittatina', price: '€8', desc: 'Gragnano pasta frittatina with Neapolitan ragù' },
+            { name: 'Crocchè', price: '€8', desc: 'Avezzano potato croquette, cave-aged provolone fondue and porcini mushrooms' },
           ],
         },
         {
@@ -396,79 +335,32 @@ const dict = {
         {
           heading: 'Main Courses',
           items: [
-            { name: 'Slow-cooked black pork with pizzaiola-style mangetout', price: '€25' },
-            { name: 'Grilled entrecôte with rocket and cardoncelli mushrooms', price: '€30' },
-            { name: 'Fried salt cod with puttanesca sauce', price: '€25' },
-            { name: 'Roasted catch of the day with courgette and mint', price: '€29' },
-            { name: 'Grilled mixed fish and shellfish with sautéed escarole', price: '€35' },
+            { name: 'Red mullet, mushrooms and pumpkin', price: '€30', desc: 'Roasted red mullet, mushrooms, smoked pumpkin and red mullet stock reduction' },
+            { name: 'Catch of the day, potatoes and escarole', price: '€28', desc: 'Catch-of-the-day steak, potato fondant and sautéed escarole' },
+            { name: 'Squid and prawns', price: '€24', desc: 'Fried squid and prawns, shellfish emulsion, lemon and herb mayonnaise' },
+            { name: 'Asado alla pizzaiola', price: '€25', desc: 'Slow-cooked beef asado, tomato, oregano and beef jus' },
           ],
         },
         {
           heading: 'Pizzas',
           items: [
-            { name: 'Margherita', price: '€8' },
-            { name: 'Marinara', price: '€7' },
-            {
-              name: 'Marinara in carrozza',
-              price: '€10',
-              desc: 'Roasted datterino sauce, semi-dried cherry tomatoes, Cetara anchovies, taggiasca olives, oregano, Parmigiano Reggiano and black garlic',
-            },
-            { name: 'Bufalina', price: '€10', desc: 'Buffalo mozzarella, datterino cherry tomatoes, basil' },
-            {
-              name: 'Scarpariello',
-              price: '€10',
-              desc: 'Roasted datterino sauce, smoked provola, Parmigiano and semi-dried cherry tomatoes',
-            },
-            { name: 'Ciuri', price: '€12', desc: 'Fior di latte, courgette variations and red-cattle provolone' },
-            {
-              name: 'Ciummariello',
-              price: '€12',
-              desc: 'Fior di latte, spicy salami, pan-sautéed green chillies with cherry tomatoes',
-            },
-            {
-              name: 'Calzone',
-              price: '€10',
-              desc: 'Smoked provola, sautéed escarole, anchovies, sun-dried tomatoes, taggiasca olives',
-            },
-            {
-              name: 'Norcino',
-              price: '€14',
-              desc: 'Fior di latte, Norcineria Bianculli capocollo, porcini mushrooms and truffle sauce',
-            },
-            {
-              name: 'Rustica',
-              price: '€12',
-              desc: 'Smoked provola, sausage, oven-baked patanielli potatoes and Parmigiano fondue',
-            },
-            {
-              name: 'Massaro',
-              price: '€12',
-              desc: 'Fior di latte, pancetta rolled in crusco pepper, roasted baby artichokes and buffalo stracciatella',
-            },
-            {
-              name: 'Crunchy',
-              price: '€10',
-              desc: 'Turkish flatbread base, buffalo stracciatella, rocket, datterino cherry tomatoes and lemon',
-            },
-            {
-              name: 'Caprese',
-              price: '€14',
-              desc: 'Sorrento tomato, buffalo mozzarella, prosciutto crudo, oregano, basil sauce',
-            },
-            {
-              name: 'Formaggi',
-              price: '€12',
-              desc: 'Fior di latte, buffalo blue cheese, red-cattle caciocavallo, fig and lemon sauce',
-            },
+            { name: 'Margherita', price: '€10', desc: 'San Marzano tomato, Agerola fior di latte and basil' },
+            { name: 'P & P', price: '€10', desc: 'San Marzano tomato, Agerola smoked provola, pepper and basil' },
+            { name: 'Bufalina fresca', price: '€12', desc: 'Il Casolare buffalo mozzarella, corbarino tomatoes cut into fillets and basil' },
+            { name: 'Scarpariello', price: '€14', desc: 'Roasted datterino tomato sauce, smoked provola, Parmesan crisp, semi-dried cherry tomatoes and basil sauce' },
+            { name: 'Carrettiera’s way', price: '€16', desc: 'Crispy pan pizza with smoked provola, sautéed friarielli greens, beef tartare, brown stock reduction and arrabbiata sauce' },
+            { name: 'Autunno', price: '€18', desc: 'Smoked potato cream, mushrooms, black truffle, provolone del monaco fondue and mustard shoots' },
+            { name: 'Genovese', price: '€18', desc: 'Genovese-style onion sauce, tuna carpaccio, toasted hazelnuts and goat cheese' },
+            { name: 'Zucca', price: '€14', desc: 'Buffalo mozzarella, buffalo blue cheese, pumpkin cream and walnuts' },
           ],
         },
         {
           heading: 'Desserts',
           items: [
             { name: 'Hazelnut tiramisù sphere', price: '€9' },
-            { name: 'Millefeuille, vanilla and caramel', price: '€9' },
-            { name: 'Babà with orange and Cointreau', price: '€8' },
-            { name: 'Buffalo ricotta with pellecchiella apricot and hazelnuts', price: '€9' },
+            { name: 'Millefeuille, pastry cream and sour cherries', price: '€9' },
+            { name: 'Cointreau ganache, babà centre and orange', price: '€8' },
+            { name: 'Goat ricotta mousse, pear and hazelnut ice cream', price: '€9' },
           ],
         },
       ],
@@ -874,7 +766,7 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
             {t.menu.intro}
           </p>
           <a
-            href="/pdf/jose-menu-estate-2026.pdf?v=2026-10-16"
+            href="/pdf/jose-menu-autunno-2026.pdf?v=2026-10-24"
             download
             class="group mt-8 inline-flex items-center gap-3 bg-lava-stone text-terracotta px-6 py-3 font-label-sm text-label-sm font-bold hover:bg-vesuvius-green hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
           >
