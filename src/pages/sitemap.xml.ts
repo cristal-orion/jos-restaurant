@@ -7,6 +7,8 @@ const pageGroups = [
   { it: '/', en: '/en/', priority: '1.0', changefreq: 'weekly' },
   { it: '/tenuta/', en: '/en/tenuta/', priority: '0.8', changefreq: 'monthly' },
   { it: '/jose/', en: '/en/jose/', priority: '0.8', changefreq: 'monthly' },
+  // Landing delle feste: a scadenza, va tolta dopo il 1° gennaio 2027 (vedi FesteContent.astro).
+  { it: '/feste/', en: '/en/feste/', priority: '0.8', changefreq: 'weekly' },
 ];
 
 // /prenota/ è esclusa e ci resta: le prenotazioni sono su un'app a sé

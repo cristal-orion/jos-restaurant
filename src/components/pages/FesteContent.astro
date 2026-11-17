@@ -1,0 +1,598 @@
+---
+/**
+ * Landing "Menu delle feste": pranzo di Natale (25 dicembre 2026) e di
+ * Capodanno (1° gennaio 2027), due menu fissi a € 90 a persona, bevande escluse.
+ *
+ * Tutti i pulsanti "Prenota" passano da BOOKING_URL (src/consts.ts): l'app di
+ * prenotazione non accetta una data precompilata, quindi il cliente sceglie il
+ * giorno là.
+ *
+ * Pagina a scadenza: dopo il 1° gennaio 2027 va tolta (o rimandata a /jose) e
+ * il gruppo '/feste/' va tolto da src/pages/sitemap.xml.ts. Per la prossima
+ * stagione basta aggiornare date, piatti e prezzo qui sotto.
+ *
+ * NB: il percorso NON deve iniziare con /prenota: nginx rimanda quel prefisso
+ * all'app (vedi nginx.conf).
+ */
+import Base from '../../layouts/Base.astro';
+import LogoJose from '../LogoJose.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import CreditTwobee from '../CreditTwobee.astro';
+import { localizedPath, type Locale } from '../../i18n/utils';
+import { BOOKING_URL } from '../../consts';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const PRICE = 90;
+
+const dict = {
+  it: {
+    meta: {
+      title: 'Pranzo di Natale e Capodanno in Tenuta | Josè Restaurant — Torre del Greco',
+      description:
+        'Menu fisso per il pranzo di Natale (25 dicembre) e di Capodanno (1° gennaio) alla Tenuta Villa Guerra di Torre del Greco. € 90 a persona, bevande escluse. Prenota il tuo tavolo.',
+    },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
+    hero: {
+      eyebrow: 'Il menu delle feste',
+      h1: 'Natale e Capodanno in Tenuta',
+      lead: 'Due pranzi a menu fisso alla Tenuta Villa Guerra, a Torre del Greco: venerdì 25 dicembre e venerdì 1° gennaio.',
+      price: '€ 90 a persona, bevande escluse.',
+      cta: 'Prenota il tuo pranzo',
+      menusLink: 'Leggi i menu',
+      imgAlt: 'Sala della Tenuta Villa Guerra con la lunga tavola apparecchiata e la ghirlanda natalizia',
+    },
+    menus: {
+      heading: 'I due menu',
+      priceNote: 'bevande escluse',
+      pricePer: 'a persona',
+      allergenNote: "Il menù può contenere allergeni. Per l'elenco completo, chiedi al personale.",
+      items: [
+        {
+          id: 'natale',
+          isoDate: '2026-12-25',
+          date: 'Venerdì 25 dicembre 2026',
+          title: 'Natale in Tenuta',
+          schemaName: 'Pranzo di Natale in Tenuta',
+          cta: 'Prenota il pranzo di Natale',
+          courses: [
+            {
+              label: 'Aperitivo conviviale',
+              lines: [
+                'Brioche tostata con battuto di manzo e provolone',
+                'Crocchetta di baccalà mantecato, cavolfiore e nocciole',
+                'Uova, patate e tartufo',
+              ],
+            },
+            { lines: ['Minestra maritata'] },
+            { lines: ['Carciofo ripieno di pane raffermo con provola e alici, coulis di pomodoro'] },
+            { lines: ['Tortello ripieno di ragù napoletano, salsa al parmigiano'] },
+            { lines: ['Maiale in lenta cottura con sedano rapa, scarola riccia e papaccella napoletana'] },
+            { lines: ['Dolci della tradizione natalizia'] },
+          ],
+        },
+        {
+          id: 'capodanno',
+          isoDate: '2027-01-01',
+          date: 'Venerdì 1° gennaio 2027',
+          title: 'Capodanno in Tenuta',
+          schemaName: 'Pranzo di Capodanno in Tenuta',
+          cta: 'Prenota il pranzo di Capodanno',
+          courses: [
+            {
+              label: 'Aperitivo di benvenuto',
+              lines: ['Vitello tonnato e capperi croccanti', 'Scarola ripiena', 'Giardiniera di verdure'],
+            },
+            { lines: ['Uovo fritto, crema di pecorino, tartufo nero e pancetta croccante'] },
+            { lines: ['Tagliatelle all’uovo, estratto di broccoli, salsiccia e fonduta di provola'] },
+            { lines: ['Guancia di maiale brasata, crema di patate, cardoncelli arrosto e fondo bruno'] },
+            { lines: ['Dolci delle feste'] },
+          ],
+        },
+      ],
+    },
+    footer: {
+      taglineLine1: "Due anime, un'unica terra.",
+      taglineLine2: 'Il Vesuvio tra le mani.',
+      cta: 'Prenota un tavolo',
+      doveSiamo: 'Dove siamo',
+      contatti: 'Contatti',
+      esplora: 'Esplora',
+      ristorante: 'Il ristorante',
+      eventiVilla: 'Eventi Villa Guerra',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA)',
+      cookie: 'Informativa cookie',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Napoli',
+    },
+  },
+  en: {
+    meta: {
+      title: "Christmas and New Year Lunch at the Tenuta | Josè Restaurant — Torre del Greco",
+      description:
+        'Set menus for Christmas lunch (25 December) and New Year lunch (1 January) at Tenuta Villa Guerra in Torre del Greco. €90 per person, drinks not included. Book your table.',
+    },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
+    hero: {
+      eyebrow: 'The festive menu',
+      h1: 'Christmas and New Year at the Tenuta',
+      lead: 'Two set-menu lunches at Tenuta Villa Guerra, in Torre del Greco: Friday 25 December and Friday 1 January.',
+      price: '€90 per person, drinks not included.',
+      cta: 'Book your lunch',
+      menusLink: 'Read the menus',
+      imgAlt: 'The Tenuta Villa Guerra dining room with the long table set and the Christmas garland',
+    },
+    menus: {
+      heading: 'The two menus',
+      priceNote: 'drinks not included',
+      pricePer: 'per person',
+      allergenNote: 'Our dishes may contain allergens. Ask our staff for the full list.',
+      items: [
+        {
+          id: 'natale',
+          isoDate: '2026-12-25',
+          date: 'Friday 25 December 2026',
+          title: 'Christmas at the Tenuta',
+          schemaName: 'Christmas lunch at the Tenuta',
+          cta: 'Book Christmas lunch',
+          courses: [
+            {
+              label: 'Convivial aperitif',
+              lines: [
+                'Toasted brioche with beef tartare and provolone',
+                'Salt cod croquette with cauliflower and hazelnuts',
+                'Eggs, potatoes and truffle',
+              ],
+            },
+            { lines: ['Minestra maritata, the traditional Neapolitan soup of greens and meats'] },
+            { lines: ['Artichoke stuffed with stale bread, provola cheese and anchovies, tomato coulis'] },
+            { lines: ['Tortello filled with Neapolitan ragù, Parmigiano sauce'] },
+            { lines: ['Slow-cooked pork with celeriac, curly escarole and Neapolitan papaccella pepper'] },
+            { lines: ['Traditional Christmas desserts'] },
+          ],
+        },
+        {
+          id: 'capodanno',
+          isoDate: '2027-01-01',
+          date: 'Friday 1 January 2027',
+          title: 'New Year at the Tenuta',
+          schemaName: 'New Year lunch at the Tenuta',
+          cta: 'Book New Year lunch',
+          courses: [
+            {
+              label: 'Welcome aperitif',
+              lines: ['Vitello tonnato with crispy capers', 'Stuffed escarole', 'Giardiniera of pickled vegetables'],
+            },
+            { lines: ['Fried egg, pecorino cream, black truffle and crispy pancetta'] },
+            { lines: ['Egg tagliatelle, broccoli extract, sausage and provola fondue'] },
+            { lines: ['Braised pork cheek, potato cream, roasted cardoncelli mushrooms and brown jus'] },
+            { lines: ['Festive desserts'] },
+          ],
+        },
+      ],
+    },
+    footer: {
+      taglineLine1: 'Two souls, one land.',
+      taglineLine2: 'Vesuvius in your hands.',
+      cta: 'Book a Table',
+      doveSiamo: 'Find Us',
+      contatti: 'Contact',
+      esplora: 'Explore',
+      ristorante: 'The restaurant',
+      eventiVilla: 'Villa Guerra Events',
+      address: 'Via Nazionale, 414',
+      addressLine2: '80059 Torre del Greco (NA)',
+      cookie: 'Cookie policy',
+      copyright: '© 2024 Tenuta Villa Guerra & Josè Restaurant',
+      location: 'Torre del Greco · Naples',
+    },
+  },
+} as const;
+
+const t = dict[lang];
+
+const homeHref = localizedPath(lang, new URL('/', Astro.site));
+const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
+const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
+
+// Un Event per ciascun pranzo (data senza orario: l'orario si sceglie in prenotazione).
+const eventSchema = t.menus.items.map((item) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: item.schemaName,
+  startDate: item.isoDate,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  description: `${item.title} — ${item.date}. ${t.hero.price}`,
+  image: ['https://tenutavillaguerra.it/images/feste-sala-natale.jpg'],
+  location: {
+    '@type': 'Restaurant',
+    name: 'Josè Restaurant',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Via Nazionale, 414',
+      addressLocality: 'Torre del Greco',
+      addressRegion: 'NA',
+      postalCode: '80059',
+      addressCountry: 'IT',
+    },
+  },
+  offers: {
+    '@type': 'Offer',
+    price: String(PRICE),
+    priceCurrency: 'EUR',
+    url: BOOKING_URL,
+  },
+}));
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+  bodyClass="bg-surface text-on-surface selection:bg-terracotta selection:text-white"
+  schema={eventSchema}
+  lang={lang}
+>
+  <header
+    class="fixed top-0 w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md z-50 border-b border-outline-variant/30"
+  >
+    <div class="flex items-center gap-4">
+      <a
+        href={homeHref}
+        class="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap"
+        aria-label="Villa Guerra & Josè — home"
+      >
+        <span
+          class="font-headline-md text-xl sm:text-headline-md text-primary uppercase tracking-widest"
+          >Villa Guerra &amp;</span
+        >
+        <LogoJose class="h-8 sm:h-10 w-auto text-primary" />
+      </a>
+    </div>
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+    </nav>
+    <div class="flex items-center gap-6">
+      <a
+        href={BOOKING_URL}
+        class="hidden sm:inline-block bg-terracotta text-lava-stone px-6 py-2 font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
+        >{t.nav.prenota}</a
+      >
+      <button
+        id="menu-toggle"
+        class="md:hidden material-symbols-outlined text-primary cursor-pointer leading-none"
+        aria-label={t.aria.openMenu}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-label-open={t.aria.openMenu}
+        data-label-close={t.aria.closeMenu}
+        >menu</button
+      >
+    </div>
+
+    <!-- Menu mobile -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-20 left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 z-40 hidden flex-col px-margin-mobile py-6 gap-1 shadow-lg"
+    >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={joseHref}>{t.nav.ristorante}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <div class="py-3 border-b border-outline-variant/20">
+        <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
+      </div>
+      <a
+        href={BOOKING_URL}
+        class="mt-4 bg-terracotta text-lava-stone px-6 py-3 text-center font-label-sm text-label-sm font-bold hover:opacity-80 transition-opacity"
+        >{t.nav.prenota}</a
+      >
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- Hero: testo + foto della sala -->
+    <section class="bg-surface px-margin-mobile md:px-margin-desktop">
+      <div
+        class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center py-12 lg:py-16 lg:min-h-[calc(100vh-5rem)]"
+      >
+        <div class="space-y-8">
+          <span class="block text-label-sm font-label-sm text-primary tracking-widest uppercase"
+            >{t.hero.eyebrow}</span
+          >
+          <h1
+            class="font-headline-display text-[2.25rem] sm:text-5xl md:text-headline-display text-on-surface leading-tight break-words"
+          >
+            {t.hero.h1}
+          </h1>
+          <div class="space-y-4 max-w-xl">
+            <p class="font-body-lg text-body-lg text-on-surface-variant">{t.hero.lead}</p>
+            <p class="font-headline-md text-2xl italic text-primary">{t.hero.price}</p>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+            <a
+              href={BOOKING_URL}
+              class="group inline-flex items-center justify-center gap-3 bg-terracotta text-lava-stone px-8 py-4 font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-lava-stone hover:text-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+            >
+              {t.hero.cta}
+              <span
+                class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                >arrow_forward</span
+              >
+            </a>
+            <a
+              href="#menu"
+              class="group inline-flex items-center justify-center gap-2 py-3 text-primary font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+            >
+              <span class="font-label-sm text-label-sm uppercase">{t.hero.menusLink}</span>
+              <span
+                class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-y-1"
+                >south</span
+              >
+            </a>
+          </div>
+        </div>
+
+        <div class="relative aspect-[4/5] lg:aspect-[5/6] w-full overflow-hidden bg-lava-stone">
+          <img
+            src="/images/feste-sala-natale.jpg"
+            alt={t.hero.imgAlt}
+            class="absolute inset-0 w-full h-full object-cover"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- I due menu: stile "menu stampato" come i PDF (cornice sottile, *** tra le portate) -->
+    <section
+      id="menu"
+      class="py-20 md:py-24 px-margin-mobile md:px-margin-desktop bg-surface-container scroll-mt-20"
+    >
+      <div class="max-w-container-max mx-auto">
+        <h2
+          class="font-headline-lg text-3xl sm:text-4xl md:text-headline-lg text-on-surface leading-tight text-center mb-12 md:mb-16"
+        >
+          {t.menus.heading}
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+          {t.menus.items.map((menu) => (
+            <article
+              id={menu.id}
+              class="flex flex-col bg-clotted-cream p-3 scroll-mt-24"
+              aria-labelledby={`${menu.id}-title`}
+            >
+              <div
+                class="relative flex flex-1 flex-col border border-primary/30 px-6 sm:px-12 pt-14 pb-12 text-center"
+              >
+                <span
+                  aria-hidden="true"
+                  class="absolute top-5 left-1/2 -translate-x-1/2 h-2 w-2 rounded-full bg-primary/60"
+                ></span>
+                <p class="font-label-sm text-label-sm uppercase tracking-widest text-primary">
+                  {menu.date}
+                </p>
+                <h3
+                  id={`${menu.id}-title`}
+                  class="mt-5 font-headline-lg text-3xl sm:text-4xl italic text-on-surface leading-tight break-words"
+                >
+                  {menu.title}
+                </h3>
+                <div aria-hidden="true" class="mx-auto mt-6 h-px w-32 bg-primary/40"></div>
+
+                <ol class="mt-8">
+                  {menu.courses.map((course, i) => (
+                    <li class={i > 0 ? 'mt-6' : ''}>
+                      {i > 0 && (
+                        <p
+                          aria-hidden="true"
+                          class="mb-6 font-label-sm text-label-sm text-primary/60 tracking-[0.3em]"
+                        >
+                          ***
+                        </p>
+                      )}
+                      {course.label && (
+                        <p
+                          class="mb-3 font-label-sm text-label-sm uppercase tracking-widest text-primary"
+                        >
+                          {course.label}
+                        </p>
+                      )}
+                      {course.lines.map((line) => (
+                        <p
+                          class="font-headline-md text-lg sm:text-xl italic text-on-surface/90 leading-snug"
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </li>
+                  ))}
+                </ol>
+
+                <div class="mt-auto pt-12">
+                  <p class="font-headline-md text-3xl italic text-primary">
+                    € {PRICE} <span class="text-xl">{t.menus.pricePer}</span>
+                  </p>
+                  <p class="mt-1 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
+                    {t.menus.priceNote}
+                  </p>
+                  <a
+                    href={BOOKING_URL}
+                    class="group mt-8 inline-flex w-full items-center justify-center gap-3 bg-terracotta text-lava-stone px-6 py-4 font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-lava-stone hover:text-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vesuvius-green"
+                  >
+                    {menu.cta}
+                    <span
+                      class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+                <span
+                  aria-hidden="true"
+                  class="absolute bottom-5 left-1/2 -translate-x-1/2 h-2 w-2 rounded-full bg-primary/60"
+                ></span>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <p class="mt-10 text-center font-label-sm text-label-sm text-on-surface-variant">
+          {t.menus.allergenNote}
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-lava-stone text-silk-white">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <!-- Riga superiore: logo + claim + CTA -->
+      <div
+        class="py-14 md:py-16 flex flex-col gap-10 md:flex-row md:items-end md:justify-between border-b border-silk-white/15"
+      >
+        <div>
+          <a href={homeHref} aria-label="Villa Guerra & Josè — home" class="inline-block">
+            <LogoJose class="h-12 md:h-14 w-auto text-silk-white" />
+          </a>
+          <p
+            class="mt-6 font-headline-md text-headline-md italic text-silk-white/85 leading-snug max-w-md"
+          >
+            {t.footer.taglineLine1}<br class="hidden sm:block" /> {t.footer.taglineLine2}
+          </p>
+        </div>
+        <a
+          href={BOOKING_URL}
+          class="group inline-flex items-center justify-center gap-3 self-start whitespace-nowrap bg-terracotta text-lava-stone px-8 py-4 font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-silk-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
+        >
+          {t.footer.cta}
+          <span
+            class="material-symbols-outlined transition-transform duration-300 ease-out group-hover:translate-x-1"
+            >arrow_forward</span
+          >
+        </a>
+      </div>
+
+      <!-- Riga centrale: contatti + esplora -->
+      <div class="py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.doveSiamo}
+          </h4>
+          <a
+            href={`${joseHref}#dove-siamo`}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors leading-relaxed"
+            >{t.footer.address}<br />{t.footer.addressLine2}</a
+          >
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.contatti}
+          </h4>
+          <a
+            href="tel:+390818836298"
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >+39 081 883 6298</a
+          >
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-antique-gold">
+            {t.footer.esplora}
+          </h4>
+          <a
+            href={joseHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.ristorante}</a
+          >
+          <a
+            href={tenutaHref}
+            class="block font-body-md text-body-md text-silk-white/80 hover:text-silk-white transition-colors"
+            >{t.footer.eventiVilla}</a
+          >
+        </div>
+      </div>
+
+      <!-- Riga inferiore: copyright -->
+      <div
+        class="py-6 border-t border-silk-white/10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p class="text-label-sm font-label-sm text-silk-white/45">
+          {t.footer.copyright}
+        </p>
+        <a
+          href={cookiePolicyHref}
+          class="text-label-sm font-label-sm text-silk-white/45 hover:text-antique-gold transition-colors"
+          >{t.footer.cookie}</a
+        >
+        <p class="text-label-sm font-label-sm text-silk-white/45 uppercase tracking-widest">
+          {t.footer.location}
+        </p>
+        <CreditTwobee lang={lang} class="self-start sm:self-auto text-silk-white" />
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll per le ancore interne (rispetta riduci-movimento)
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (this: HTMLAnchorElement, e) {
+        const id = this.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+    });
+
+    // Ombra header allo scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (!header) return;
+      header.classList.toggle('shadow-md', window.scrollY > 50);
+    });
+
+    // Menu mobile (hamburger)
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuToggle && mobileMenu) {
+      const setMenu = (open: boolean) => {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuToggle.textContent = open ? 'close' : 'menu';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? menuToggle.dataset.labelClose! : menuToggle.dataset.labelOpen!
+        );
+      };
+      menuToggle.addEventListener('click', () => {
+        setMenu(mobileMenu.classList.contains('hidden'));
+      });
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+    }
+  </script>
+</Base>
