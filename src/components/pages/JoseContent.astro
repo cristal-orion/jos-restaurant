@@ -20,7 +20,7 @@ const dict = {
         'Josè Restaurant: ristorante e pizzeria a Torre del Greco, un ritorno alla terra e ai sapori autentici del Vesuvio, oltre le etichette.',
       cuisine: ['Cucina campana', 'Pizza napoletana', 'Pesce'],
     },
-    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', feste: 'Feste', prenota: 'Prenota Ora' },
     aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
     hero: {
       imgAlt: 'Spaghetti gourmet ai frutti di mare di Josè Restaurant',
@@ -211,7 +211,7 @@ const dict = {
         "Josè Restaurant: restaurant and pizzeria in Torre del Greco, a return to the land and the authentic flavors of Vesuvius, beyond labels.",
       cuisine: ['Campanian cuisine', 'Neapolitan pizza', 'Seafood'],
     },
-    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', feste: 'Holidays', prenota: 'Book Now' },
     aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
     hero: {
       imgAlt: 'Gourmet seafood spaghetti at Josè Restaurant',
@@ -422,6 +422,7 @@ const restaurantSchema = {
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const festeHref = localizedPath(lang, new URL('/feste', Astro.site));
 const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 ---
 
@@ -458,6 +459,10 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
         class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
         href={tenutaHref}>{t.nav.eventi}</a
       >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={festeHref}>{t.nav.feste}</a
+      >
       {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
       {/* <a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
       <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
@@ -493,6 +498,10 @@ const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.sit
       <a
         class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
         href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={festeHref}>{t.nav.feste}</a
       >
       {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
       {/* <a class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20" href="/cantina">Cantina</a> */}

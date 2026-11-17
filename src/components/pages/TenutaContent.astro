@@ -21,7 +21,7 @@ const dict = {
       venueDescription:
         "Dimora storica del '700 nel Miglio d'Oro per eventi privati, cerimonie e business.",
     },
-    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', feste: 'Feste', prenota: 'Prenota Ora' },
     aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
     hero: {
       eyebrow: 'Dimora del ’700 · Miglio d’Oro',
@@ -115,7 +115,7 @@ const dict = {
       venueDescription:
         'Historic 18th-century estate in the Miglio d’Oro for private events, celebrations and business.',
     },
-    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', feste: 'Holidays', prenota: 'Book Now' },
     aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
     hero: {
       eyebrow: '18th-Century Estate · Miglio d’Oro',
@@ -226,6 +226,7 @@ const venueSchema = {
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const festeHref = localizedPath(lang, new URL('/feste', Astro.site));
 const grazieHref = localizedPath(lang, new URL('/tenuta/grazie', Astro.site));
 const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 const klaviyoCompanyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? 'RNGRZq';
@@ -265,6 +266,10 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
         href={tenutaHref}
         aria-current="page">{t.nav.eventi}</a
       >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
+        href={festeHref}>{t.nav.feste}</a
+      >
       {/* "Cantina" nascosta dal nav su richiesta: la pagina /cantina resta online ma non linkata — togliere il commento alla riga sotto per rimostrarla. "Storia" rimossa: nessun contenuto. */}
       {/* <a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="/cantina">Cantina</a> */}
       <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
@@ -301,6 +306,10 @@ const crmUrl = (import.meta.env.PUBLIC_CRM_URL ?? 'https://prenota.tenutavillagu
         class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20"
         href={tenutaHref}
         aria-current="page">{t.nav.eventi}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
+        href={festeHref}>{t.nav.feste}</a
       >
       {/* "Cantina" e "Storia" nascoste anche dal menu mobile (vedi nav desktop). */}
       {/* <a class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20" href="/cantina">Cantina</a> */}

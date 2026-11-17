@@ -36,7 +36,7 @@ const dict = {
       description:
         'Menu fisso per il pranzo di Natale (25 dicembre) e di Capodanno (1° gennaio) alla Tenuta Villa Guerra di Torre del Greco. € 90 a persona, bevande escluse. Prenota il tuo tavolo.',
     },
-    nav: { ristorante: 'Ristorante', eventi: 'Eventi', prenota: 'Prenota Ora' },
+    nav: { ristorante: 'Ristorante', eventi: 'Eventi', feste: 'Feste', prenota: 'Prenota Ora' },
     aria: { openMenu: 'Apri menu', closeMenu: 'Chiudi menu' },
     hero: {
       eyebrow: 'Il menu delle feste',
@@ -118,7 +118,7 @@ const dict = {
       description:
         'Set menus for Christmas lunch (25 December) and New Year lunch (1 January) at Tenuta Villa Guerra in Torre del Greco. €90 per person, drinks not included. Book your table.',
     },
-    nav: { ristorante: 'Restaurant', eventi: 'Events', prenota: 'Book Now' },
+    nav: { ristorante: 'Restaurant', eventi: 'Events', feste: 'Holidays', prenota: 'Book Now' },
     aria: { openMenu: 'Open menu', closeMenu: 'Close menu' },
     hero: {
       eyebrow: 'The festive menu',
@@ -201,6 +201,7 @@ const t = dict[lang];
 const homeHref = localizedPath(lang, new URL('/', Astro.site));
 const joseHref = localizedPath(lang, new URL('/jose', Astro.site));
 const tenutaHref = localizedPath(lang, new URL('/tenuta', Astro.site));
+const festeHref = localizedPath(lang, new URL('/feste', Astro.site));
 const cookiePolicyHref = localizedPath(lang, new URL('/cookie-policy', Astro.site));
 
 // Un Event per ciascun pranzo (data senza orario: l'orario si sceglie in prenotazione).
@@ -266,6 +267,11 @@ const eventSchema = t.menus.items.map((item) => ({
         class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors"
         href={tenutaHref}>{t.nav.eventi}</a
       >
+      <a
+        class="text-label-sm font-label-sm text-primary border-b-2 border-antique-gold pb-1"
+        href={festeHref}
+        aria-current="page">{t.nav.feste}</a
+      >
       <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
     </nav>
     <div class="flex items-center gap-6">
@@ -298,6 +304,11 @@ const eventSchema = t.menus.items.map((item) => ({
       <a
         class="text-label-sm font-label-sm text-on-surface-variant py-3 border-b border-outline-variant/20"
         href={tenutaHref}>{t.nav.eventi}</a
+      >
+      <a
+        class="text-label-sm font-label-sm text-primary py-3 border-b border-outline-variant/20"
+        href={festeHref}
+        aria-current="page">{t.nav.feste}</a
       >
       <div class="py-3 border-b border-outline-variant/20">
         <LanguageSwitcher lang={lang} class="text-on-surface-variant" />
